@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Rate Anything</string>
     <string name="title_item_detail">Item Detail</string>
+
+    <string name="testing_string">String to test the connection to the repository</string>
+
 </resources>
