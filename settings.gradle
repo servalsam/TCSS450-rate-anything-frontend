@@ -1,2 +1,0 @@
-include ':app'
-rootProject.name = "TCSS450-rate-anything-frontend"
