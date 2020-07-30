@@ -5,5 +5,5 @@
     <string name="testing_string">String to test the connection to the repository</string>
 
     <string name="testing_string_again">Trying to test a pull from master</string>
-
+    <string name="new_string">This is a new string to development.</string>
 </resources>
