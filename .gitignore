@@ -18,6 +18,12 @@ out/
 # release/
 
 # Gradle files
+build.gradle
+gradle.properties
+gradlew
+gradlew.bat
+gradle/wrapper
+settings.gradle
 .gradle/
 build/
 
@@ -38,6 +44,7 @@ captures/
 
 # IntelliJ
 *.iml
+.idea
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
