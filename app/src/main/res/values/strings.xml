@@ -4,4 +4,6 @@
 
     <string name="testing_string">String to test the connection to the repository</string>
 
+    <string name="testing_string_again">Trying to test a pull from master</string>
+
 </resources>
