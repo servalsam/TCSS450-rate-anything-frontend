@@ -7,6 +7,7 @@
 
     <!-- Testing Strings -->
     <string name="testing_string">TEST</string>
+    <string name="testing_string2">TESTING</string>
     <string name="testing_string_again">Trying to test a pull from master</string>
     <string name="new_string">This is a new string to development.</string>
 
