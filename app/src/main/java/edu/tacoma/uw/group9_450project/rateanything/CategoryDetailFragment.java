@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.fragment.app.Fragment;
 
@@ -28,6 +29,9 @@ public class CategoryDetailFragment extends Fragment {
     /** The category content this fragment is presenting. */
     private Category mCategory;
 
+    /** Constant for use in alignment of fragment layout */
+    private static final int BOTTOM_MARGIN = 150;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -45,11 +49,15 @@ public class CategoryDetailFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout =
                     (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(mCategory.getMyCategoryName() + ": ");
-                sb.append(mCategory.getMyCategoryLongDesc());
-                appBarLayout.setTitle(sb.toString());
-                //appBarLayout.setTitle(mCategory.getMyCategoryName());
+//                StringBuilder sb = new StringBuilder();
+//                sb.append(mCategory.getMyCategoryName() + ": ");
+//                sb.append(mCategory.getMyCategoryLongDesc());
+//                appBarLayout.setTitle(sb.toString());
+                appBarLayout.setTitle(mCategory.getMyCategoryName());
+                appBarLayout.setExpandedTitleMarginBottom(BOTTOM_MARGIN);
+                TextView textView = (TextView) activity.findViewById(R.id.long_detail_for_display);
+                textView.setText(mCategory.getMyCategoryLongDesc());
+
             }
         }
     }
@@ -59,12 +67,11 @@ public class CategoryDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.category_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (mCategory != null) {
 //            ((TextView) rootView.findViewById(R.id.item_detail_short_desc))
 //                    .setText(mCategory.getMyCategoryShortDesc());
             ((TextView) rootView.findViewById(R.id.item_detail_long_desc))
-                    .setText(mCategory.getMyCategoryLongDesc());
+                    .setText("PLACE ITEM LIST HERE");
         }
         return rootView;
     }
