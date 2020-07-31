@@ -24,10 +24,17 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
+            <TextView
+                android:id="@+id/long_detail_for_display"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/category_detail_toolbar_margin" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="30dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -48,7 +55,7 @@
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/item_detail_container"
-        app:layout_anchorGravity="top|end"
+        app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/stat_notify_chat" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
