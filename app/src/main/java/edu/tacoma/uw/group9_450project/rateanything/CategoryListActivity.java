@@ -2,9 +2,12 @@ package edu.tacoma.uw.group9_450project.rateanything;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import edu.tacoma.uw.group9_450project.rateanything.authenticate.SignInActivity;
 import edu.tacoma.uw.group9_450project.rateanything.model.Category;
 import edu.tacoma.uw.group9_450project.rateanything.model.CategoryContent;
 
@@ -211,9 +215,9 @@ public class CategoryListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).getCategoryID());
-            holder.mContentView.setText(mValues.get(position).getMyCategoryName());
-
+            holder.mIdView.setText((mValues.get(position).getMyCategoryName()));
+            //holder.mIdView.setText(mValues.get(position).getCategoryID());
+            holder.mContentView.setText(mValues.get(position).getMyCategoryShortDesc());
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
@@ -234,4 +238,25 @@ public class CategoryListActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_category_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_logout) {
+            SharedPreferences sharedPreferences =
+                    getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
+
+            Intent i = new Intent(this, SignInActivity.class);
+            startActivity(i);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
