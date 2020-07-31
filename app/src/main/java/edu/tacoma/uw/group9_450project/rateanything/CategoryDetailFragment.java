@@ -45,7 +45,11 @@ public class CategoryDetailFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout =
                     (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mCategory.getCategoryID());
+                StringBuilder sb = new StringBuilder();
+                sb.append(mCategory.getMyCategoryName() + ": ");
+                sb.append(mCategory.getMyCategoryLongDesc());
+                appBarLayout.setTitle(sb.toString());
+                //appBarLayout.setTitle(mCategory.getMyCategoryName());
             }
         }
     }
@@ -57,12 +61,8 @@ public class CategoryDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mCategory != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail_id))
-                    .setText(mCategory.getCategoryID());
-            ((TextView) rootView.findViewById(R.id.item_detail_name))
-                    .setText(mCategory.getMyCategoryName());
-            ((TextView) rootView.findViewById(R.id.item_detail_short_desc))
-                    .setText(mCategory.getMyCategoryShortDesc());
+//            ((TextView) rootView.findViewById(R.id.item_detail_short_desc))
+//                    .setText(mCategory.getMyCategoryShortDesc());
             ((TextView) rootView.findViewById(R.id.item_detail_long_desc))
                     .setText(mCategory.getMyCategoryLongDesc());
         }

@@ -1,10 +1,26 @@
 <resources>
+
+    <!-- titles -->
     <string name="app_name">Rate Anything</string>
+    <string name="category_title">Categories</string>
     <string name="title_item_detail">Item Detail</string>
 
-    <string name="testing_string">String to test the connection to the repository</string>
-
+    <!-- Testing Strings -->
+    <string name="testing_string">TEST</string>
     <string name="testing_string_again">Trying to test a pull from master</string>
-
     <string name="new_string">This is a new string to development.</string>
+
+    <!-- Login Fragment  -->
+    <string name="login_fragment">Login fragment</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="btn_sign_in">SIGN IN</string>
+
+    <!-- Shared Preferences  -->
+    <string name="LOGIN_PREFS">edu.tacoma.uw.group9_450project.rateanything.PREFS</string>
+    <string name="LOGGEDIN">loggedin</string>
+
+    <!-- menu items -->
+    <string name="action_logout">Sign Out</string>
+
 </resources>
