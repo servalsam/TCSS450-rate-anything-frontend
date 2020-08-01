@@ -34,6 +34,7 @@ import java.util.List;
 import edu.tacoma.uw.group9_450project.rateanything.authenticate.SignInActivity;
 import edu.tacoma.uw.group9_450project.rateanything.model.Category;
 import edu.tacoma.uw.group9_450project.rateanything.model.CategoryContent;
+import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
 
 /**
  * An activity representing a list of Categories. This activity
@@ -252,7 +253,7 @@ public class CategoryListActivity extends AppCompatActivity {
                     getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
             sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
 
-            Intent i = new Intent(this, SignInActivity.class);
+            Intent i = new Intent(this, SplashPageActivity.class);
             startActivity(i);
             finish();
         }

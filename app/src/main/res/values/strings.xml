@@ -24,4 +24,12 @@
     <!-- menu items -->
     <string name="action_logout">Sign Out</string>
 
+    <!-- Splash Screen items -->
+    <string name="register_btn">Register as a new Rate Anything user</string>
+    <string name="proceed_to_login">Login as existing user</string>
+    <string name="proceed_to_categories">Proceed to a list of categories</string>
+    <string name="proceed_as_guest">Proceed to categories as guest user</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

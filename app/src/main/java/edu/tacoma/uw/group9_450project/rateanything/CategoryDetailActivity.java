@@ -74,8 +74,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
             // activity, the Up button is shown. For
             // more details, see the Navigation pattern on Android Design:
             //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
             navigateUpTo(new Intent(this, CategoryListActivity.class));
 
             return true;
