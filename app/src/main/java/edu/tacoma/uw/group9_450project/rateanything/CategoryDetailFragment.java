@@ -49,10 +49,6 @@ public class CategoryDetailFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout =
                     (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-//                StringBuilder sb = new StringBuilder();
-//                sb.append(mCategory.getMyCategoryName() + ": ");
-//                sb.append(mCategory.getMyCategoryLongDesc());
-//                appBarLayout.setTitle(sb.toString());
                 appBarLayout.setTitle(mCategory.getMyCategoryName());
                 appBarLayout.setExpandedTitleMarginBottom(BOTTOM_MARGIN);
                 TextView textView = (TextView) activity.findViewById(R.id.long_detail_for_display);

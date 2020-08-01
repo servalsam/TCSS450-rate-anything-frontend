@@ -21,7 +21,7 @@ import edu.tacoma.uw.group9_450project.rateanything.R;
  */
 public class LoginFragment extends Fragment {
 
-    /** Member variable for teh Listener interface */
+    /** Member variable for the Listener interface */
     private LoginFragmentListener mloginFragmentListener;
 
     /**

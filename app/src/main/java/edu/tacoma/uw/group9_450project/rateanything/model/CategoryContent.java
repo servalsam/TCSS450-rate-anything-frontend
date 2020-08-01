@@ -40,13 +40,4 @@ public class CategoryContent {
         return new Category("Id" + position, "Name" + position,
                 "Short desc"+ position, "Long desc" + position);
     }
-
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about category: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
 }
