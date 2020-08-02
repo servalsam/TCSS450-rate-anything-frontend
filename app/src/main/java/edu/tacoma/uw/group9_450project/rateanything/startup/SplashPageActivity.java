@@ -10,9 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import edu.tacoma.uw.group9_450project.rateanything.CategoryListActivity;
 import edu.tacoma.uw.group9_450project.rateanything.R;
-import edu.tacoma.uw.group9_450project.rateanything.authenticate.SignInActivity;
+import edu.tacoma.uw.group9_450project.rateanything.authenticate.StartActivity;
 
 
 /**
@@ -27,17 +26,25 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
     /** Member variable to hold user login until data is cleared. */
     private SharedPreferences mSharedPreferences;
 
-    /** Member variable flag. */
-    private boolean loggedIn;
+    /** Member variable flags. */
+    private boolean mLoggedIn;
+    private static boolean mToRegister;
+
 
     /** Constants */
     private static final String LOGIN = "Login as an existing Rate Anything User";
     private static final String LOGGED_IN = "Proceed to list of categories";
 
+    /** Getter methods for flags*/
+    public static boolean getRegisterStatus() { return mToRegister;}
+    public static void setRegisterStatus() {mToRegister = false;}
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_page);
+        mToRegister = false;
 
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
@@ -46,10 +53,10 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
         Button loginBtn = (Button) findViewById(R.id.login_button);
         if (mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), true)) {
             loginBtn.setText(LOGGED_IN);
-            loggedIn = true;
+            mLoggedIn = true;
         } else {
             loginBtn.setText(LOGIN);
-            loggedIn = false;
+            mLoggedIn = false;
         }
         Button registerBtn = (Button) findViewById(R.id.register_button);
         Button guestBtn = (Button) findViewById(R.id.proceed_as_guest_button);
@@ -62,14 +69,16 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent (this, StartActivity.class);
         switch (view.getId()) {
             case R.id.login_button:
-                Intent intent = new Intent (this, SignInActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.register_button:
-                Toast.makeText(this,"registration pressed", Toast.LENGTH_SHORT).show();
+                mToRegister = true;
+                startActivity(intent);
+                finish();
                 break;
             case R.id.proceed_as_guest_button:
                 Toast.makeText(this,"Proceed as guest pressed", Toast.LENGTH_SHORT).show();

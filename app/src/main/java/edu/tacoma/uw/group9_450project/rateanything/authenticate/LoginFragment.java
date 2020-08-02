@@ -23,6 +23,9 @@ public class LoginFragment extends Fragment {
 
     /** Member variable for the Listener interface */
     private LoginFragmentListener mloginFragmentListener;
+    private EditText mEmailText;
+    private EditText mPasswordText;
+
 
     /**
      * Interface to make the sign in work.
@@ -49,25 +52,25 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         getActivity().setTitle("Sign In");
         mloginFragmentListener = (LoginFragmentListener) getActivity();
-        final EditText emailText = view.findViewById(R.id.emailAddress_id);
-        final EditText pwdText = view.findViewById(R.id.password_id);
+        mEmailText = view.findViewById(R.id.emailAddress_id);
+        mPasswordText = view.findViewById(R.id.password_id);
         Button loginButton = view.findViewById(R.id.sign_in_btn_id);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailText.getText().toString();
-                String pwd = pwdText.getText().toString();
+                String email = mEmailText.getText().toString();
+                String pwd = mPasswordText.getText().toString();
 
                 if (TextUtils.isEmpty(email) || !email.contains("@")) {
                     Toast.makeText(v.getContext(),"Enter valid email address", Toast.LENGTH_SHORT)
                             .show();
-                    emailText.requestFocus();
+                    mEmailText.requestFocus();
                 } else if (TextUtils.isEmpty(pwd) || pwd.length() < 6) {
                     Toast.makeText(v.getContext(), "Enter valid password (at least 6 characters",
                             Toast.LENGTH_SHORT)
                             .show();
-                    pwdText.requestFocus();
+                    mPasswordText.requestFocus();
                 }
 
                 if (!TextUtils.isEmpty(email) && email.contains("@") && !TextUtils.isEmpty(pwd) && pwd.length() > 5) {

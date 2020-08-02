@@ -16,6 +16,16 @@
     <string name="enter_email">Enter your email</string>
     <string name="enter_password">Enter your password</string>
     <string name="btn_sign_in">SIGN IN</string>
+    <string name="stay_logged_in">Stay Logged-In?</string>
+
+    <!-- Registration Fragment -->
+    <string name="directions_for_registration">Complete the following fields to register
+        and become a new Rate Anything Member</string>
+    <string name="password_confirm">Enter your password again</string>
+    <string name="user_name_select">Select your username (between 6 and 32 characters)</string>
+    <string name="first_name_hint">Enter your first name</string>
+    <string name="last_name_hint">Enter your last name</string>
+    <string name="btn_register">REGISTER AS NEW MEMBER</string>
 
     <!-- Shared Preferences  -->
     <string name="LOGIN_PREFS">edu.tacoma.uw.group9_450project.rateanything.PREFS</string>
@@ -29,7 +39,5 @@
     <string name="proceed_to_login">Login as existing user</string>
     <string name="proceed_to_categories">Proceed to a list of categories</string>
     <string name="proceed_as_guest">Proceed to categories as guest user</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

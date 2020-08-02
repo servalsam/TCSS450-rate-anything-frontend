@@ -31,9 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-import edu.tacoma.uw.group9_450project.rateanything.authenticate.SignInActivity;
 import edu.tacoma.uw.group9_450project.rateanything.model.Category;
-import edu.tacoma.uw.group9_450project.rateanything.model.CategoryContent;
 import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
 
 /**
