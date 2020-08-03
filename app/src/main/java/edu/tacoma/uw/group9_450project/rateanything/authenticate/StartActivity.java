@@ -77,26 +77,17 @@ public class StartActivity extends AppCompatActivity implements
 
         mAuthJSON = new JSONObject();
 
-//        // Button Creation
-//        Button loginBtn = (Button) findViewById(R.id.login_button);
-//        if (mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), true)) {
-//            loginBtn.setText(LOGGED_IN);
-//
-//        } else {
-//            loginBtn.setText(NOT_LOGGED_IN);
-//        }
-//        Button registerBtn = (Button) findViewById(R.id.register_button);
-//        Button guestBtn = (Button) findViewById(R.id.proceed_as_guest_button);
-//
-//        // Tying Buttons to Listener
-//        loginBtn.setOnClickListener(this);
-//        registerBtn.setOnClickListener(this);
-//        guestBtn.setOnClickListener(this);
-
-        launchFragements();
+        launchFragments();
     }
 
-    private void launchFragements() {
+    /**
+     * A helper method that launches the appropriate fragment (either login or registration)
+     * based upon the boolean value sent from SplashPageActivity. If the user has saved
+     * preferences, neither fragment is launched; the CategoryListActivity is launched.
+     * @author Rich W. with support from TCSS 450 Instructor (Menaka Abraham)
+     * @version August 2020
+     */
+    private void launchFragments() {
         boolean mode = getIntent().getBooleanExtra(SplashPageActivity.REG_MODE, false);
         if (mode) {
             RegisterFragment rf = new RegisterFragment();
@@ -116,7 +107,17 @@ public class StartActivity extends AppCompatActivity implements
         }
     }
 
-
+    /**
+     * Method is called from LoginFragment when user has filled in the requested information
+     * to login. The shared preferences are saved here if the checkbox was set to save the
+     * login information. The method creates a JSON file to be used by the AsyncTask class to
+     * verify login information through the webservice. The AsyncTask is launched upon
+     * successful creation of the JSON file. Some of the code was supplied by the TCSS 450 class.
+     * @author Rich W.
+     * @version August 2020
+     * @param loginInChoice a string that holds either a email or a username.
+     * @param pwd a string that holds the user's password
+     */
     @Override
     public void login(String loginInChoice, String pwd) {
         boolean isChecked = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
@@ -146,6 +147,19 @@ public class StartActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Method is called from RegisterFragment when user has filled in the requested information
+     * to register. The method creates a JSON file to be used by the AsyncTask class to verify
+     * registration information through the webservice. The AsyncTask is launched upon successful
+     * creation of the JSON file. Some of the code was supplied by the TCSS 450 class.
+     * @author Rich W.
+     * @version August 2020
+     * @param first string containing first name of user
+     * @param last string containing last name of user
+     * @param email string containing email of user
+     * @param name string containing selected username by user
+     * @param pwd string containing selected password by user
+     */
     @Override
     public void register(String first, String last, String email, String name, String pwd) {
         StringBuilder url = new StringBuilder();
@@ -166,6 +180,14 @@ public class StartActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * The AsyncTask class that sends the JSON file to the webservice. In the OnPostExecute,
+     * if AuthAsyncTask was called from login, the CategoryListActivity. If the AuthAsyncTask
+     * was called from register, then LoginFragment is started. Code was based off examples
+     * supplied through the TCSS 450 class.
+     * @author Rich W.
+     * @version August 2020
+     */
     private class AuthAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {

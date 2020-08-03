@@ -42,7 +42,7 @@ import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * @author Code supplied by Android Studio and UWT 450 Instructor. Updated
- * by Rich
+ * by Rich W.
  */
 public class CategoryListActivity extends AppCompatActivity {
 
@@ -65,15 +65,12 @@ public class CategoryListActivity extends AppCompatActivity {
                 try {
                     URL urlObject = new URL(url);
                     urlConnection = (HttpURLConnection) urlObject.openConnection();
-
                     InputStream content = urlConnection.getInputStream();
-
                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
                     String s = "";
                     while ((s = buffer.readLine()) != null) {
                         response += s;
                     }
-
                 } catch (Exception e) {
                     response = "Unable to download the list of courses, Reason: "
                             + e.getMessage();
@@ -144,7 +141,7 @@ public class CategoryListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        /** This code is used to instantiate mRecyclerView */
+        // This code is used to instantiate mRecyclerView.
         mRecyclerView= findViewById(R.id.item_list);
         assert mRecyclerView != null;
         setupRecyclerView((RecyclerView) mRecyclerView);
@@ -215,7 +212,6 @@ public class CategoryListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText((mValues.get(position).getMyCategoryName()));
-            //holder.mIdView.setText(mValues.get(position).getCategoryID());
             holder.mContentView.setText(mValues.get(position).getMyCategoryShortDesc());
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -244,11 +240,19 @@ public class CategoryListActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * This method launches the correct response based upon the menu item selected. If sign
+     * out is selected, then the shared preferences are removed and the SplashPageActivity
+     * is launched.
+     * @param item the menu item selected.
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
             SharedPreferences sharedPreferences =
-                    getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+                    getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                    Context.MODE_PRIVATE);
             sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
 
             Intent i = new Intent(this, SplashPageActivity.class);

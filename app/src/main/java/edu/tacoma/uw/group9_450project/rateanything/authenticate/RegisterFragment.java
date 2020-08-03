@@ -15,21 +15,21 @@ import android.widget.Toast;
 import edu.tacoma.uw.group9_450project.rateanything.R;
 
 /**
- * A simple subclass to register a new user of Rate Anything.
+ * A subclass to register a new user of Rate Anything.
  * @author Rich W. With base code supplied by Andoid Studio and UWT 450 Instructor.
  */
 public class  RegisterFragment extends Fragment {
 
     /** Member variable for the Listener interface */
-
     private RegistrationFragmentListener mRegistrationFragmentListener;
+
+    /** Member variables */
     private EditText mEmailText;
     private EditText mPasswordText;
     private EditText mUsernameText;
     private EditText mFirstNameText;
     private EditText mLastNameText;
     private EditText mPasswordConfirmText;
-
 
     /**
      * Interface to make the registration work.
@@ -38,16 +38,31 @@ public class  RegisterFragment extends Fragment {
         public void register(String first, String last, String email, String name, String pwd);
     }
 
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
+    /** Required empty public constructor */
+    public RegisterFragment() {}
 
-
+    /**
+     * Required onCreate method.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The overridden method creates collects the registration data from the user and prevents
+     * the user from progressing unless the proper fields are filled out with the
+     * proper types of data. Email must contain an @ or username must be at least 5 characters.
+     * The password must be at least 5 characters and both the password and the confirmation
+     * password must match.
+     * @author Rich W.
+     * @version August 2020
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

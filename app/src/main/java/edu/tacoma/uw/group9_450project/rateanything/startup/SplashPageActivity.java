@@ -15,9 +15,10 @@ import edu.tacoma.uw.group9_450project.rateanything.authenticate.StartActivity;
 
 
 /**
- * This is the first page of the Rate Anything App. Initial plans allow the user to
- * proceed to the categories and search options regardless of login state. There will be
- * an option here to login and register as a new user.
+ * This is the first page of the Rate Anything App. The user will either register as new user,
+ * login as an existing user or as a future option, proceed as a guest user with the ability to
+ * view content but not contribute. The app looks for stored shared preferences that will enable
+ * the user to proceed to category list and bypass authentication (as they are already logged-in).
  * @author Rich W.
  * @version July 2020
  */
@@ -28,7 +29,6 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
 
     /** Member variable flags. */
     private boolean mLoggedIn;
-    private static boolean mToRegister;
 
 
     /** Constants */
@@ -36,16 +36,17 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
     private static final String LOGGED_IN = "Proceed to list of categories";
     public static String REG_MODE = "register_mode";
 
-    /** Getter methods for flags*/
-    public static boolean getRegisterStatus() { return mToRegister;}
-    public static void setRegisterStatus() {mToRegister = false;}
 
 
+
+    /**
+     * Mandatory method. In the method, the buttons are created and listeners are attached.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_page);
-        mToRegister = false;
 
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
@@ -68,6 +69,11 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
         guestBtn.setOnClickListener(this);
     }
 
+    /**
+     * The method allows launches the StartActivity and adds at registration mode flag to the
+     * intent for use by the StartActivity launchFragment method.
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         Intent intent = new Intent (this, StartActivity.class);
@@ -76,12 +82,12 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.register_button:
-                mToRegister = true;
                 intent.putExtra(REG_MODE, true);
                 startActivity(intent);
                 break;
             case R.id.proceed_as_guest_button:
-                Toast.makeText(this,"Proceed as guest pressed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Proceed as guest pressed not yet implemented",
+                        Toast.LENGTH_SHORT).show();
                 break;
         }
     }

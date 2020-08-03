@@ -64,8 +64,6 @@ public class CategoryDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.category_detail, container, false);
 
         if (mCategory != null) {
-//            ((TextView) rootView.findViewById(R.id.item_detail_short_desc))
-//                    .setText(mCategory.getMyCategoryShortDesc());
             ((TextView) rootView.findViewById(R.id.item_detail_long_desc))
                     .setText("PLACE ITEM LIST HERE");
         }

@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * A class used to manage a collection of categories.
- * @author Rich (code base supplied by instructor of UWT TCSS 450 Class
+ * @author Rich (code base supplied by instructor of UWT TCSS 450 Class)
  * @version July 2020
  */
 public class CategoryContent {
