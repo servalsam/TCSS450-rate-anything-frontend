@@ -34,6 +34,7 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
     /** Constants */
     private static final String LOGIN = "Login as an existing Rate Anything User";
     private static final String LOGGED_IN = "Proceed to list of categories";
+    public static String REG_MODE = "register_mode";
 
     /** Getter methods for flags*/
     public static boolean getRegisterStatus() { return mToRegister;}
@@ -73,12 +74,11 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.login_button:
                 startActivity(intent);
-                finish();
                 break;
             case R.id.register_button:
                 mToRegister = true;
+                intent.putExtra(REG_MODE, true);
                 startActivity(intent);
-                finish();
                 break;
             case R.id.proceed_as_guest_button:
                 Toast.makeText(this,"Proceed as guest pressed", Toast.LENGTH_SHORT).show();
