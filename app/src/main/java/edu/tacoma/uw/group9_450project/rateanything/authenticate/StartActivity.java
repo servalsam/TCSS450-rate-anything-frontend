@@ -35,34 +35,28 @@ import java.net.URL;
 import edu.tacoma.uw.group9_450project.rateanything.CategoryListActivity;
 import edu.tacoma.uw.group9_450project.rateanything.R;
 import edu.tacoma.uw.group9_450project.rateanything.model.Category;
+import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
 
 /**
  * Class that signs the user into the app.
  * @author Code supplied by UWT 450 Instructor, modified by Rich W.
  * @version July 2020
  */
-public class StartActivity extends AppCompatActivity
-        implements View.OnClickListener,
+public class StartActivity extends AppCompatActivity implements
         LoginFragment.LoginFragmentListener,
         RegisterFragment.RegistrationFragmentListener {
 
     /** Member variables used for login and/or registration. */
     private SharedPreferences mSharedPreferences;
     private JSONObject mAuthJSON;
-//    private Fragment mLoginFragment;
-//    private Fragment mRegisterFragment;
 
     /** Member variable flags. */
     private boolean mToLogin;
-//    private boolean mToSaveLogon;
-//    private static boolean mToRegister;
-//    private boolean mOkToProceedToCategoriesActivity;
-//    private boolean mOkToProceedToLogin;
 
 
     /** Constants */
-    private static final String LOGIN = "Login as an existing Rate Anything User";
-    private static final String LOGGED_IN = "Proceed to list of categories";
+    private static final String NOT_LOGGED_IN = "Login as an existing Rate Anything User";
+    private static final String LOGGED_IN = "Logged-in. Proceed to list of categories";
     private static final String AUTHENTICATE = "Authenticate";
     private static final String EMAIL = "email";
     private static final String USERNAME = "username";
@@ -80,99 +74,48 @@ public class StartActivity extends AppCompatActivity
 
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
+
         mAuthJSON = new JSONObject();
-//        mOkToProceedToCategoriesActivity = false;
-//        mOkToProceedToLogin = false;
 
-        // Button Creation
-        Button loginBtn = (Button) findViewById(R.id.login_button);
-        if (mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), true)) {
-            loginBtn.setText(LOGGED_IN);
-//            mToSaveLogon = true;
+//        // Button Creation
+//        Button loginBtn = (Button) findViewById(R.id.login_button);
+//        if (mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), true)) {
+//            loginBtn.setText(LOGGED_IN);
+//
+//        } else {
+//            loginBtn.setText(NOT_LOGGED_IN);
+//        }
+//        Button registerBtn = (Button) findViewById(R.id.register_button);
+//        Button guestBtn = (Button) findViewById(R.id.proceed_as_guest_button);
+//
+//        // Tying Buttons to Listener
+//        loginBtn.setOnClickListener(this);
+//        registerBtn.setOnClickListener(this);
+//        guestBtn.setOnClickListener(this);
+
+        launchFragements();
+    }
+
+    private void launchFragements() {
+        boolean mode = getIntent().getBooleanExtra(SplashPageActivity.REG_MODE, false);
+        if (mode) {
+            RegisterFragment rf = new RegisterFragment();
+            FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+            t.add(R.id.sign_in_fragment_container, rf);
+            t.commit();
+        } else if (!mSharedPreferences.getBoolean("loggedin", false)) {
+            mToLogin = true;
+            LoginFragment lf = new LoginFragment();
+            FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+            t.add(R.id.sign_in_fragment_container, lf);
+            t.commit();
         } else {
-            loginBtn.setText(LOGIN);
-//            mToSaveLogon = false;
-        }
-        Button registerBtn = (Button) findViewById(R.id.register_button);
-        Button guestBtn = (Button) findViewById(R.id.proceed_as_guest_button);
-
-        // Tying Buttons to Listener
-        loginBtn.setOnClickListener(this);
-        registerBtn.setOnClickListener(this);
-        guestBtn.setOnClickListener(this);
-
-    }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (mOkToProceedToCategoriesActivity) {
-//            Intent i = new Intent(this, CategoryListActivity.class);
-//            startActivity(i);
-//            finish();
-//        }
-//        if (mOkToProceedToLogin) {
-//            mToLogin = true;
-//            mToRegister = false;
-//            Fragment mLoginFragment = new LoginFragment();
-//            FragmentTransaction transaction =
-//                    getSupportFragmentManager().beginTransaction();
-//            transaction.replace(R.id.sign_in_fragment_container, mLoginFragment);
-//            transaction.addToBackStack(null);
-//            transaction.commit();
-//        }
-//    }
-
-    @Override
-    public void onClick(View view) {
-        // create a frame layout
-        FrameLayout fragmentLayout = new FrameLayout(this);
-        // set the layout params to fill the activity
-        fragmentLayout.setLayoutParams
-                (new  ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-        // set the container id to the layout
-        fragmentLayout.setId(R.id.sign_in_fragment_container);
-        // set the layout as Activity content
-        setContentView(fragmentLayout);
-
-        switch (view.getId()) {
-
-            case R.id.login_button:
-                if (!mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), false)) {
-                    mToLogin = true;
-//                    mToRegister = false;
-                    LoginFragment lf = new LoginFragment();
-//                    mLoginFragment = new LoginFragment();
-                    FragmentTransaction transaction =
-                            getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.sign_in_fragment_container, lf);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                } else {
-                    Intent intent = new Intent(this, CategoryListActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                break;
-
-            case R.id.register_button:
-//                mToRegister = true;
-                mToLogin = false;
-                RegisterFragment rf = new RegisterFragment();
-                FragmentTransaction transaction =
-                        getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.sign_in_fragment_container, rf);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                break;
-
-            case R.id.proceed_as_guest_button:
-                Toast.makeText(this,"Proceed as guest pressed",
-                        Toast.LENGTH_SHORT).show();
-                break;
+            Intent intent = new Intent (this, CategoryListActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
+
 
     @Override
     public void login(String loginInChoice, String pwd) {
@@ -262,7 +205,6 @@ public class StartActivity extends AppCompatActivity
             }
             Log.i(AUTHENTICATE,response.toString());
             return response;
-
         }
 
         @Override
@@ -277,17 +219,20 @@ public class StartActivity extends AppCompatActivity
                 if (jsonObject.getBoolean("success")) {
                     Intent i = new Intent();
                     if (mToLogin) {
-                        //mOkToProceedToCategoriesActivity = true;
                         i.setClass(getApplicationContext(), CategoryListActivity.class);
-
+                        startActivity(i);
+                        finish();
                     } else {
-                        //mOkToProceedToLogin = true;
+                        mToLogin = true;
                         Toast.makeText(getApplicationContext(), "Successful registration",
                                 Toast.LENGTH_LONG).show();
-                       i.setClass(getApplicationContext(), StartActivity.class);
+                        LoginFragment lf = new LoginFragment();
+                        FragmentTransaction transaction =
+                                getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.sign_in_fragment_container, lf);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
-                    startActivity(i);
-                    finish();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Authentication not possible: "
