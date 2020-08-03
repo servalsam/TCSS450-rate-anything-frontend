@@ -38,12 +38,27 @@ public class LoginFragment extends Fragment {
     /** Required empty constructor */
     public LoginFragment() {}
 
-
+    /**
+     * Mandatory onCreate method.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The overridden method creates collects the login data from the user and prevents
+     * the user from progressing unless the proper fields are filled out with the
+     * proper types of data. Email must contain an @ or username must be at least 5 characters.
+     * Also, the password must be at least 5 characters.
+     * @author Rich W.
+     * @version August 2020
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
