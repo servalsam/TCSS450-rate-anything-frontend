@@ -14,9 +14,12 @@
     <!-- Login Fragment  -->
     <string name="login_fragment">Login fragment</string>
     <string name="enter_email">Enter your email</string>
+    <string name="enter_username">Enter your username</string>
     <string name="enter_password">Enter your password</string>
     <string name="btn_sign_in">SIGN IN</string>
     <string name="stay_logged_in">Stay Logged-In?</string>
+    <string name="login_directions">Enter either your email or your username.
+        Then enter your password</string>
 
     <!-- Registration Fragment -->
     <string name="directions_for_registration">Complete the following fields to register
@@ -34,7 +37,7 @@
     <!-- menu items -->
     <string name="action_logout">Sign Out</string>
 
-    <!-- Splash Screen items -->
+    <!-- Start Screen items -->
     <string name="register_btn">Register as a new Rate Anything user</string>
     <string name="proceed_to_login">Login as existing user</string>
     <string name="proceed_to_categories">Proceed to a list of categories</string>

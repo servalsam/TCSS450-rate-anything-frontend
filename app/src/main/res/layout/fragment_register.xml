@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="authenticate.RegisterFragment">
+    tools:context="authenticate.RegisterFragment"
+    android:id="@+id/register_fragment">
 
 
     <TextView
@@ -29,26 +30,26 @@
         android:hint="@string/last_name_hint"/>
 
     <EditText
-        android:id="@+id/emailAddress_id"
+        android:id="@+id/emailAddress_registration"
         android:hint="@string/enter_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/user_name"
+        android:id="@+id/user_name_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/user_name_select"/>
 
     <EditText
-        android:id="@+id/password_id"
+        android:id="@+id/password_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_password" />
 
     <EditText
-        android:id="@+id/password_id_confirm"
+        android:id="@+id/password_confirm_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password_confirm"/>

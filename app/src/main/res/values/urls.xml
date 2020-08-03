@@ -2,4 +2,9 @@
 
 <resources>
     <string name="get_categories">https://tcss450-rate-anything.herokuapp.com/categories</string>
+    <string name="login_email">https://tcss450-rate-anything.herokuapp.com/login</string>
+    <string name="login_username">https://tcss450-rate-anything.herokuapp.com/login-username</string>
+    <string name="register">https://tcss450-rate-anything.herokuapp.com/register</string>
+
+
 </resources>

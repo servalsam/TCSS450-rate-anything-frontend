@@ -4,8 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="authenticate.LoginFragment">
+    tools:context="authenticate.LoginFragment"
+    android:id="@+id/login_fragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/login_directions"/>
 
     <EditText
         android:id="@+id/emailAddress_id"
@@ -13,6 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/username_id"
+        android:hint="@string/enter_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/password_id"
