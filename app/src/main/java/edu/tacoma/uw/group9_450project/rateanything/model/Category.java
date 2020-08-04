@@ -51,7 +51,7 @@ public class Category implements Serializable {
 
     public String getMyCategoryShortDesc() { return myCategoryShortDesc;}
 
-    public String getMyCategoryLongDesc() { return myCategoryLongDesc;};
+    public String getMyCategoryLongDesc() { return myCategoryLongDesc;}
 
     public void setCourseId(String theId) {this.myCategoryID = theId;}
 
@@ -64,9 +64,9 @@ public class Category implements Serializable {
 
     /**
      * A method that allows the conversion of a JSON string into a list of category objects.
-     * @param categoryJson
+     * @param categoryJson a String
      * @return categoryList a list of categories
-     * @throws JSONException
+     * @throws JSONException The JSON Object should contain a array list of of categories.
      */
     public static List<Category> parseCategoryJson(String categoryJson) throws JSONException {
         List<Category> categoryList = new ArrayList<>();

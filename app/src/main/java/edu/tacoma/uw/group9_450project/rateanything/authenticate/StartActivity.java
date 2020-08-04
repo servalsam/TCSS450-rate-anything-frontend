@@ -1,40 +1,25 @@
 package edu.tacoma.uw.group9_450project.rateanything.authenticate;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Checkable;
-import android.widget.FrameLayout;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import edu.tacoma.uw.group9_450project.rateanything.CategoryListActivity;
 import edu.tacoma.uw.group9_450project.rateanything.R;
-import edu.tacoma.uw.group9_450project.rateanything.model.Category;
 import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
 
 /**
@@ -46,7 +31,9 @@ public class StartActivity extends AppCompatActivity implements
         LoginFragment.LoginFragmentListener,
         RegisterFragment.RegistrationFragmentListener {
 
-    /** Member variables used for login and/or registration. */
+    /** Member variables used for login and/or registration. mSharedPreferences is used
+     * to load stored user login information so login is not required upon startup of
+     * the app. mAuthJSON is used to send required data to a POST to the webservice. */
     private SharedPreferences mSharedPreferences;
     private JSONObject mAuthJSON;
 
@@ -55,8 +42,6 @@ public class StartActivity extends AppCompatActivity implements
 
 
     /** Constants */
-    private static final String NOT_LOGGED_IN = "Login as an existing Rate Anything User";
-    private static final String LOGGED_IN = "Logged-in. Proceed to list of categories";
     private static final String AUTHENTICATE = "Authenticate";
     private static final String EMAIL = "email";
     private static final String USERNAME = "username";
@@ -66,7 +51,12 @@ public class StartActivity extends AppCompatActivity implements
     private static final String LOGIN_ERROR = "Email / Username does not match password";
     private static final String REGISTRATION_ERROR = "Email / Username has been taken";
 
-
+    /**
+     * Required method. It instantiates member variables as well as launching the helper
+     * method for login and / or registration fragments.
+     * @author Rich W.
+     * @param savedInstanceState a Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +75,6 @@ public class StartActivity extends AppCompatActivity implements
      * based upon the boolean value sent from SplashPageActivity. If the user has saved
      * preferences, neither fragment is launched; the CategoryListActivity is launched.
      * @author Rich W. with support from TCSS 450 Instructor (Menaka Abraham)
-     * @version August 2020
      */
     private void launchFragments() {
         boolean mode = getIntent().getBooleanExtra(SplashPageActivity.REG_MODE, false);
@@ -114,7 +103,6 @@ public class StartActivity extends AppCompatActivity implements
      * verify login information through the webservice. The AsyncTask is launched upon
      * successful creation of the JSON file. Some of the code was supplied by the TCSS 450 class.
      * @author Rich W.
-     * @version August 2020
      * @param loginInChoice a string that holds either a email or a username.
      * @param pwd a string that holds the user's password
      */
@@ -153,7 +141,6 @@ public class StartActivity extends AppCompatActivity implements
      * registration information through the webservice. The AsyncTask is launched upon successful
      * creation of the JSON file. Some of the code was supplied by the TCSS 450 class.
      * @author Rich W.
-     * @version August 2020
      * @param first string containing first name of user
      * @param last string containing last name of user
      * @param email string containing email of user
@@ -189,6 +176,15 @@ public class StartActivity extends AppCompatActivity implements
      * @version August 2020
      */
     private class AuthAsyncTask extends AsyncTask<String, Void, String> {
+
+
+        /**
+         * Overriden method to send JSON object to the webservice. The resulting content of the
+         * POST is captured by the OutputStreamWriter and stored as a String. The string is
+         * used by the OnPostExecute. Code supplied by UWT 450 Instructor.
+         * @param urls the url used for the POST
+         * @return a String
+         */
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -229,6 +225,14 @@ public class StartActivity extends AppCompatActivity implements
             return response;
         }
 
+        /**
+         * Overriden method used to determine success for a login by a user or a registration
+         * of a new user. With successful login, CategoryListActivity is launched. With
+         * successful registration, LoginFragment is launched. Success is determined by
+         * checking the JSON file created after a POST to the webservice for a "success."
+         * @author Rich W. - Code based supplied by UWT 450 Instructor.
+         * @param s a string
+         */
         @Override
         protected void onPostExecute(String s) {
             Log.i("OnPostExecute", s.toString());

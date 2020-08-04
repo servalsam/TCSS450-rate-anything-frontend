@@ -6,14 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toolbar;
-
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import edu.tacoma.uw.group9_450project.rateanything.model.Category;
-import edu.tacoma.uw.group9_450project.rateanything.model.CategoryContent;
 
 /**
  * A fragment representing a single Category detail screen.
@@ -31,6 +28,7 @@ public class CategoryDetailFragment extends Fragment {
 
     /** Constant for use in alignment of fragment layout */
     private static final int BOTTOM_MARGIN = 150;
+    private static final String NEEDED_CONTENT = "PLACE ITEM LIST HERE";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -38,12 +36,18 @@ public class CategoryDetailFragment extends Fragment {
      */
     public CategoryDetailFragment() {}
 
+
+    /**
+     * Mandatory method. The method loads the category content as well as setting the placing
+     * the long description of the category into the appbar.
+     * @param savedInstanceState a Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the course content specified by the fragment arguments
+            // Load the category content specified by the fragment arguments
             mCategory = (Category) getArguments().getSerializable(ARG_ITEM_ID);
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout =
@@ -58,6 +62,15 @@ public class CategoryDetailFragment extends Fragment {
         }
     }
 
+
+    /**
+     * An override method that places a placeholder into the field below the appbar. Will
+     * likely be used later to show items with the categories.
+     * @param inflater a LayoutInflater
+     * @param container a ViewGroup
+     * @param savedInstanceState a Bundle
+     * @return a View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,7 +78,7 @@ public class CategoryDetailFragment extends Fragment {
 
         if (mCategory != null) {
             ((TextView) rootView.findViewById(R.id.item_detail_long_desc))
-                    .setText("PLACE ITEM LIST HERE");
+                    .setText(NEEDED_CONTENT);
         }
         return rootView;
     }

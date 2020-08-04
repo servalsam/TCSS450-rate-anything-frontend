@@ -8,17 +8,9 @@
     android:id="@+id/register_fragment">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/directions_for_registration"/>
-
     <EditText
         android:id="@+id/first_name_registration"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/first_name_hint"/>

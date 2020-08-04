@@ -1,7 +1,6 @@
 package edu.tacoma.uw.group9_450project.rateanything.startup;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import edu.tacoma.uw.group9_450project.rateanything.R;
 import edu.tacoma.uw.group9_450project.rateanything.authenticate.StartActivity;
 
@@ -24,41 +22,36 @@ import edu.tacoma.uw.group9_450project.rateanything.authenticate.StartActivity;
  */
 public class SplashPageActivity extends AppCompatActivity implements View.OnClickListener {
 
-    /** Member variable to hold user login until data is cleared. */
-    private SharedPreferences mSharedPreferences;
-
-    /** Member variable flags. */
-    private boolean mLoggedIn;
-
 
     /** Constants */
-    private static final String LOGIN = "Login as an existing Rate Anything User";
-    private static final String LOGGED_IN = "Proceed to list of categories";
+    private static final String NOT_LOGGED_IN = "Login as an existing Rate Anything User";
+    private static final String LOGGED_IN = "Logged-in. Proceed to list of categories";
     public static String REG_MODE = "register_mode";
-
-
 
 
     /**
      * Mandatory method. In the method, the buttons are created and listeners are attached.
-     * @param savedInstanceState
+     * @author Rich W.
+     * @param savedInstanceState a Bundle
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_page);
 
-        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+        SharedPreferences sp = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
+
+        if(getSupportActionBar() != null) {
+            this.getSupportActionBar().hide();
+        }
 
         // Button Creation
         Button loginBtn = (Button) findViewById(R.id.login_button);
-        if (mSharedPreferences.getBoolean(getString(R.string.LOGGEDIN), true)) {
+        if (sp.getBoolean(getString(R.string.LOGGEDIN), true)) {
             loginBtn.setText(LOGGED_IN);
-            mLoggedIn = true;
         } else {
-            loginBtn.setText(LOGIN);
-            mLoggedIn = false;
+            loginBtn.setText(NOT_LOGGED_IN);
         }
         Button registerBtn = (Button) findViewById(R.id.register_button);
         Button guestBtn = (Button) findViewById(R.id.proceed_as_guest_button);
@@ -72,7 +65,7 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
     /**
      * The method allows launches the StartActivity and adds at registration mode flag to the
      * intent for use by the StartActivity launchFragment method.
-     * @param view
+     * @param view a View
      */
     @Override
     public void onClick(View view) {

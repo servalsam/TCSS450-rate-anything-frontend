@@ -57,6 +57,12 @@ public class CategoryListActivity extends AppCompatActivity {
      * Code supplied by UWT 450 Instructor. Modified by Rich W.
      */
     private class CategoryTask extends AsyncTask<String, Void, String> {
+
+        /**
+         * Override method used to connect to the webservice to gather categories.
+         * @param urls a string
+         * @return a string that contains the information from a GET query.
+         */
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -83,6 +89,11 @@ public class CategoryListActivity extends AppCompatActivity {
             return response;
         }
 
+        /**
+         * The override method to set-up a recycler view for the categories based on
+         * successful connection to the webservice.
+         * @param s a string containing the JSON file
+         */
         @Override
         protected void onPostExecute(String s) {
             if (s.startsWith("Unable to")) {
@@ -115,6 +126,10 @@ public class CategoryListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    /**
+     * Mandatory method. Code supplied by Android Studio template.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +163,7 @@ public class CategoryListActivity extends AppCompatActivity {
     }
 
     /**
-     * The onResume method is used to launch the AsyncTask.
+     * Override method used to launch the AsyncTask.
      */
     @Override
     protected void onResume() {
@@ -158,7 +173,10 @@ public class CategoryListActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Method to setup the RecyclerView.
+     * @param recyclerView a RecyclerView
+     */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         if (mCategoryList != null) {
             mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter
@@ -166,6 +184,12 @@ public class CategoryListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Inner class for the RecyclerView Adapter depending on type of device. Base code supplied
+     * by Android Studio template and UWT TCSS 450 Instructor. The method contains an
+     * OnClickListener to start a CategoryDetailFragment.
+     * @author Rich W.
+     */
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -175,10 +199,10 @@ public class CategoryListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Category item = (Category) view.getTag();
+                Category category = (Category) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putSerializable(CategoryDetailFragment.ARG_ITEM_ID, item);
+                    arguments.putSerializable(CategoryDetailFragment.ARG_ITEM_ID, category);
                     CategoryDetailFragment fragment = new CategoryDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -187,13 +211,18 @@ public class CategoryListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, CategoryDetailActivity.class);
-                    intent.putExtra(CategoryDetailFragment.ARG_ITEM_ID, item);
-
+                    intent.putExtra(CategoryDetailFragment.ARG_ITEM_ID, category);
                     context.startActivity(intent);
                 }
             }
         };
 
+        /**
+         * Generated method from Android Studio Template
+         * @param parent the CategoryListActivity
+         * @param items a List of categories.
+         * @param twoPane a boolean for layout
+         */
         SimpleItemRecyclerViewAdapter(CategoryListActivity parent,
                                       List<Category> items,
                                       boolean twoPane) {
@@ -202,6 +231,12 @@ public class CategoryListActivity extends AppCompatActivity {
             mTwoPane = twoPane;
         }
 
+        /**
+         * A method override supplied by Android Studio template.
+         * @param parent a ViewGroup
+         * @param viewType an int
+         * @return a ViewHolder
+         */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -209,6 +244,12 @@ public class CategoryListActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
+        /**
+         * Method override supplied by Android Studio template. Used to place content
+         * into the ViewHolder
+         * @param holder a ViewHolder
+         * @param position an int to place the items in order in the ViewHolder
+         */
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText((mValues.get(position).getMyCategoryName()));
@@ -217,11 +258,18 @@ public class CategoryListActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(mOnClickListener);
         }
 
+        /**
+         * Getter method for the number of items in the ViewHolder.
+         * @return the number of items.
+         */
         @Override
         public int getItemCount() {
             return mValues.size();
         }
 
+        /**
+         * The inner class of ViewHolder a RecyclerView
+         */
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
@@ -234,6 +282,11 @@ public class CategoryListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Generated method override by Android Studio template. Used to inflate the menu.
+     * @param menu a Menu
+     * @return a boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_category_list, menu);
@@ -245,7 +298,7 @@ public class CategoryListActivity extends AppCompatActivity {
      * out is selected, then the shared preferences are removed and the SplashPageActivity
      * is launched.
      * @param item the menu item selected.
-     * @return
+     * @return a boolean
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
