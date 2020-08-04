@@ -35,7 +35,7 @@ public class  RegisterFragment extends Fragment {
      * Interface to make the registration work.
      */
     public interface RegistrationFragmentListener {
-        public void register(String first, String last, String email, String name, String pwd);
+        void register(String first, String last, String email, String name, String pwd);
     }
 
     /** Required empty public constructor */
@@ -43,7 +43,7 @@ public class  RegisterFragment extends Fragment {
 
     /**
      * Required onCreate method.
-     * @param savedInstanceState
+     * @param savedInstanceState a Bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,11 +57,10 @@ public class  RegisterFragment extends Fragment {
      * The password must be at least 5 characters and both the password and the confirmation
      * password must match.
      * @author Rich W.
-     * @version August 2020
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater a LayoutInflator
+     * @param container a ViewGroup
+     * @param savedInstanceState a Bundle
+     * @return a View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,7 +92,7 @@ public class  RegisterFragment extends Fragment {
                     Toast.makeText(v.getContext(), "Enter valid email address", Toast.LENGTH_SHORT)
                             .show();
                     mEmailText.requestFocus();
-                } else if (TextUtils.isEmpty(pwd) || pwd.length() < 5) {
+                } else if (TextUtils.isEmpty(pwd) || (pwd.length() < 5) || (pwd.length() > 32)) {
                     Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters",
                             Toast.LENGTH_SHORT)
                             .show();
