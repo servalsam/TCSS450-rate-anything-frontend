@@ -13,8 +13,18 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+/**
+ * Class used to show the details of an item selected from a category.
+ * Base code supplied by Android Studio templates and UWT TCSS 450 Instructor
+ * @author Rich W.
+ */
 public class ItemDetailActivity extends AppCompatActivity {
 
+    /**
+     * Mandatory method. Creates a floating action button and sets prepares arguments for
+     * display. Menu and app bar needs formatting!
+     * @param savedInstanceState a bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +71,11 @@ public class ItemDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method for selecting Menu items. Menu not yet implemented.
+     * @param item a MenuItem
+     * @return a boolean indicating a particular menu item was selected.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
