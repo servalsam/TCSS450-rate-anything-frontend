@@ -102,7 +102,12 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
              return response;
          }
 
-
+         /**
+          * Method that checks for success of a returned JSON object from the webservice.
+          * With a success, the JSON is parsed and an list of items is filled.
+          * Code base supplied by TCSS 450 Instructor. Modified by Rich W.
+          * @param s a String representing a JSON object.
+          */
          @Override
          protected void onPostExecute(String s) {
              if (s.startsWith("Unable to")) {
@@ -127,6 +132,12 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
          }
      }
 
+     /**
+      * Mandatory onCreate method. Fills the type of category id from a data passed from the
+      * CategoryListActivity. It then calls for a JSON object to be created so that the
+      * AsyncTask might be used to get the items for the category.
+       * @param savedInstanceState a Bundle
+      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +167,10 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
         setupRecyclerView((RecyclerView) mRecyclerView);
     }
 
+     /**
+      * Helper method to create a JSON object for the AsyncTask
+      * @author Rich W.
+      */
     private void fillJSON () {
          Log.i("ItemListAct fill JSON", mCategory);
          if (mItemListJSON.length() > 0) {
@@ -181,12 +196,20 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
          }
     }
 
+     /**
+      * Method to set up a RecyclerView for the items in the category.
+      * @param recyclerView a RecyclerView
+      */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         if (mItemList != null) {
             mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter (this, mItemList));
         }
     }
 
+     /**
+      * Class for a RecyclerView Adapter.
+      * Base code supplied by UWT 450 Instructor.
+      */
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -204,18 +227,35 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
         };
 
 
-
+         /**
+          * Helper method for the Adapter.
+          * @param parent a ItemListActivity
+          * @param items a List of items.
+          */
         SimpleItemRecyclerViewAdapter(ItemListActivity parent, List<Item> items) {
             mValues = items;
             mParentActivity = parent;
         }
-                                                                                        // must check ALL R.layouts
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_content, parent, false);
+
+         /**
+          * A helper method to that puts a ViewGroup into a ViewHolder.
+           * @param parent a ViewGroup
+          * @param viewType an int
+          * @return a ViewHolder
+          */
+         @Override
+         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_list_content, parent, false);
             return new ViewHolder(view);
         }
 
+         /**
+          * A method that places the desired data of the items into the viewHolder as
+          * well as making each item a clickable item.
+          * @param holder a ViewHolder
+          * @param position a position
+          */
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText((mValues.get(position).getMyItemName()));
@@ -224,11 +264,19 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
             holder.itemView.setOnClickListener(mOnClickListener);
         }
 
+         /**
+          * Helper method to return the number of items in the item list
+          * @return an int (number of items)
+          */
         @Override
         public int getItemCount() {
             return mValues.size();
         }
 
+         /**
+          * The ViewHolder class. Code supplied by UWT 450 Instructor and the Android Studio
+          * Templates.
+          */
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
