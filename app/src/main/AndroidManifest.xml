@@ -11,19 +11,18 @@
         android:roundIcon="@mipmap/rateanything_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ItemDetailActivity"></activity>
+        <activity android:name=".ItemListActivity" />
         <activity android:name=".startup.SplashPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".authenticate.StartActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CategoryListActivity"
             android:label="@string/category_title"
@@ -32,7 +31,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.tacoma.uw.group9_450project.rateanything.authenticate.StartActivity" />
         </activity>
-
         <activity
             android:name=".CategoryDetailActivity"
             android:label="@string/title_item_detail"
@@ -42,7 +40,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.tacoma.uw.group9_450project.rateanything.authenticate.StartActivity" />
         </activity>
-
     </application>
 
 </manifest>

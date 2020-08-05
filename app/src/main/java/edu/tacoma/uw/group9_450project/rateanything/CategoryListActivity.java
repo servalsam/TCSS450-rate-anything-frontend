@@ -52,6 +52,8 @@ public class CategoryListActivity extends AppCompatActivity {
     private List<Category> mCategoryList;
     private RecyclerView mRecyclerView;
 
+    private static final String CATEGORY_ID = "category_id";
+
     /**
      * Private class to setup asynchronous loading of the data.
      * Code supplied by UWT 450 Instructor. Modified by Rich W.
@@ -135,7 +137,7 @@ public class CategoryListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_category_list_activity);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
@@ -200,20 +202,23 @@ public class CategoryListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Category category = (Category) view.getTag();
-                if (mTwoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putSerializable(CategoryDetailFragment.ARG_ITEM_ID, category);
-                    CategoryDetailFragment fragment = new CategoryDetailFragment();
-                    fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit();
-                } else {
+//                if (mTwoPane) {
+//                    Bundle arguments = new Bundle();
+//                    arguments.putSerializable(CategoryDetailFragment.ARG_ITEM_ID, category);
+//                    CategoryDetailFragment fragment = new CategoryDetailFragment();
+//                    fragment.setArguments(arguments);
+//                    mParentActivity.getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.item_detail_container, fragment)
+//                            .commit();
+//                } else {
                     Context context = view.getContext();
-                    Intent intent = new Intent(context, CategoryDetailActivity.class);
-                    intent.putExtra(CategoryDetailFragment.ARG_ITEM_ID, category);
+                    Intent intent = new Intent(context, ItemListActivity.class);
+                    intent.putExtra(CATEGORY_ID, category.getCategoryID());
+
+//                    Intent intent = new Intent(context, CategoryDetailActivity.class);
+//                    intent.putExtra(CategoryDetailFragment.ARG_ITEM_ID, category);
                     context.startActivity(intent);
-                }
+//                }
             }
         };
 
