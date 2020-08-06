@@ -50,7 +50,9 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
 
      /** Constants */
      private static final String CATEGORY_ID = "category_id";
+     private static final String CATEGORY_NAME = "category_name";
      private static final String ITEM_LIST = "Item List Activity";
+     private static final int WHITE = 0xFFFFFFFF;
 
      /**
       * Private class to for asynchronous loading of data.
@@ -143,16 +145,22 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
+        // Getting data from the bundle
         Bundle bundle = getIntent().getExtras();
         mCategory = bundle.getString(CATEGORY_ID);
+        String title = bundle.getString(CATEGORY_NAME);
 
+        // Fill the JSON Object
         mItemListJSON = new JSONObject();
         fillJSON();
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_item_list_activity);
-//        setSupportActionBar(toolbar);
-//        toolbar.setTitle(getTitle());
+        // Toolbar setup
+        Toolbar item_toolbar = (Toolbar) findViewById(R.id.toolbar_item_list_activity);
+        setSupportActionBar(item_toolbar);
+        getSupportActionBar().setTitle(title);
+        item_toolbar.setTitleTextColor(WHITE);
 
+        // Floating Action Button setup
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_item_list_activity);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,7 +229,10 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
                 Item item = (Item) view.getTag();
                 Context context = view.getContext();
                 Intent intent = new Intent(context, ItemDetailActivity.class);
-                intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);
+                Bundle b = new Bundle();
+                b.putSerializable(ItemDetailFragment.ARG_ITEM_ID, item);
+                intent.putExtras(b);
+                //intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);
                 context.startActivity(intent);
             }
         };
@@ -289,6 +300,16 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
         }
     }
 
-    // Add Menu Options code here
+     /**
+      * Generated method override by Android Studio template. Used to inflate the menu.
+      * @param menu a Menu
+      * @return a boolean
+      */
+     @Override
+     public boolean onCreateOptionsMenu(Menu menu) {
+         getMenuInflater().inflate(R.menu.menu_item_list_activity, menu);
+
+         return true;
+     }
 
 }

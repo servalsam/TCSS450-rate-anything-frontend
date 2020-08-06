@@ -36,6 +36,11 @@
 
     <!-- menu items -->
     <string name="action_logout">Sign Out</string>
+    <string name="action_about">About</string>
+    <string name="action_add_category">Add Category</string>
+    <string name="action_option">Option</string>
+    <string name="action_add_item">Add Item</string>
+    <string name="action_rate_item">Rate Item</string>
 
     <!-- Start Screen items -->
     <string name="register_btn">Register as a new Rate Anything user</string>
