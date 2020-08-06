@@ -2,36 +2,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
      xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
-        android:id="@+id/action_options"
-        android:orderInCategory="40"
-        android:title="OPTIONS"
+        android:id="@+id/action_add_category"
+        android:orderInCategory="50"
+        android:title="@string/action_add_category"
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/action_options"
+        android:orderInCategory="40"
+        android:title="@string/action_option"
+        app:showAsAction="ifRoom"
+        />
 
     <item
         android:id="@+id/action_about"
         android:orderInCategory="60"
-        android:title="ABOUT"
+        android:title="@string/action_about"
         app:showAsAction="always"
         />
-
 
     <item
         android:id="@+id/action_logout"
         android:orderInCategory="80"
         android:title="@string/action_logout"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        />
 
-
-
-<item
-    android:id="@+id/about_button"
-    android:orderInCategory="80"
-    android:title="ABOUT"
-    app:showAsAction="ifRoom"
-    />
 
 
 </menu>

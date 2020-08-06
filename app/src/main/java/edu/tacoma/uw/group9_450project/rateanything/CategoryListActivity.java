@@ -52,7 +52,9 @@ public class CategoryListActivity extends AppCompatActivity {
     private List<Category> mCategoryList;
     private RecyclerView mRecyclerView;
 
+    /** Constants */
     private static final String CATEGORY_ID = "category_id";
+    private static final String CATEGORY_NAME ="category_name";
 
     /**
      * Private class to setup asynchronous loading of the data.
@@ -214,9 +216,7 @@ public class CategoryListActivity extends AppCompatActivity {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ItemListActivity.class);
                     intent.putExtra(CATEGORY_ID, category.getCategoryID());
-
-//                    Intent intent = new Intent(context, CategoryDetailActivity.class);
-//                    intent.putExtra(CategoryDetailFragment.ARG_ITEM_ID, category);
+                    intent.putExtra(CATEGORY_NAME, category.getMyCategoryName());
                     context.startActivity(intent);
 //                }
             }
