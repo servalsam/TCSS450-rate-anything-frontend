@@ -5,53 +5,95 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="authenticate.RegisterFragment"
-    android:id="@+id/register_fragment">
+    android:id="@+id/register_fragment"
+    android:background="@drawable/rate_anything_register">
 
 
     <EditText
         android:id="@+id/first_name_registration"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/first_name_hint"/>
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:textColorHint="#929292"
+        android:layout_gravity="center"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="156dp"
+        android:hint="@string/register_first_name_hint"/>
 
     <EditText
         android:id="@+id/last_name_registration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/last_name_hint"/>
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:textColorHint="#929292"
+        android:layout_gravity="center"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/register_last_name_hint"/>
 
     <EditText
         android:id="@+id/emailAddress_registration"
-        android:hint="@string/enter_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress" />
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:textColorHint="#929292"
+        android:layout_gravity="center"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:inputType="textEmailAddress"
+        android:hint="@string/register_email_hint"/>
 
     <EditText
         android:id="@+id/user_name_registration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/user_name_select"/>
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:textColorHint="#929292"
+        android:layout_gravity="center"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/register_username_hint"/>
 
     <EditText
         android:id="@+id/password_registration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_password" />
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:textColorHint="#929292"
+        android:layout_gravity="center"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/register_password_hint" />
 
     <EditText
         android:id="@+id/password_confirm_registration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password_confirm"/>
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:textColorHint="#929292"
+        android:layout_gravity="center"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/register_password_confirm_hint"/>
 
     <Button
         android:id="@+id/register_btn"
+        android:background="@drawable/ripple"
+        android:fontFamily="@font/nunito_bold_font"
+        android:textAllCaps="false"
         android:text="@string/btn_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"/>
+        android:textColor="#2895FF"
+        android:textSize="24dp"
+        android:layout_width="256dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"/>
 
 
 </LinearLayout>
