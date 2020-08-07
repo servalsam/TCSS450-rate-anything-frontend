@@ -56,71 +56,7 @@ public class CategoryListActivity extends AppCompatActivity {
     private static final String CATEGORY_ID = "category_id";
     private static final String CATEGORY_NAME ="category_name";
 
-    /**
-     * Private class to setup asynchronous loading of the data.
-     * Code supplied by UWT 450 Instructor. Modified by Rich W.
-     */
-    private class CategoryTask extends AsyncTask<String, Void, String> {
 
-        /**
-         * Override method used to connect to the webservice to gather categories.
-         * @param urls a string
-         * @return a string that contains the information from a GET query.
-         */
-        @Override
-        protected String doInBackground(String... urls) {
-            String response = "";
-            HttpURLConnection urlConnection = null;
-            for (String url : urls) {
-                try {
-                    URL urlObject = new URL(url);
-                    urlConnection = (HttpURLConnection) urlObject.openConnection();
-                    InputStream content = urlConnection.getInputStream();
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        response += s;
-                    }
-                } catch (Exception e) {
-                    response = "Unable to download the list of courses, Reason: "
-                            + e.getMessage();
-                }
-                finally {
-                    if (urlConnection != null)
-                        urlConnection.disconnect();
-                }
-            }
-            return response;
-        }
-
-        /**
-         * The override method to set-up a recycler view for the categories based on
-         * successful connection to the webservice.
-         * @param s a string containing the JSON file
-         */
-        @Override
-        protected void onPostExecute(String s) {
-            if (s.startsWith("Unable to")) {
-                Toast.makeText(getApplicationContext(), "Unable to download" + s,
-                        Toast.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-
-                if (jsonObject.getBoolean("success")) {
-                    mCategoryList = Category.parseCategoryJson(
-                            jsonObject.getString("categories")); // Name of table
-                    if(!mCategoryList.isEmpty()) {
-                        setupRecyclerView((RecyclerView) mRecyclerView);
-                    }
-                }
-            } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
 
 
@@ -318,6 +254,72 @@ public class CategoryListActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Private class to setup asynchronous loading of the data.
+     * Code supplied by UWT 450 Instructor. Modified by Rich W.
+     */
+    private class CategoryTask extends AsyncTask<String, Void, String> {
+
+        /**
+         * Override method used to connect to the webservice to gather categories.
+         * @param urls a string
+         * @return a string that contains the information from a GET query.
+         */
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    InputStream content = urlConnection.getInputStream();
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+                } catch (Exception e) {
+                    response = "Unable to download the list of courses, Reason: "
+                            + e.getMessage();
+                }
+                finally {
+                    if (urlConnection != null)
+                        urlConnection.disconnect();
+                }
+            }
+            return response;
+        }
+
+        /**
+         * The override method to set-up a recycler view for the categories based on
+         * successful connection to the webservice.
+         * @param s a string containing the JSON file
+         */
+        @Override
+        protected void onPostExecute(String s) {
+            if (s.startsWith("Unable to")) {
+                Toast.makeText(getApplicationContext(), "Unable to download" + s,
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+
+                if (jsonObject.getBoolean("success")) {
+                    mCategoryList = Category.parseCategoryJson(
+                            jsonObject.getString("categories")); // Name of table
+                    if(!mCategoryList.isEmpty()) {
+                        setupRecyclerView((RecyclerView) mRecyclerView);
+                    }
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }

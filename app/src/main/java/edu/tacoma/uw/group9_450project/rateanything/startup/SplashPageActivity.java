@@ -24,8 +24,8 @@ public class SplashPageActivity extends AppCompatActivity implements View.OnClic
 
 
     /** Constants */
-    private static final String NOT_LOGGED_IN = "Login as an existing Rate Anything User";
-    private static final String LOGGED_IN = "Logged-in. Proceed to list of categories";
+    private static final String NOT_LOGGED_IN = "Login";
+    private static final String LOGGED_IN = "Continue";
     public static String REG_MODE = "register_mode";
 
 

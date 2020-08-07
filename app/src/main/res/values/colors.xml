@@ -3,4 +3,12 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <!-- Color Scheme -->
+    <color name="dodgerBlue">#3399FF</color>
+    <color name="marinerBlue">#3366CC</color>
+    <color name="midnightBlue">#003366</color>
+    <color name="vikingBlue">#79BEDB</color>
+    <color name="brightTurquoise">#10C8CD</color>
+    <color name="ecruWhite">#F3EFE0</color>
 </resources>

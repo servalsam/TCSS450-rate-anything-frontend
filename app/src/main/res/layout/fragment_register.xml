@@ -38,12 +38,14 @@
         android:id="@+id/password_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:hint="@string/enter_password" />
 
     <EditText
         android:id="@+id/password_confirm_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:hint="@string/password_confirm"/>
 
     <Button
