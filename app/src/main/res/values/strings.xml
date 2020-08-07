@@ -43,10 +43,10 @@
     <string name="action_rate_item">Rate Item</string>
 
     <!-- Start Screen items -->
-    <string name="register_btn">Register as a new Rate Anything user</string>
+    <string name="register_btn">Register</string>
     <string name="proceed_to_login">Login as existing user</string>
     <string name="proceed_to_categories">Proceed to a list of categories</string>
-    <string name="proceed_as_guest">Proceed to categories as guest user</string>
+    <string name="proceed_as_guest">Proceed as Guest</string>
 
 
 </resources>
