@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="authenticate.RegisterFragment"
     android:id="@+id/register_fragment"
-    android:background="@drawable/rate_anything_register">
+    android:background="@drawable/rate_anything_plain">
 
     <ImageView
         android:id="@+id/register_rate_anything_logo"

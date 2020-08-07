@@ -4,48 +4,104 @@
     android:id="@+id/login_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
     android:orientation="vertical"
+    android:background="@drawable/rate_anything_plain"
     tools:context="authenticate.LoginFragment">
 
+    <ImageView
+        android:id="@+id/register_rate_anything_logo"
+        android:background="@mipmap/rate_anything_logo_white"
+        android:layout_marginTop="126dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="202.5dp"
+        android:layout_height="67.5dp"/>
+
     <TextView
-        android:layout_width="match_parent"
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="@string/login_directions"
-        android:textSize="20dp" />
+        android:layout_marginTop="18dp"
+        android:text="@string/login_directions_part1"
+        android:textColor="#fff"
+        android:textSize="16dp" />
+
+    <TextView
+        android:fontFamily="@font/nunito_bold_font"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/login_directions_part2"
+        android:textColor="#fff"
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/emailAddress_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_shape"
         android:hint="@string/enter_email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:fontFamily="@font/nunito_bold_font"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="18dp"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:textColor="#fff"
+        android:textSize="24dp"/>
 
     <EditText
         android:id="@+id/username_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_username" />
+        android:hint="@string/enter_username"
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="18dp"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:textColor="#fff"
+        android:textSize="24dp"/>
 
     <EditText
         android:id="@+id/password_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_password" />
+        android:hint="@string/enter_password"
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="18dp"
+        android:layout_width="311dp"
+        android:layout_height="62dp"
+        android:textColor="#fff"
+        android:textSize="24dp"/>
 
     <Button
         android:id="@+id/sign_in_btn_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:background="@drawable/rounded_shape"
+        android:fontFamily="@font/nunito_bold_font"
+        android:layout_width="256dp"
+        android:layout_height="64dp"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:textColor="#2895FF"
+        android:textSize="24dp"
         android:text="@string/btn_sign_in" />
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="match_parent"
+        android:buttonTint="#fff"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stay_logged_in" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="18dp"
+        android:text="@string/stay_logged_in"
+        android:textColor="#fff"
+        android:textSize="16dp"/>
 
 </LinearLayout>

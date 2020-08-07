@@ -13,13 +13,13 @@
 
     <!-- Login Fragment  -->
     <string name="login_fragment">Login fragment</string>
-    <string name="enter_email">Enter your email</string>
-    <string name="enter_username">Enter your username</string>
-    <string name="enter_password">Enter your password</string>
-    <string name="btn_sign_in">SIGN IN</string>
+    <string name="enter_email">Email</string>
+    <string name="enter_username">Username</string>
+    <string name="enter_password">Password</string>
+    <string name="btn_sign_in">Login</string>
     <string name="stay_logged_in">Stay Logged-In?</string>
-    <string name="login_directions">Enter either your email or your username.
-        Then enter your password</string>
+    <string name="login_directions_part1">Enter either your email or username, </string>
+    <string name="login_directions_part2">then your password.</string>
 
     <!-- Registration Fragment -->
     <string name="directions_for_registration">Complete the following fields to register
