@@ -50,7 +50,7 @@
         android:layout_marginTop="18dp"
         android:layout_width="311dp"
         android:layout_height="62dp"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:textSize="24dp"/>
 
     <EditText
@@ -63,7 +63,7 @@
         android:layout_marginTop="18dp"
         android:layout_width="311dp"
         android:layout_height="62dp"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:textSize="24dp"/>
 
     <EditText
@@ -76,7 +76,7 @@
         android:layout_marginTop="18dp"
         android:layout_width="311dp"
         android:layout_height="62dp"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:textSize="24dp"/>
 
     <Button
