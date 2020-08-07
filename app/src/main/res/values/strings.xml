@@ -24,6 +24,7 @@
     <!-- Registration Fragment -->
     <string name="directions_for_registration">Complete the following fields to register
         and become a new Rate Anything Member</string>
+    <string name="register_sign_up_title">Sign up</string>
     <string name="register_password_hint">Password</string>
     <string name="register_password_confirm_hint">Password confirm</string>
     <string name="register_username_hint">Username</string>
