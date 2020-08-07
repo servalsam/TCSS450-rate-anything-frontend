@@ -16,21 +16,29 @@ android:background="@drawable/rate_anything_splash">
 
         <Button
             android:id="@+id/register_button"
+            android:background="@drawable/ripple"
+            android:fontFamily="@font/nunito_bold_font"
+            android:textAllCaps="false"
             android:layout_width="256dp"
             android:layout_height="64dp"
             android:layout_marginTop="226dp"
             android:text="@string/register_btn"
-            android:background="@drawable/ripple"
+            android:textColor="#2895FF"
+            android:textSize="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/login_button"
+            android:background="@drawable/ripple"
+            android:fontFamily="@font/nunito_bold_font"
             android:layout_width="256dp"
             android:layout_height="64dp"
             android:layout_marginTop="32dp"
-            android:background="@drawable/ripple"
+            android:textColor="#2895FF"
+            android:textSize="24dp"
+            android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,11 +47,14 @@ android:background="@drawable/rate_anything_splash">
         <Button
             android:id="@+id/proceed_as_guest_button"
             android:background="@android:color/transparent"
+            android:fontFamily="@font/nunito_bold_font"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:text="@string/proceed_as_guest"
             android:textColor="#fff"
+            android:textSize="16dp"
+            android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_button" />
