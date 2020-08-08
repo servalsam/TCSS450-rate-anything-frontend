@@ -1,7 +1,6 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/dodgerBlue</item>
         <item name="colorPrimaryDark">@color/midnightBlue</item>
         <item name="colorAccent">@color/vikingBlue</item>
@@ -14,7 +13,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="actionMenuTextColor">@color/ecruWhite</item>
-
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -23,10 +21,7 @@
     </style>
 
 
-
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

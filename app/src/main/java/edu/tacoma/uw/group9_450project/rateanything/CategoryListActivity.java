@@ -3,6 +3,7 @@ package edu.tacoma.uw.group9_450project.rateanything;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.ColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,13 +54,11 @@ public class CategoryListActivity extends AppCompatActivity {
      */
     private List<Category> mCategoryList;
     private RecyclerView mRecyclerView;
+    private ProgressBar mCategoryFillerProgressBar;
 
     /** Constants */
     private static final String CATEGORY_ID = "category_id";
     private static final String CATEGORY_NAME ="category_name";
-
-
-
 
 
     /**
@@ -78,6 +79,8 @@ public class CategoryListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_category_list_activity);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
+        mCategoryFillerProgressBar = (ProgressBar) findViewById(R.id.category_list_progress_bar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -262,6 +265,11 @@ public class CategoryListActivity extends AppCompatActivity {
      */
     private class CategoryTask extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected void onPreExecute() {
+            mCategoryFillerProgressBar.setVisibility(View.VISIBLE);
+        }
+
         /**
          * Override method used to connect to the webservice to gather categories.
          * @param urls a string
@@ -319,6 +327,7 @@ public class CategoryListActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
+            mCategoryFillerProgressBar.setVisibility(View.GONE);
         }
     }
 

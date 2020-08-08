@@ -24,8 +24,18 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/regular_screen"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <include layout="@layout/item_list" />
+
+
+        <ProgressBar
+            android:id="@+id/item_fill_list_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/midnightBlue"
+            />
+
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
