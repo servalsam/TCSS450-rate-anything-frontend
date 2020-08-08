@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +38,7 @@ public class StartActivity extends AppCompatActivity implements
      * the app. mAuthJSON is used to send required data to a POST to the webservice. */
     private SharedPreferences mSharedPreferences;
     private JSONObject mAuthJSON;
+    private ProgressBar mAuthenticateProgressBar;
 
     /** Member variable flags. */
     private boolean mToLogin;
@@ -66,7 +69,7 @@ public class StartActivity extends AppCompatActivity implements
                 Context.MODE_PRIVATE);
 
         mAuthJSON = new JSONObject();
-
+        mAuthenticateProgressBar = findViewById(R.id.authenticate_progress_bar);
         launchFragments();
     }
 
@@ -178,6 +181,11 @@ public class StartActivity extends AppCompatActivity implements
     private class AuthAsyncTask extends AsyncTask<String, Void, String> {
 
 
+        @Override
+        protected void onPreExecute() {
+            mAuthenticateProgressBar.setVisibility(View.VISIBLE);
+        }
+
         /**
          * Overriden method to send JSON object to the webservice. The resulting content of the
          * POST is captured by the OutputStreamWriter and stored as a String. The string is
@@ -187,6 +195,7 @@ public class StartActivity extends AppCompatActivity implements
          */
         @Override
         protected String doInBackground(String... urls) {
+
             String response = "";
             HttpURLConnection urlConnection = null;
             for (String url : urls) {
@@ -276,6 +285,7 @@ public class StartActivity extends AppCompatActivity implements
                 }
                 Log.e(AUTHENTICATE, e.getMessage());
             }
+            mAuthenticateProgressBar.setVisibility(View.GONE);
         }
     }
 }

@@ -11,6 +11,7 @@
  import android.view.MenuItem;
  import android.view.View;
  import android.view.ViewGroup;
+ import android.widget.ProgressBar;
  import android.widget.TextView;
  import android.widget.Toast;
 
@@ -47,6 +48,7 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
      private RecyclerView mRecyclerView;
      private String mCategory;
      private JSONObject mItemListJSON;
+     private ProgressBar mItemListProgressBar;
 
      /** Constants */
      private static final String CATEGORY_ID = "category_id";
@@ -59,6 +61,11 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
       * Code supplied by UWT 450 Instructor. Modified by Rich W.
       */
      private class ItemAsyncTask extends AsyncTask<String, Void, String> {
+
+         @Override
+         protected void onPreExecute() {
+             mItemListProgressBar.setVisibility(View.VISIBLE);
+         }
 
          /**
           * Method override to connect to the webservice to get the contents of a table
@@ -131,6 +138,7 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
                  Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
                          Toast.LENGTH_LONG).show();
              }
+             mItemListProgressBar.setVisibility(View.GONE);
          }
      }
 
@@ -153,6 +161,8 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
         // Fill the JSON Object
         mItemListJSON = new JSONObject();
         fillJSON();
+
+        mItemListProgressBar = (ProgressBar) findViewById(R.id.item_fill_list_progress_bar);
 
         // Toolbar setup
         Toolbar item_toolbar = (Toolbar) findViewById(R.id.toolbar_item_list_activity);
