@@ -1,6 +1,8 @@
  package edu.tacoma.uw.group9_450project.rateanything;
 
+ import android.app.Activity;
  import android.content.Context;
+ import android.content.DialogInterface;
  import android.content.Intent;
  import android.content.SharedPreferences;
  import android.os.AsyncTask;
@@ -16,6 +18,7 @@
  import android.widget.Toast;
 
  import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AlertDialog;
  import androidx.appcompat.app.AppCompatActivity;
  import androidx.appcompat.widget.Toolbar;
  import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +58,7 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
      private static final String CATEGORY_NAME = "category_name";
      private static final String ITEM_LIST = "Item List Activity";
      private static final int WHITE = 0xFFFFFFFF;
+     private static final String TITLE = "About";
 
      /**
       * Private class to for asynchronous loading of data.
@@ -318,8 +322,55 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
          getMenuInflater().inflate(R.menu.menu_item_list_activity, menu);
-
          return true;
      }
 
-}
+     /**
+      * This method launches the correct response based upon the menu item selected. If sign
+      * out is selected, then the shared preferences are removed and the SplashPageActivity
+      * is launched.
+      * @param item the menu item selected.
+      * @return a boolean
+      */
+     @Override
+     public boolean onOptionsItemSelected (@NonNull MenuItem item) {
+         switch (item.getItemId()) {
+             case R.id.about_button_item_list_activity:
+                 aboutBox(this);
+                 break;
+             case R.id.action_add_item:
+                 //add item code here
+                 break;
+             case R.id.action_sync_item_list_activity:
+                 //add sync code here
+                 break;
+             case R.id.action_item_activity_logout:
+                 //add code for sign out here
+                 break;
+         }
+         return super.onOptionsItemSelected(item);
+     }
+
+     /**
+      * This method builds and displays the About for the app inside of a alert dialog box.
+      * @author Rich W.
+      * @param activity an Activity
+      */
+     public void aboutBox(Activity activity) {
+         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+         final View about = getLayoutInflater().inflate(R.layout.about_layout, null);
+         builder.setView(about);
+         builder.setTitle(TITLE);
+         builder.setCancelable(false);
+         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialogInterface, int i) {
+                 dialogInterface.cancel();
+             }
+         });
+         AlertDialog aboutDialog = builder.create();
+         aboutDialog.show();
+     }
+
+
+ }

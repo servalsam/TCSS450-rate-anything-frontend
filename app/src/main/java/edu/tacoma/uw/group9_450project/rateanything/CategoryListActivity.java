@@ -1,9 +1,12 @@
 package edu.tacoma.uw.group9_450project.rateanything;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.ColorFilter;
+import android.icu.text.CaseMap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -59,6 +63,7 @@ public class CategoryListActivity extends AppCompatActivity {
     /** Constants */
     private static final String CATEGORY_ID = "category_id";
     private static final String CATEGORY_NAME ="category_name";
+    private static final String TITLE = "About";
 
 
     /**
@@ -246,18 +251,50 @@ public class CategoryListActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
-            SharedPreferences sharedPreferences =
-                    getSharedPreferences(getString(R.string.LOGIN_PREFS),
-                    Context.MODE_PRIVATE);
-            sharedPreferences.edit().putBoolean(getString(R.string.LOGGEDIN), false).commit();
-
-            Intent i = new Intent(this, SplashPageActivity.class);
-            startActivity(i);
-            finish();
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                aboutBox(this);
+                break;
+            case R.id.action_logout:
+                SharedPreferences sharedPreferences =
+                        getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+                sharedPreferences.edit().
+                        putBoolean(getString(R.string.LOGGEDIN), false).commit();
+                Intent i = new Intent(this,SplashPageActivity.class);
+                startActivity(i);
+                finish();
+                break;
+            case R.id.action_add_category:
+                //add category code
+                break;
+            case R.id.action_sync_category:
+                //add sync code
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * This method builds and displays the About for the app inside of a alert dialog box.
+     * @author Rich W.
+     * @param activity an Activity
+     */
+    public void aboutBox(Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        final View about = getLayoutInflater().inflate(R.layout.about_layout, null);
+        builder.setView(about);
+        builder.setTitle(TITLE);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog aboutDialog = builder.create();
+        aboutDialog.show();
+    }
+
 
     /**
      * Private class to setup asynchronous loading of the data.
