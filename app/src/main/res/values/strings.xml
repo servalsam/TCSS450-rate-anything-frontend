@@ -41,6 +41,7 @@
     <string name="action_option">Option</string>
     <string name="action_add_item">Add Item</string>
     <string name="action_rate_item">Rate Item</string>
+    <string name="sync_list">Sync with Database</string>
 
     <!-- Start Screen items -->
     <string name="register_btn">Register</string>
