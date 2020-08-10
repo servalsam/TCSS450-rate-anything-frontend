@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -251,10 +253,10 @@ public class RatingActivity extends AppCompatActivity {
                             jsonObject.getString("categories")); // Name of table
                     if(!mRatingList.isEmpty()) {
                         // Find and display the average rating for all the provided ratings
-                        getSupportActionBar().setSubtitle("Rating: "
-                                + ItemRating.findAvgRatingFromList(mRatingList));
                         float avg = ItemRating.findAvgRatingFromList(mRatingList);
+                        TextView ratingTxt = mToolbar.findViewById(R.id.toolbar_rating_text);
                         ImageView ratingImg = mToolbar.findViewById(R.id.toolbar_rating_image);
+                        ratingTxt.setText("(" + avg + ")");
                         ratingImg.setImageResource(ItemRating.getRatingImage(avg));
                         // Insert code to launch the fragment passing the mRatingsList as
                         // part of the bundle
