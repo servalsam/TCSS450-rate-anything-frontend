@@ -1,5 +1,7 @@
 package edu.tacoma.uw.group9_450project.rateanything.model;
 
+import android.widget.ImageView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,6 +9,8 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.tacoma.uw.group9_450project.rateanything.R;
 
 
 /**
@@ -95,6 +99,32 @@ public class ItemRating implements Serializable {
         return avg;
     }
 
+    /**
+     *
+     */
+    public static int getRatingImage(float avg) {
+        if (avg < 1.0) {
+            return R.drawable.star_1;
+        } else if (avg >= 1.0 && avg < 1.5) {
+            return R.drawable.star_2;
+        } else if (avg >= 1.5 && avg < 2.0) {
+            return R.drawable.star_3;
+        } else if (avg >= 2.0 && avg < 2.5) {
+            return R.drawable.star_4;
+        } else if (avg >= 2.5 && avg < 3.0) {
+            return R.drawable.star_5;
+        } else if (avg >= 3.0 && avg < 3.5) {
+            return R.drawable.star_6;
+        } else if (avg >= 3.5 && avg < 4.0) {
+            return R.drawable.star_7;
+        } else if (avg >= 4.0 && avg < 4.5) {
+            return R.drawable.star_8;
+        } else if (avg >= 4.5 && avg < 4.7) {
+            return R.drawable.star_9;
+        }
+
+        return R.drawable.star_10;
+    }
 
     /**
      * A method that allows the conversion of a JSON string into a list of rating objects.

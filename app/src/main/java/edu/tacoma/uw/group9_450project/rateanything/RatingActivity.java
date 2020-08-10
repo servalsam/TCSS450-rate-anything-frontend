@@ -255,27 +255,7 @@ public class RatingActivity extends AppCompatActivity {
                                 + ItemRating.findAvgRatingFromList(mRatingList));
                         float avg = ItemRating.findAvgRatingFromList(mRatingList);
                         ImageView ratingImg = mToolbar.findViewById(R.id.toolbar_rating_image);
-                        if (avg < 1.0) {
-                            ratingImg.setImageResource(R.drawable.star_1);
-                        } else if (avg >= 1.0 && avg < 1.5) {
-                            ratingImg.setImageResource(R.drawable.star_2);
-                        } else if (avg >= 1.5 && avg < 2.0) {
-                            ratingImg.setImageResource(R.drawable.star_3);
-                        } else if (avg >= 2.0 && avg < 2.5) {
-                            ratingImg.setImageResource(R.drawable.star_4);
-                        } else if (avg >= 2.5 && avg < 3.0) {
-                            ratingImg.setImageResource(R.drawable.star_5);
-                        } else if (avg >= 3.0 && avg < 3.5) {
-                            ratingImg.setImageResource(R.drawable.star_6);
-                        } else if (avg >= 3.5 && avg < 4.0) {
-                            ratingImg.setImageResource(R.drawable.star_7);
-                        } else if (avg >= 4.0 && avg < 4.5) {
-                            ratingImg.setImageResource(R.drawable.star_8);
-                        } else if (avg >= 4.5 && avg < 4.7) {
-                            ratingImg.setImageResource(R.drawable.star_9);
-                        } else if (avg >= 4.7) {
-                            ratingImg.setImageResource(R.drawable.star_10);
-                        }
+                        ratingImg.setImageResource(ItemRating.getRatingImage(avg));
                         // Insert code to launch the fragment passing the mRatingsList as
                         // part of the bundle
                         Log.i("RatingAct List Fill?", mRatingList.toString());
