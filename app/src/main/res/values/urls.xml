@@ -6,5 +6,7 @@
     <string name="login_username">https://tcss450-rate-anything.herokuapp.com/login-username</string>
     <string name="register">https://tcss450-rate-anything.herokuapp.com/register</string>
     <string name="get_items">https://tcss450-rate-anything.herokuapp.com/items</string>
+    <string name="get_ratings">https://tcss450-rate-anything.herokuapp.com/ratings</string>
+
 
 </resources>

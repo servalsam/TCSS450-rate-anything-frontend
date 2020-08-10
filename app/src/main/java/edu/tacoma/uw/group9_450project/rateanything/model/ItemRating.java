@@ -1,51 +1,69 @@
 package edu.tacoma.uw.group9_450project.rateanything.model;
 
-import java.io.Serializable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * This class is object that holds the item rating of an item object. It also contains
+ * methods to analyze a list of item ratings as well as parsing a JSON object to create
+ * a list of item ratings.
+ * @author Rich W.
+ * @version August 2020
+ */
 public class ItemRating implements Serializable {
 
     /** Members */
-    private String myItemName;
-    private String myItemID;
-    private String myOwner;
+    private String myItemId;
+    private String myRatingOwner;
+    private String myRatingDescription;
     private String myRating;
-    private String myComments;
+
+    /** Constants */
+    private static final String ITEM_ID = "item_id";
+    private static final String RATING_OWNER = "member_id";
+    private static final String RATING_DESC = "rating_description";
+    private static final String RATING = "rating";
 
     /**
      * Constructor for ItemRating
      */
-    public void ItemRating(String theItemID, String theItemName, String theItemOwner,
-                           String theRating, String theComments) {
-        myItemID = theItemID;
-        myItemName = theItemName;
-        myOwner = theItemOwner;
-        myRating = theRating;
-        myComments = theComments;
+    public ItemRating(String theItemID, String theRatingOwner,
+                      String theRatingDescription, String theRating) {
+        myItemId = theItemID;
+        myRatingOwner = theRatingOwner;
+        myRatingDescription = theRatingDescription;
+        myRating = theRating; //Float.parseFloat(theRating);
     }
 
     /** Getters and Setters */
-    public String getMyItemName() {
-        return myItemName;
+    public String getMyItemId() {
+        return myItemId;
     }
 
-    public void setMyItemName(String myItemName) {
-        this.myItemName = myItemName;
+    public void setMyItemId(String myItemId) {
+        this.myItemId = myItemId;
     }
 
-    public String getMyItemID() {
-        return myItemID;
+    public String getMyRatingOwner() {
+        return myRatingOwner;
     }
 
-    public void setMyItemID(String myItemID) {
-        this.myItemID = myItemID;
+    public void setMyRatingOwner(String myRatingOwner) {
+        this.myRatingOwner = myRatingOwner;
     }
 
-    public String getMyOwner() {
-        return myOwner;
+    public String getMyRatingDesciption() {
+        return myRatingDescription;
     }
 
-    public void setMyOwner(String myOwner) {
-        this.myOwner = myOwner;
+    public void setMyRatingDesciption(String myRatingDesciption) {
+        this.myRatingDescription = myRatingDesciption;
     }
 
     public String getMyRating() {
@@ -56,35 +74,49 @@ public class ItemRating implements Serializable {
         this.myRating = myRating;
     }
 
-    public String getMyComments() {
-        return myComments;
+    /**
+     * This method returns the average rating of all item ratings.
+     * @param itemRatings a List of ItemRatings
+     * @return a float that holds the average rating.
+     * @author Rich W.
+     */
+    public static float findAvgRatingFromList(List<ItemRating> itemRatings) {
+        float sum = 0.0f;
+        float avg = 0.0f;
+        int count = 0;
+        for (ItemRating itemRating : itemRatings) {
+            float num = Float.parseFloat(itemRating.getMyRating());
+            sum += num;
+            count += 1;
+        }
+        if (count > 0) {
+            avg = sum / count;
+        }
+        return avg;
     }
 
-    public void setMyComments(String myComments) {
-        this.myComments = myComments;
-    }
 
     /**
-     //     * A method that allows the conversion of a JSON string into a list of category objects.
-     //     * @param categoryJson a String
-     //     * @return categoryList a list of categories
-     //     * @throws JSONException The JSON Object should contain a array list of of categories.
-     //     */
-//    public static List<Category> parseCategoryJson(String categoryJson) throws JSONException {
-//        List<Category> categoryList = new ArrayList<>();
-//        if (categoryJson != null) {
-//
-//            JSONArray arr = new JSONArray(categoryJson);
-//
-//            for (int i = 0; i < arr.length(); i++) {
-//                JSONObject obj = arr.getJSONObject(i);
-//                Category category = new Category (obj.getString(Category.ID),
-//                                                  obj.getString(Category.NAME),
-//                                                  obj.getString(Category.LONG_DESC),
-//                                                  obj.getString(Category.SHORT_DESC));
-//                categoryList.add(category);
-//            }
-//        }
-//        return categoryList;
-//    }
+     * A method that allows the conversion of a JSON string into a list of rating objects.
+     * @param ratingsJson a String
+     * @return ratingsList a list of ratings
+     * @throws JSONException The JSON Object should contain a array list of of ratings.
+     */
+    public static List<ItemRating> parseRatingJson(String ratingsJson) throws JSONException {
+        List<ItemRating> itemRatings = new ArrayList<>();
+        if (ratingsJson != null) {
+
+            JSONArray arr = new JSONArray(ratingsJson);
+
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                ItemRating rating = new ItemRating (obj.getString(ItemRating.ITEM_ID),
+                        obj.getString(ItemRating.RATING_OWNER),
+                        obj.getString(ItemRating.RATING_DESC),
+                        obj.getString(ItemRating.RATING));
+                itemRatings.add(rating);
+            }
+        }
+        return itemRatings;
+    }
 }

@@ -35,7 +35,6 @@ public class Item implements Serializable {
     public static final String NAME = "item_name";
     public static final String LONG_DESC = "item_description_long";
     public static final String SHORT_DESC = "item_description_short";
-    public static final String OWNER = "item_owner";
     public static final String RATING = "rating";
     public static final String MEMBER = "member_id";
 
@@ -150,13 +149,13 @@ public class Item implements Serializable {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 Item item = new Item (obj.getString(Item.ID),
-                                      obj.getString(Item.CATEGORY),
-                                      obj.getString(Item.NAME),
-                                      obj.getString(Item.LONG_DESC),
-                                      obj.getString(Item.SHORT_DESC),
-                                      obj.getInt(Item.RATING),
-                                    //  obj.getString(Item.OWNER), not a comlumn yet
-                                      obj.getString(Item.MEMBER));
+                        obj.getString(Item.CATEGORY),
+                        obj.getString(Item.NAME),
+                        obj.getString(Item.LONG_DESC),
+                        obj.getString(Item.SHORT_DESC),
+                        obj.getInt(Item.RATING),
+                        //  obj.getString(Item.OWNER), not a comlumn yet
+                        obj.getString(Item.MEMBER));
                 itemList.add(item);
             }
         }
