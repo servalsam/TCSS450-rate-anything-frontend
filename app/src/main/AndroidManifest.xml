@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".RatingActivity"
+            android:theme="@style/MenuTheme">
+        </activity>
+
         <activity
             android:name=".ItemDetailActivity"
             android:theme="@style/MenuTheme">
@@ -22,8 +26,7 @@
             android:theme="@style/MenuTheme">
         </activity>
 
-        <activity
-            android:name=".startup.SplashPageActivity">
+        <activity android:name=".startup.SplashPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

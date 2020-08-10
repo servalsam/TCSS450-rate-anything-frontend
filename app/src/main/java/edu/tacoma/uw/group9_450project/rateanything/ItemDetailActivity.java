@@ -39,11 +39,13 @@ public class ItemDetailActivity extends AppCompatActivity {
         Bundle bun = getIntent().getExtras();
         Item item =  (Item) bun.getSerializable(ARG_ITEM_ID);
 
+        /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_item_detail_activity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(item.getMyItemName());
+        //getSupportActionBar().setSubtitle(item.getMyItemName());
         toolbar.setTitleTextColor(WHITE);
-//        getSupportActionBar().setSubtitle(item.getMyItemLongDesc());
+        //getSupportActionBar().setSubtitle(item.getMyItemLongDesc());*/
 
 
 

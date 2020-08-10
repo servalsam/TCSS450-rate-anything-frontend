@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".RatingActivity"
+    tools:ignore="MergeRootFrame">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_rating_activity_new"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/dodgerBlue"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <TextView
+            android:fontFamily="@font/nunito_bold_font"
+            android:gravity="center"
+            android:id="@+id/toolbar_rating_text"
+            android:layout_gravity="right|center"
+            android:layout_height="24dp"
+            android:layout_width="36dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="#fff"
+            android:textSize="16dp"></TextView>
+
+        <ImageView
+            android:id="@+id/toolbar_rating_image"
+            android:layout_gravity="right|center"
+            android:layout_width="91dp"
+            android:layout_height="16dp">
+        </ImageView>
+gi
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/rating_container_in_rating_activity"
+        android:layout_width="match_parent"
+        android:layout_height="651dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/regular_screen"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <FrameLayout
+        android:id="@+id/rating_activity_frameLayout_new"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/regular_screen"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!--
+                <include
+                layout="@layout/rating_list"
+                 />
+        -->
+        <ProgressBar
+            android:id="@+id/rating_activity_progress_bar_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/midnightBlue"
+            />
+
+    </FrameLayout>
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_rating_activity_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@color/midnightBlue"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

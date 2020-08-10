@@ -56,98 +56,15 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
      /** Constants */
      private static final String CATEGORY_ID = "category_id";
      private static final String CATEGORY_NAME = "category_name";
+     private static final String ITEM_ID = "item_id";
      private static final String ITEM_LIST = "Item List Activity";
      private static final int WHITE = 0xFFFFFFFF;
      private static final String TITLE = "About";
 
-     /**
-      * Private class to for asynchronous loading of data.
-      * Code supplied by UWT 450 Instructor. Modified by Rich W.
-      */
-     private class ItemAsyncTask extends AsyncTask<String, Void, String> {
 
-         @Override
-         protected void onPreExecute() {
-             mItemListProgressBar.setVisibility(View.VISIBLE);
-         }
-
-         /**
-          * Method override to connect to the webservice to get the contents of a table
-          * containing a list of items for a category.
-          * @param urls a string
-          * @return a string that contains the information from a POST query.
-          */
-         @Override
-         protected String doInBackground(String... urls) {
-             String response = "";
-             HttpURLConnection urlConnection = null;
-             for (String url : urls) {
-                 try {
-                     URL urlObject = new URL(url);
-                     urlConnection = ((HttpURLConnection) urlObject.openConnection());
-                     urlConnection.setRequestMethod("POST");
-                     urlConnection.setRequestProperty("Content-Type", "application/json");
-                     urlConnection.setDoOutput(true);
-                     OutputStreamWriter wr =
-                             new OutputStreamWriter(urlConnection.getOutputStream());
-
-                     // For Debugging
-                     Log.i(ITEM_LIST, mItemListJSON.toString());
-                     wr.write(mItemListJSON.toString());
-                     wr.flush();
-                     wr.close();
-
-                     InputStream content = urlConnection.getInputStream();
-
-                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                     String s = "";
-                     while ((s = buffer.readLine()) != null) {
-                         response += s;
-                     }
-                 } catch (Exception e) {
-                     response = "Unable to download item list, Reason: " + e.getMessage();
-                 } finally {
-                     if (urlConnection != null)
-                         urlConnection.disconnect();
-                 }
-             }
-             Log.i(ITEM_LIST, response.toString());
-             return response;
-         }
-
-         /**
-          * Method that checks for success of a returned JSON object from the webservice.
-          * With a success, the JSON is parsed and an list of items is filled.
-          * Code base supplied by TCSS 450 Instructor. Modified by Rich W.
-          * @param s a String representing a JSON object.
-          */
-         @Override
-         protected void onPostExecute(String s) {
-             if (s.startsWith("Unable to")) {
-                 Toast.makeText(getApplicationContext(), "Unable to download" + s,
-                         Toast.LENGTH_LONG).show();
-                 return;
-             }
-             try {
-                 JSONObject jsonObject = new JSONObject(s);
-
-                 if (jsonObject.getBoolean("success")) {
-                     mItemList = Item.parseItemJson(
-                             jsonObject.getString("categories")); // Name of table
-                     if(!mItemList.isEmpty()) {
-                         setupRecyclerView((RecyclerView) mRecyclerView);
-                     }
-                 }
-             } catch (JSONException e){
-                 Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
-                         Toast.LENGTH_LONG).show();
-             }
-             mItemListProgressBar.setVisibility(View.GONE);
-         }
-     }
 
      /**
-      * Mandatory onCreate method. Fills the type of category id from a data passed from the
+      * Override method onCreate method. Fills the type of category id from a data passed from the
       * CategoryListActivity. It then calls for a JSON object to be created so that the
       * AsyncTask might be used to get the items for the category.
        * @param savedInstanceState a Bundle
@@ -242,11 +159,16 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
             public void onClick(View view) {
                 Item item = (Item) view.getTag();
                 Context context = view.getContext();
-                Intent intent = new Intent(context, ItemDetailActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(ItemDetailFragment.ARG_ITEM_ID, item);
-                intent.putExtras(b);
-                //intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);
+
+//                Intent intent = new Intent(context, ItemDetailActivity.class);
+//                Bundle b = new Bundle();
+//                b.putSerializable(ItemDetailFragment.ARG_ITEM_ID, item);
+//                intent.putExtras(b);
+
+                Intent intent = new Intent(context, RatingActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ITEM_ID, item);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         };
@@ -372,5 +294,90 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
          aboutDialog.show();
      }
 
+     /**
+      * Private class to for asynchronous loading of data.
+      * Code supplied by UWT 450 Instructor. Modified by Rich W.
+      */
+     private class ItemAsyncTask extends AsyncTask<String, Void, String> {
+
+         @Override
+         protected void onPreExecute() {
+             mItemListProgressBar.setVisibility(View.VISIBLE);
+         }
+
+         /**
+          * Method override to connect to the webservice to get the contents of a table
+          * containing a list of items for a category.
+          * @param urls a string
+          * @return a string that contains the information from a POST query.
+          */
+         @Override
+         protected String doInBackground(String... urls) {
+             String response = "";
+             HttpURLConnection urlConnection = null;
+             for (String url : urls) {
+                 try {
+                     URL urlObject = new URL(url);
+                     urlConnection = ((HttpURLConnection) urlObject.openConnection());
+                     urlConnection.setRequestMethod("POST");
+                     urlConnection.setRequestProperty("Content-Type", "application/json");
+                     urlConnection.setDoOutput(true);
+                     OutputStreamWriter wr =
+                             new OutputStreamWriter(urlConnection.getOutputStream());
+
+                     // For Debugging
+                     Log.i(ITEM_LIST, mItemListJSON.toString());
+                     wr.write(mItemListJSON.toString());
+                     wr.flush();
+                     wr.close();
+
+                     InputStream content = urlConnection.getInputStream();
+
+                     BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                     String s = "";
+                     while ((s = buffer.readLine()) != null) {
+                         response += s;
+                     }
+                 } catch (Exception e) {
+                     response = "Unable to download item list, Reason: " + e.getMessage();
+                 } finally {
+                     if (urlConnection != null)
+                         urlConnection.disconnect();
+                 }
+             }
+             Log.i(ITEM_LIST, response.toString());
+             return response;
+         }
+
+         /**
+          * Method that checks for success of a returned JSON object from the webservice.
+          * With a success, the JSON is parsed and an list of items is filled.
+          * Code base supplied by TCSS 450 Instructor. Modified by Rich W.
+          * @param s a String representing a JSON object.
+          */
+         @Override
+         protected void onPostExecute(String s) {
+             if (s.startsWith("Unable to")) {
+                 Toast.makeText(getApplicationContext(), "Unable to download" + s,
+                         Toast.LENGTH_LONG).show();
+                 return;
+             }
+             try {
+                 JSONObject jsonObject = new JSONObject(s);
+
+                 if (jsonObject.getBoolean("success")) {
+                     mItemList = Item.parseItemJson(
+                             jsonObject.getString("categories")); // Name of table
+                     if(!mItemList.isEmpty()) {
+                         setupRecyclerView((RecyclerView) mRecyclerView);
+                     }
+                 }
+             } catch (JSONException e){
+                 Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
+                         Toast.LENGTH_LONG).show();
+             }
+             mItemListProgressBar.setVisibility(View.GONE);
+         }
+     }
 
  }
