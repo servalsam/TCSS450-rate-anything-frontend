@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.tacoma.uw.group9_450project.rateanything.model.Item;
@@ -79,6 +81,12 @@ public class RatingActivity extends AppCompatActivity {
         mToolbar.setTitleTextColor(WHITE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_rating_activity_new);
+
+        // showing the long description of the item
+        TextView longDesc =
+                (TextView) findViewById(R.id.item_long_desc_activity_rating);
+        longDesc.setText(mItem.getMyItemLongDesc());
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,8 +266,17 @@ public class RatingActivity extends AppCompatActivity {
                         ImageView ratingImg = mToolbar.findViewById(R.id.toolbar_rating_image);
                         ratingTxt.setText("(" + avg + ")");
                         ratingImg.setImageResource(ItemRating.getRatingImage(avg));
-                        // Insert code to launch the fragment passing the mRatingsList as
-                        // part of the bundle
+
+                        // code to launch the fragment passing ratings as part of the bundle
+                        Bundle args = new Bundle();
+                        ArrayList<ItemRating> arrayListOfRatings = new ArrayList<>(mRatingList.size());
+                        arrayListOfRatings.addAll(mRatingList);
+                        args.putSerializable(RATING_LIST, arrayListOfRatings);
+                        RatingDetailFragment ratings = new RatingDetailFragment();
+                        ratings.setArguments(args);
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.rating_activity_frameLayout_new, ratings).commit();
+
                         Log.i("RatingAct List Fill?", mRatingList.toString());
                     }
                 }

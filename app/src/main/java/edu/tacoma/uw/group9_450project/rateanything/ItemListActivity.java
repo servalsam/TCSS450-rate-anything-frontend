@@ -101,7 +101,7 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
             }
         });
 
-        mRecyclerView = findViewById(R.id.item_list_item_list); //must fix this!!!
+        mRecyclerView = findViewById(R.id.item_list_item_list);
         assert mRecyclerView != null;
         setupRecyclerView((RecyclerView) mRecyclerView);
     }
@@ -159,11 +159,6 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
             public void onClick(View view) {
                 Item item = (Item) view.getTag();
                 Context context = view.getContext();
-
-//                Intent intent = new Intent(context, ItemDetailActivity.class);
-//                Bundle b = new Bundle();
-//                b.putSerializable(ItemDetailFragment.ARG_ITEM_ID, item);
-//                intent.putExtras(b);
 
                 Intent intent = new Intent(context, RatingActivity.class);
                 Bundle bundle = new Bundle();
