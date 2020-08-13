@@ -9,9 +9,9 @@
     android:layout_height="fill_parent">
 
     <TextView
-        android:id="@+id/add_category_dialog_title"
+        android:id="@+id/add_item_dialog_title"
         android:fontFamily="@font/nunito_bold_font"
-        android:text="Add a Category"
+        android:text="Add an Item"
         android:textSize="24dp"
         android:padding="8dp"
         style="?android:attr/textAppearanceLarge"
@@ -25,17 +25,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:counterEnabled="true"
-        app:counterMaxLength="32">
+        app:counterMaxLength="64">
 
         <EditText
             app:backgroundTint="#2895FF"
-            android:id="@+id/input_category_name"
+            android:id="@+id/input_item_name"
             android:fontFamily="@font/nunito_bold_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="32"
+            android:maxLength="64"
             android:textSize="16dp"
-            android:hint="@string/hint_category"/>
+            android:hint="@string/hint_item"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,19 +47,19 @@
         app:counterEnabled="true"
         app:counterMaxLength="128">
 
-    <EditText
-        app:backgroundTint="#2895FF"
-        android:id="@+id/input_category_description_short"
-        android:fontFamily="@font/nunito_bold_font"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|left"
-        android:inputType="textMultiLine"
-        android:maxLength="128"
-        android:lines="1"
-        android:maxLines="1"
-        android:textSize="16dp"
-        android:hint="@string/hint_category_description_short"/>
+        <EditText
+            app:backgroundTint="#2895FF"
+            android:id="@+id/input_item_description_short"
+            android:fontFamily="@font/nunito_bold_font"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:maxLength="128"
+            android:lines="1"
+            android:maxLines="1"
+            android:textSize="16dp"
+            android:hint="@string/hint_item_description_short"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,20 +71,20 @@
         app:counterEnabled="true"
         app:counterMaxLength="254">
 
-    <EditText
-        app:backgroundTint="#2895FF"
-        android:id="@+id/input_category_description"
-        android:fontFamily="@font/nunito_bold_font"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|left"
-        android:inputType="textMultiLine"
-        android:maxLength="254"
-        android:lines="6"
-        android:maxLines="8"
-        android:scrollbars="vertical"
-        android:textSize="16dp"
-        android:hint="@string/hint_category_description"/>
+        <EditText
+            app:backgroundTint="#2895FF"
+            android:id="@+id/input_item_description"
+            android:fontFamily="@font/nunito_bold_font"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:maxLength="254"
+            android:lines="6"
+            android:maxLines="8"
+            android:scrollbars="vertical"
+            android:textSize="16dp"
+            android:hint="@string/hint_item_description"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,31 +96,30 @@
         android:layout_marginTop="8dp"
         android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/input_category_cancel_button"
-        android:background="@android:color/transparent"
-        android:layout_gravity="right"
-        android:layout_marginRight="8dp"
-        android:layout_width="92dp"
-        android:layout_height="56dp"
-        android:text="Cancel"
-        android:textColor="#2895FF"
-        android:textSize="18dp"
-        android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/input_item_cancel_button"
+            android:background="@android:color/transparent"
+            android:layout_gravity="right"
+            android:layout_marginRight="8dp"
+            android:layout_width="92dp"
+            android:layout_height="56dp"
+            android:text="Cancel"
+            android:textColor="#2895FF"
+            android:textSize="18dp"
+            android:textAllCaps="false"/>
 
-    <Button
-        android:id="@+id/input_category_add_button"
-        android:background="@drawable/round_button"
-        android:layout_gravity="right"
-        android:layout_marginTop="8dp"
-        android:layout_width="92dp"
-        android:layout_height="56dp"
-        android:text="Add"
-        android:textColor="#FFF"
-        android:textSize="18dp"
-        android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/input_item_add_button"
+            android:background="@drawable/round_button"
+            android:layout_gravity="right"
+            android:layout_marginTop="8dp"
+            android:layout_width="92dp"
+            android:layout_height="56dp"
+            android:text="Add"
+            android:textColor="#FFF"
+            android:textSize="18dp"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 
 </LinearLayout>
-
