@@ -18,18 +18,10 @@
             android:id="@+id/toolbar_category_list_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:elevation="10dp"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <View android:id="@+id/myRectangleView"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="64dp"
-    android:layout_width="match_parent"
-    android:layout_height="456dp"
-    android:background="@drawable/categories_holder">
-    </View>
 
     <FrameLayout
         android:id="@+id/frameLayout"

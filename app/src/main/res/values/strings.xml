@@ -62,4 +62,9 @@
     <string name="hint_category_description">Description</string>
     <string name="hint_category_description_short">Short Details</string>
 
+    <!-- Add Item -->
+    <string name="hint_item">Item name</string>
+    <string name="hint_item_description">Description</string>
+    <string name="hint_item_description_short">Description</string>
+
 </resources>

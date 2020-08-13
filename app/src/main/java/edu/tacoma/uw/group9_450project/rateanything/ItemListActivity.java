@@ -5,6 +5,8 @@
  import android.content.DialogInterface;
  import android.content.Intent;
  import android.content.SharedPreferences;
+ import android.graphics.Color;
+ import android.graphics.drawable.ColorDrawable;
  import android.os.AsyncTask;
  import android.os.Bundle;
  import android.util.Log;
@@ -13,6 +15,8 @@
  import android.view.MenuItem;
  import android.view.View;
  import android.view.ViewGroup;
+ import android.widget.Button;
+ import android.widget.EditText;
  import android.widget.ProgressBar;
  import android.widget.TextView;
  import android.widget.Toast;
@@ -35,9 +39,12 @@
  import java.io.OutputStreamWriter;
  import java.net.HttpURLConnection;
  import java.net.URL;
+ import java.util.HashMap;
  import java.util.List;
+ import java.util.Map;
 
-import edu.tacoma.uw.group9_450project.rateanything.model.Item;
+ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
+ import edu.tacoma.uw.group9_450project.rateanything.utils.HttpJSONTask;
 
  /**
   * This activity represents a list of Items within a Category. The code base was
@@ -61,7 +68,10 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
      private static final int WHITE = 0xFFFFFFFF;
      private static final String TITLE = "About";
 
-
+     /** Private Fields */
+     private String m_item_name = "";
+     private String m_item_desc_long = "";
+     private String m_item_desc_short = "";
 
      /**
       * Override method onCreate method. Fills the type of category id from a data passed from the
@@ -96,8 +106,52 @@ import edu.tacoma.uw.group9_450project.rateanything.model.Item;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with add item", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Context context = view.getContext();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final View customLayout = getLayoutInflater().inflate(R.layout.add_item_layout, null);
+                builder.setView(customLayout);
+                final EditText inputCategory = (EditText) customLayout.findViewById(R.id.input_item_name);
+                final EditText inputDescShort = (EditText) customLayout.findViewById(R.id.input_item_description_short);
+                final EditText inputDescLong = (EditText) customLayout.findViewById(R.id.input_item_description);
+
+                Button bm1 = (Button) customLayout.findViewById(R.id.input_item_add_button);
+                Button bm2 = (Button) customLayout.findViewById(R.id.input_item_cancel_button);
+
+                final AlertDialog dialog = builder.create();
+                bm1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        m_item_name = inputCategory.getText().toString();
+                        m_item_desc_short = inputDescShort.getText().toString();
+                        m_item_desc_long = inputDescLong.getText().toString();
+                        if (!m_item_name.equals("") && !m_item_desc_short.equals("") && !m_item_desc_long.equals("")) {
+                            Map<String, String> postData = new HashMap<>();
+                            postData.put("category_id", CATEGORY_ID);
+                            postData.put("item_name", m_item_name);
+                            postData.put("category_description_long", m_item_desc_long);
+                            postData.put("category_description_short", m_item_desc_short);
+                            postData.put("rating", "5.0");
+                            HttpJSONTask task = new HttpJSONTask(getString(R.string.add_item), postData);
+                            task.execute(getString(R.string.add_item));
+                            new ItemListActivity.ItemAsyncTask().execute(getString(R.string.get_items));
+                        } else {
+                            dialog.dismiss();
+                            Toast toast = new Toast(view.getContext());
+                            toast.setText("Fields cannot be empty.");
+                            toast.setDuration(Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                bm2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
 

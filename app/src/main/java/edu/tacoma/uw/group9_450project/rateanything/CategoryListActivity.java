@@ -48,7 +48,7 @@ import edu.tacoma.uw.group9_450project.rateanything.utils.HttpJSONTask;
  * An activity representing a list of Categories. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link CategoryDetailActivity} representing
+ * lead to a {@link ItemListActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * @author Code supplied by Android Studio and UWT 450 Instructor. Updated
@@ -119,13 +119,13 @@ public class CategoryListActivity extends AppCompatActivity {
                         m_category_desc_short = inputDescShort.getText().toString();
                         m_category_desc_long = inputDescLong.getText().toString();
                         if (!m_category_name.equals("") && !m_category_desc_short.equals("") && !m_category_desc_long.equals("")) {
-                            //new CategoryTask().execute(getString(R.string.add_category));
                             Map<String, String> postData = new HashMap<>();
                             postData.put("category_name", m_category_name);
                             postData.put("category_description_long", m_category_desc_long);
                             postData.put("category_description_short", m_category_desc_short);
                             HttpJSONTask task = new HttpJSONTask(getString(R.string.add_category), postData);
                             task.execute(getString(R.string.add_category));
+                            new CategoryTask().execute(getString(R.string.get_categories));
                         } else {
                             dialog.dismiss();
                             Toast toast = new Toast(view.getContext());
@@ -257,6 +257,7 @@ public class CategoryListActivity extends AppCompatActivity {
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
+
 
         /**
          * Getter method for the number of items in the ViewHolder.

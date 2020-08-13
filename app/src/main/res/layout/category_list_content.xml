@@ -20,6 +20,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin"
+        android:fontFamily="@font/nunito_bold_font"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
@@ -28,6 +29,7 @@
         android:layout_weight="2"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:fontFamily="@font/nunito_regular_font"
         android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>
     </androidx.cardview.widget.CardView>

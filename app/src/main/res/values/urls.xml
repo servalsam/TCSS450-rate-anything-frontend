@@ -8,4 +8,5 @@
     <string name="get_items">https://tcss450-rate-anything.herokuapp.com/items</string>
     <string name="get_ratings">https://tcss450-rate-anything.herokuapp.com/ratings</string>
     <string name="add_category">https://tcss450-rate-anything.herokuapp.com/addcategory</string>
+    <string name="add_item">https://tcss450-rate-anything.herokuapp.com/additem</string>
 </resources>
