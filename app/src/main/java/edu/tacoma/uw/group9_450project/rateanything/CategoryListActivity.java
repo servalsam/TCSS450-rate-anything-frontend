@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.ColorFilter;
-import android.icu.text.CaseMap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,10 +36,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.tacoma.uw.group9_450project.rateanything.model.Category;
 import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
+import edu.tacoma.uw.group9_450project.rateanything.utils.HttpJSONTask;
 
 /**
  * An activity representing a list of Categories. This activity
@@ -64,6 +67,11 @@ public class CategoryListActivity extends AppCompatActivity {
     private static final String CATEGORY_ID = "category_id";
     private static final String CATEGORY_NAME ="category_name";
     private static final String TITLE = "About";
+
+    /** Private Fields */
+    private String m_category_name = "";
+    private String m_category_desc_long = "";
+    private String m_category_desc_short = "";
 
 
     /**
@@ -91,8 +99,51 @@ public class CategoryListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                Context context = view.getContext();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final View customLayout = getLayoutInflater().inflate(R.layout.add_category_layout, null);
+                builder.setView(customLayout);
+                final EditText inputCategory = (EditText) customLayout.findViewById(R.id.input_category_name);
+                final EditText inputDescShort = (EditText) customLayout.findViewById(R.id.input_category_description_short);
+                final EditText inputDescLong = (EditText) customLayout.findViewById(R.id.input_category_description);
+
+                Button bm1 = (Button) customLayout.findViewById(R.id.input_category_add_button);
+                Button bm2 = (Button) customLayout.findViewById(R.id.input_category_cancel_button);
+
+                final AlertDialog dialog = builder.create();
+                bm1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        m_category_name = inputCategory.getText().toString();
+                        m_category_desc_short = inputDescShort.getText().toString();
+                        m_category_desc_long = inputDescLong.getText().toString();
+                        if (!m_category_name.equals("") && !m_category_desc_short.equals("") && !m_category_desc_long.equals("")) {
+                            //new CategoryTask().execute(getString(R.string.add_category));
+                            Map<String, String> postData = new HashMap<>();
+                            postData.put("category_name", m_category_name);
+                            postData.put("category_description_long", m_category_desc_long);
+                            postData.put("category_description_short", m_category_desc_short);
+                            HttpJSONTask task = new HttpJSONTask(getString(R.string.add_category), postData);
+                            task.execute(getString(R.string.add_category));
+                        } else {
+                            dialog.dismiss();
+                            Toast toast = new Toast(view.getContext());
+                            toast.setText("Fields cannot be empty.");
+                            toast.setDuration(Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                bm2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
 
@@ -294,7 +345,6 @@ public class CategoryListActivity extends AppCompatActivity {
         AlertDialog aboutDialog = builder.create();
         aboutDialog.show();
     }
-
 
     /**
      * Private class to setup asynchronous loading of the data.

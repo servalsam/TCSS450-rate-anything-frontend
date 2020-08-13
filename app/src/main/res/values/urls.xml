@@ -7,6 +7,5 @@
     <string name="register">https://tcss450-rate-anything.herokuapp.com/register</string>
     <string name="get_items">https://tcss450-rate-anything.herokuapp.com/items</string>
     <string name="get_ratings">https://tcss450-rate-anything.herokuapp.com/ratings</string>
-
-
+    <string name="add_category">https://tcss450-rate-anything.herokuapp.com/addcategory</string>
 </resources>

@@ -7,11 +7,12 @@
     tools:context=".ItemDetailFragment">
 
     <TextView
+        android:id="@+id/long_item_detail_fragment_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/long_item_detail_fragment_display"
+        android:layout_marginTop="200dp"
+        android:textColor="#000"
 
     />
 

@@ -56,5 +56,9 @@
     <!-- Ratings Fragment -->
     <string name="rating_anon_author">Anonymous</string>
 
+    <!-- Add Category -->
+    <string name="hint_category">Category name</string>
+    <string name="hint_category_description">Description</string>
+    <string name="hint_category_description_short">Short Details</string>
 
 </resources>
