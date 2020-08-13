@@ -14,7 +14,7 @@
     <!-- Login Fragment  -->
     <string name="login_fragment">Login fragment</string>
     <string name="enter_email">Email</string>
-    <string name="enter_username">Username</string>
+    <string name="enter_username">Username / Email</string>
     <string name="enter_password">Password</string>
     <string name="btn_sign_in">Login</string>
     <string name="stay_logged_in">Stay Logged-In?</string>
@@ -53,8 +53,9 @@
     <string name="proceed_to_categories">Continue</string>
     <string name="proceed_as_guest">Continue as Guest</string>
 
-    <!-- Ratings Fragment -->
+    <!-- Ratings Activity and Fragment -->
     <string name="rating_anon_author">Anonymous</string>
+    <string name="activity_add_rating">Rate  This!</string>
 
     <!-- Add Category -->
     <string name="hint_category">Category name</string>

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -87,15 +88,21 @@ public class RatingActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.item_long_desc_activity_rating);
         longDesc.setText(mItem.getMyItemLongDesc());
 
+        Button add_rating_button = findViewById(R.id.rating_activity_add_rating_button);
+        add_rating_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addRating();
+            }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with add rating", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Remove this?", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-
     }
 
     /**
@@ -125,6 +132,15 @@ public class RatingActivity extends AppCompatActivity {
         if (mRatingList == null) {
             new RatingAsyncTask().execute(getString(R.string.get_ratings));
         }
+    }
+
+    /**
+     * Method called when the "Rate This!" is pressed
+     */
+    public void addRating() {
+        Toast.makeText(this,
+                "Add code to start a fragment to add a rating to the item",
+                Toast.LENGTH_LONG).show();
     }
 
     /**

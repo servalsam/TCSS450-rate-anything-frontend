@@ -43,7 +43,6 @@ android:foreground="?selectableItemBackground"
             android:padding="4dp"
             />
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -64,8 +63,6 @@ android:foreground="?selectableItemBackground"
             />
 
     </LinearLayout>
-
-
 
 </RelativeLayout>
 
