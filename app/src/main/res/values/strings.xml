@@ -67,4 +67,8 @@
     <string name="hint_item_description">Description</string>
     <string name="hint_item_description_short">Description</string>
 
+    <!-- Add Rating -->
+    <string name="post_anonymous_prompt">Post Anonymously?</string>
+    <string name="add_rating_title">Add a Rating</string>
+
 </resources>

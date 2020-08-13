@@ -2,7 +2,10 @@ package edu.tacoma.uw.group9_450project.rateanything;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,8 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,10 +144,66 @@ public class RatingActivity extends AppCompatActivity {
      * Method called when the "Rate This!" is pressed
      */
     public void addRating() {
-        Toast.makeText(this,
-                "Add code to start a fragment to add a rating to the item",
-                Toast.LENGTH_LONG).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View customLayout = getLayoutInflater().inflate(R.layout.add_rating_layout, null);
+        builder.setView(customLayout);
+        final CheckBox postPreference = (CheckBox) customLayout.findViewById(R.id.posting_choice_rating_layout);
+        final RatingBar rating = (RatingBar) customLayout.findViewById(R.id.rating_value_rating_layout);
+        final EditText inputComment = (EditText) customLayout.findViewById(R.id.input_rating_comments);
+
+        Button btnAdd = (Button) customLayout.findViewById(R.id.input_rating_add_button);
+        Button btnCancel = (Button) customLayout.findViewById(R.id.input_rating_cancel_button);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Add the code to run the AsyncTask
+                dialog.dismiss();
+            }
+
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
+
+
+     /**
+
+     bm1.setOnClickListener(new View.OnClickListener() {
+     @Override
+     public void onClick(View view) {
+     m_item_name = inputCategory.getText().toString();
+     m_item_desc_short = inputDescShort.getText().toString();
+     m_item_desc_long = inputDescLong.getText().toString();
+     if (!m_item_name.equals("") && !m_item_desc_short.equals("") && !m_item_desc_long.equals("")) {
+     Map<String, String> postData = new HashMap<>();
+     postData.put("category_id", CATEGORY_ID);
+     postData.put("item_name", m_item_name);
+     postData.put("category_description_long", m_item_desc_long);
+     postData.put("category_description_short", m_item_desc_short);
+     postData.put("rating", "5.0");
+     HttpJSONTask task = new HttpJSONTask(getString(R.string.add_item), postData);
+     task.execute(getString(R.string.add_item));
+     new ItemListActivity.ItemAsyncTask().execute(getString(R.string.get_items));
+     } else {
+     dialog.dismiss();
+     Toast toast = new Toast(view.getContext());
+     toast.setText("Fields cannot be empty.");
+     toast.setDuration(Toast.LENGTH_LONG);
+     toast.show();
+
+
+
+
 
     /**
      * Generated method override by Android Studio template. Used to inflate the menu.
