@@ -44,6 +44,8 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_item_list_activity"
+        android:tint="#FFD600"
+        android:backgroundTint="#FFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
