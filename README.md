@@ -25,12 +25,15 @@ RateAnything is a mobile Android application which allows users to give ratings 
 - 13.0 (Low) As a user, I want to be able to search for tags across all categories, because my search might not reflect in the category I’m currently searching in.
 - 14.0 (Low) As a user, I want to directly share my review with another user, because I want to share the item with a user that would be interested in the item. 
 - 15.0 (Low) As a user, I want to customize the tags within categories and items, so that an item may be easily searchable and make its description easier to consume.
-- 16.0 (Low) As a user, I want to be able to rate items at a specific place, so that review reflects the whole experience of the item.
-- 17.0 (Low) As a user, I should have the ability to add additional categories, because my item may not exist in a current category or not defined accurately by current categories. 
+- 16.0 (Low) As a user, I should have the ability to add additional categories, because my item may not exist in a current category or not defined accurately by current categories. 
 
 ## Implemented User stories: 
-- 5.0 Authentication: Login and Registration
+- 0.0 Authentication: Login and Registration
 - 2.0 View of categories and items from webservice
+- 3.0 View items in categories
+- 5.0 View others ratings
+- 14.0 Share item with another user
+- 16.0 Add additional categories
 
 
 ## Known Issues / Bugs
