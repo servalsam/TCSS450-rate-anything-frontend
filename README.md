@@ -1,5 +1,5 @@
 # TCSS450-rate-anything-frontend
-ReadMe File Update: 8/4/2020
+ReadMe File Update: 8/13/2020
 
 TCSS 450 Team 9 
 Summer 2020
