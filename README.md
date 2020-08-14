@@ -10,7 +10,7 @@
 
 # User Stories
 
-# 1.0 (High) As a user, I need to be able to add any item to a category, so that my review can be viewed by others in an organized fashion.
+1.0 (High) As a user, I need to be able to add any item to a category, so that my review can be viewed by others in an organized fashion.
 # 2.0 (High) As a user, I need to be able view categories that items belong to so that I can review items according to my interests.
 # 3.0 (High) As a user, I need to view items in categories so that I can see items that are in my interests.
 # 4.0 (High) As a user, I need to be able to submit a rating on an item, so that the quality of an item can be assessed.
