@@ -65,7 +65,7 @@
     <!-- Add Item -->
     <string name="hint_item">Item name</string>
     <string name="hint_item_description">Description</string>
-    <string name="hint_item_description_short">Description</string>
+    <string name="hint_item_description_short">Short Details</string>
 
     <!-- Add Rating -->
     <string name="post_anonymous_prompt">Post Anonymously?</string>
