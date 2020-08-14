@@ -4,8 +4,10 @@ package edu.tacoma.uw.group9_450project.rateanything;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -87,8 +89,6 @@ public class RatingActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mItem.getMyItemName());
         mToolbar.setTitleTextColor(WHITE);
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_rating_activity_new);
-
         // showing the long description of the item
         TextView longDesc =
                 (TextView) findViewById(R.id.item_long_desc_activity_rating);
@@ -102,14 +102,15 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button btnShare = (Button) findViewById(R.id.rating_activity_share_button);
+        btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Remove this?", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                shareItem();
             }
-        });*/
+        });
+
+
     }
 
     /**
@@ -175,6 +176,29 @@ public class RatingActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+    protected void shareItem() {
+        Log.i("Send email", "");
+        String[] TO = {""};
+        String[] CC = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("Finished sending email...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(RatingActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
      /**
