@@ -55,7 +55,7 @@
 
     <!-- Ratings Activity and Fragment -->
     <string name="rating_anon_author">Anonymous</string>
-    <string name="activity_add_rating">Rate  This!</string>
+    <string name="activity_add_rating">Rate\nThis!</string>
 
     <!-- Add Category -->
     <string name="hint_category">Category name</string>

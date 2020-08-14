@@ -312,6 +312,10 @@ public class CategoryListActivity extends AppCompatActivity {
                         getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
                 sharedPreferences.edit().
                         putBoolean(getString(R.string.LOGGEDIN), false).commit();
+
+                // Remove member id keys when they log out
+                // Change to anonymous on username
+
                 Intent i = new Intent(this,SplashPageActivity.class);
                 startActivity(i);
                 finish();

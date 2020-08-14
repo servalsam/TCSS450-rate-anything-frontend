@@ -87,7 +87,7 @@ public class RatingActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mItem.getMyItemName());
         mToolbar.setTitleTextColor(WHITE);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_rating_activity_new);
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_rating_activity_new);
 
         // showing the long description of the item
         TextView longDesc =
@@ -102,13 +102,14 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
+        /*
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Remove this?", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
     }
 
     /**
