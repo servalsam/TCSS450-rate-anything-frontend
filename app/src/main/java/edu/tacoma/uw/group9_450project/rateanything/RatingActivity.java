@@ -189,9 +189,11 @@ public class RatingActivity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this item on RateAnything!");
         TextView descriptiveText = (TextView) findViewById(R.id.item_long_desc_activity_rating);
+        TextView avgRatingText = (TextView)  findViewById(R.id.toolbar_rating_text);
         String itemNameString = mItem.getMyItemName();
         String descriptionString = descriptiveText.getText().toString();
-        String ratingString = String.valueOf(mItem.getMyItemRating());
+        String[] arr = avgRatingText.getText().toString().split("[()]");
+        String ratingString = arr[1];
         emailIntent.putExtra(Intent.EXTRA_TEXT, itemNameString + "\n\n" + descriptionString + "\nRating: " + ratingString);
 
         try {
