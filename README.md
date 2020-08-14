@@ -1,7 +1,7 @@
 # TCSS450-rate-anything-frontend
 ReadMe File Update: 8/13/2020
 
-TCSS 450 Team 9 
+TCSS 450 - Team 9 
 Summer 2020
 
 Team Members: Samuel Wainright and Rich Williams
