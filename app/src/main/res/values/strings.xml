@@ -14,7 +14,7 @@
     <!-- Login Fragment  -->
     <string name="login_fragment">Login fragment</string>
     <string name="enter_email">Email</string>
-    <string name="enter_username">Username</string>
+    <string name="enter_username">Username / Email</string>
     <string name="enter_password">Password</string>
     <string name="btn_sign_in">Login</string>
     <string name="stay_logged_in">Stay Logged-In?</string>
@@ -53,5 +53,22 @@
     <string name="proceed_to_categories">Continue</string>
     <string name="proceed_as_guest">Continue as Guest</string>
 
+    <!-- Ratings Activity and Fragment -->
+    <string name="rating_anon_author">Anonymous</string>
+    <string name="activity_add_rating">Rate\nThis!</string>
+
+    <!-- Add Category -->
+    <string name="hint_category">Category name</string>
+    <string name="hint_category_description">Description</string>
+    <string name="hint_category_description_short">Short Details</string>
+
+    <!-- Add Item -->
+    <string name="hint_item">Item name</string>
+    <string name="hint_item_description">Description</string>
+    <string name="hint_item_description_short">Short Details</string>
+
+    <!-- Add Rating -->
+    <string name="post_anonymous_prompt">Post Anonymously?</string>
+    <string name="add_rating_title">Add a Rating</string>
 
 </resources>

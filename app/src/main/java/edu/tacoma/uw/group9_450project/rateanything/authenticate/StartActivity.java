@@ -39,9 +39,12 @@ public class StartActivity extends AppCompatActivity implements
     private SharedPreferences mSharedPreferences;
     private JSONObject mAuthJSON;
     private ProgressBar mAuthenticateProgressBar;
+    private String mUser;
+    private String mPW;
 
     /** Member variable flags. */
     private boolean mToLogin;
+    private boolean tryEmail;
 
 
     /** Constants */
@@ -67,6 +70,8 @@ public class StartActivity extends AppCompatActivity implements
 
         mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
+
+        tryEmail = true;
 
         mAuthJSON = new JSONObject();
         mAuthenticateProgressBar = findViewById(R.id.authenticate_progress_bar);
@@ -123,7 +128,9 @@ public class StartActivity extends AppCompatActivity implements
             mAuthJSON = new JSONObject();
         }
         try{
-            if (loginInChoice.contains("@")) {
+            if (tryEmail) {
+                mUser = loginInChoice;
+                mPW = pwd;
                 url.append(getString(R.string.login_email));
                 mAuthJSON.put(EMAIL, loginInChoice);
             } else {
@@ -268,6 +275,9 @@ public class StartActivity extends AppCompatActivity implements
                         transaction.addToBackStack(null);
                         transaction.commit();
                     }
+                } else if (tryEmail) {
+                    tryEmail = false;
+                    login(mUser, mPW);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Authentication not possible: "

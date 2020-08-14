@@ -38,7 +38,7 @@
         android:text="@string/login_directions_part2"
         android:textColor="#fff"
         android:textSize="16dp" />
-
+<!--
     <EditText
         android:id="@+id/emailAddress_id"
         android:background="@drawable/rounded_shape"
@@ -52,7 +52,7 @@
         android:layout_height="62dp"
         android:textColor="#000"
         android:textSize="24dp"/>
-
+-->
     <EditText
         android:id="@+id/username_id"
         android:hint="@string/enter_username"

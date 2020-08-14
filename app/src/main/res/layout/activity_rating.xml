@@ -13,7 +13,7 @@
         android:id="@+id/toolbar_rating_activity_new"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/dodgerBlue"
+        android:background="#2A86DF"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -27,7 +27,8 @@
             android:layout_width="36dp"
             android:layout_marginLeft="5dp"
             android:textColor="#fff"
-            android:textSize="16dp"></TextView>
+            android:textSize="16dp">
+        </TextView>
 
         <ImageView
             android:id="@+id/toolbar_rating_image"
@@ -35,53 +36,208 @@
             android:layout_width="91dp"
             android:layout_height="16dp">
         </ImageView>
-gi
+
     </androidx.appcompat.widget.Toolbar>
 
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/rating_container_in_rating_activity"
-        android:layout_width="match_parent"
-        android:layout_height="651dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/regular_screen"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-    <FrameLayout
-        android:id="@+id/rating_activity_frameLayout_new"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
         android:background="@drawable/regular_screen"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_gravity="center_horizontal">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rating_accent_box"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/rating_activity_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="80dp"
+            app:cardCornerRadius="8dp"
+            app:contentPadding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:fontFamily="@font/nunito_bold_font"
+                    android:id="@+id/item_long_desc_activity_rating"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:paddingStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/marinerBlue" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center|right">
+                <Button
+                    android:id="@+id/rating_activity_add_rating_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:elevation="4dp"
+                    android:background="@drawable/rate_this_bg"
+                    android:text="@string/activity_add_rating"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:fontFamily="@font/nunito_bold_font"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"
+                    android:layout_gravity="center"/>
+
+                <Button
+                    android:id="@+id/rating_activity_share_button"
+                    android:elevation="4dp"
+                    android:drawableLeft="@drawable/ic_email_icon"
+                    android:drawablePadding="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:fontFamily="@font/nunito_bold_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/share_button_bg"
+                    android:text="Share"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_gravity="center">
+
+                </Button>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+
 
         <!--
-                <include
-                layout="@layout/rating_list"
-                 />
-        -->
-        <ProgressBar
-            android:id="@+id/rating_activity_progress_bar_new"
+    <TextView
+        android:id="@+id/item_long_desc_activity_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:textSize="16sp"
+        android:paddingLeft="20dp"
+        android:padding="8dp"
+        android:paddingStart="20dp">
+
+    </TextView>
+-->
+        <!--
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="#058D09"
+        card_view:cardCornerRadius="8dp"
+        card_view:contentPadding="10dp"
+        android:layout_toEndOf="@id/item_long_desc_activity_rating"
+        android:layout_marginTop ="80dp"
+        android:layout_toRightOf="@id/item_long_desc_activity_rating">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_gravity="center"
-            android:indeterminateTint="@color/midnightBlue"
-            />
+            android:text="@string/activity_add_rating"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
+-->
+        <!-- android:layout_below="@id/rating_activity_cardview" -->
+        <FrameLayout
+            android:id="@+id/rating_activity_frameLayout_new"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <ProgressBar
+                android:id="@+id/rating_activity_progress_bar_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/midnightBlue"
+                android:visibility="invisible" />
 
+        </FrameLayout>
 
+    </RelativeLayout>
+
+    <!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_rating_activity_new"
+        android:tint="#FFD600"
+        android:backgroundTint="#FFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:background="@color/midnightBlue"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+
+-->
+
+<!--
+<FrameLayout
+    android:layout_width="48sp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="16dp"
+    >
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_rating_activity_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#3EA055"
+        android:src="@android:color/transparent"
+        android:visibility="invisible"
+         />
+
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="#058D09"
+        card_view:cardCornerRadius="10dp"
+        card_view:contentPadding="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Rate  This!"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
+-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -23,9 +23,10 @@ public class LoginFragment extends Fragment {
 
     /** Member variable for the Listener interface */
     private LoginFragmentListener mloginFragmentListener;
-    private EditText mEmailText;
+   // private EditText mEmailText;
     private EditText mPasswordText;
-    private EditText mUsernameText;
+   // private EditText mUsernameText;
+    private EditText mUser;
 
 
     /**
@@ -66,49 +67,66 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         getActivity().setTitle("Sign In");
         mloginFragmentListener = (LoginFragmentListener) getActivity();
-        mEmailText = view.findViewById(R.id.emailAddress_id);
+        //mEmailText = view.findViewById(R.id.emailAddress_id);
         mPasswordText = view.findViewById(R.id.password_id);
-        mUsernameText = view.findViewById(R.id.username_id);
+        mUser = view.findViewById(R.id.username_id);
         Button loginButton = view.findViewById(R.id.sign_in_btn_id);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = mEmailText.getText().toString();
+               // String email = mEmailText.getText().toString();
                 String pwd = mPasswordText.getText().toString();
-                String name = mUsernameText.getText().toString();
+                String name = mUser.getText().toString();
 
-                if ((TextUtils.isEmpty(email) || !email.contains("@")) && TextUtils.isEmpty(name)) {
-                    Toast.makeText(v.getContext(),"Enter valid email address", Toast.LENGTH_SHORT)
+                if ((TextUtils.isEmpty(name))) {
+                    Toast.makeText(v.getContext(),"Enter username or email address", Toast.LENGTH_SHORT)
                             .show();
-                    mEmailText.requestFocus();
+                    mUser.requestFocus();
                 } else if (TextUtils.isEmpty(pwd) || pwd.length() < 5) {
                     Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters",
                             Toast.LENGTH_SHORT)
                             .show();
                     mPasswordText.requestFocus();
-                } else if (TextUtils.isEmpty(email) && name.length() < 5) {
+                } else if ((!name.contains("@")) && (name.length() < 5)) {
                     Toast.makeText(v.getContext(), "Username must be at least 5 characters",
                             Toast.LENGTH_SHORT)
                             .show();
-                    mUsernameText.requestFocus();
-                } else if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(name)) {
-                    Toast.makeText(v.getContext(), "Fill either the email or username, NOT both",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                    mUsernameText.requestFocus();
-                    mEmailText.requestFocus();
+                    mUser.requestFocus();
                 }
 
-                if ((!TextUtils.isEmpty(email) && email.contains("@")
-                        || (!TextUtils.isEmpty(name) && name.length() > 4))
-                        && !TextUtils.isEmpty(pwd) && pwd.length() > 4) {
-                    if (TextUtils.isEmpty(email)) {
-                        mloginFragmentListener.login(name, pwd);
-                    } else {
-                        mloginFragmentListener.login(email, pwd);
-                    }
-                }
+//                if ((TextUtils.isEmpty(email) || !email.contains("@")) && TextUtils.isEmpty(name)) {
+//                    Toast.makeText(v.getContext(),"Enter valid email address", Toast.LENGTH_SHORT)
+//                            .show();
+//                    mEmailText.requestFocus();
+//                } else if (TextUtils.isEmpty(pwd) || pwd.length() < 5) {
+//                    Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters",
+//                            Toast.LENGTH_SHORT)
+//                            .show();
+//                    mPasswordText.requestFocus();
+//                } else if (TextUtils.isEmpty(email) && name.length() < 5) {
+//                    Toast.makeText(v.getContext(), "Username must be at least 5 characters",
+//                            Toast.LENGTH_SHORT)
+//                            .show();
+//                    mUsernameText.requestFocus();
+//                } else if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(name)) {
+//                    Toast.makeText(v.getContext(), "Fill either the email or username, NOT both",
+//                            Toast.LENGTH_SHORT)
+//                            .show();
+//                    mUsernameText.requestFocus();
+//                    mEmailText.requestFocus();
+//                }
+
+                mloginFragmentListener.login(name, pwd);
+//                if ((!TextUtils.isEmpty(email) && email.contains("@")
+//                        || (!TextUtils.isEmpty(name) && name.length() > 4))
+//                        && !TextUtils.isEmpty(pwd) && pwd.length() > 4) {
+//                    if (TextUtils.isEmpty(email)) {
+//                        mloginFragmentListener.login(name, pwd);
+//                    } else {
+//                        mloginFragmentListener.login(email, pwd);
+//                    }
+//                }
             }
         });
         return view;
