@@ -103,7 +103,7 @@
                 <Button
                     android:id="@+id/rating_activity_share_button"
                     android:elevation="4dp"
-                    android:drawableLeft="@drawable/ic_share_icon"
+                    android:drawableLeft="@drawable/ic_email_icon"
                     android:drawablePadding="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"

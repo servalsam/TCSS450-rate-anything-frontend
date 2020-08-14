@@ -187,13 +187,17 @@ public class RatingActivity extends AppCompatActivity {
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this item on RateAnything!");
+        TextView descriptiveText = (TextView) findViewById(R.id.item_long_desc_activity_rating);
+        String itemNameString = mItem.getMyItemName();
+        String descriptionString = descriptiveText.getText().toString();
+        String ratingString = String.valueOf(mItem.getMyItemRating());
+        emailIntent.putExtra(Intent.EXTRA_TEXT, itemNameString + "\n\n" + descriptionString + "\nRating: " + ratingString);
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             finish();
-            Log.i("Finished sending email...", "");
+            Log.i("Finished sending email", "");
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(RatingActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
