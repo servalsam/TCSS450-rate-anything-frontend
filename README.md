@@ -28,10 +28,10 @@ RateAnything is a mobile Android application which allows users to give ratings 
 - 16.0 (Low) As a user, I should have the ability to add additional categories, because my item may not exist in a current category or not defined accurately by current categories. 
 
 ## Implemented User stories: 
-- 0.0 Authentication: Login and Registration
 - 2.0 View of categories and items from webservice
 - 3.0 View items in categories
 - 5.0 View others ratings
+- 6.0 Authentication: Login and Registration
 - 14.0 Share item with another user
 - 16.0 Add additional categories
 
