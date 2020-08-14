@@ -1,10 +1,10 @@
 # TCSS450-rate-anything-frontend
-ReadMe File Update: 8/13/2020
+**ReadMe File Update:** 8/13/2020
 
 TCSS 450 - Team 9 
 Summer 2020
 
-Team Members: Samuel Wainright and Rich Williams
+**Team Members:** Samuel Wainright and Rich Williams
 
 RateAnything is a mobile Android application which allows users to give ratings to products, businesses, places, activities, and more. RateAnything helps people make judgments on public offerings by displaying reviews made by other users on each item. Categories help users filter through varying interests and display items with ratings pertaining to those categories. RateAnything provides the user with the ability to tag items with category headers and other sub-headers which provides the default way of showing categorical data. Users are able to attach descriptive data and their review response on each item uniquely, which then can be seen publicly on the item. The goal of RateAnything is to provide a unified area of feedback.
 
