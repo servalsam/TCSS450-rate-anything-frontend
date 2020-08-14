@@ -192,9 +192,16 @@ public class RatingActivity extends AppCompatActivity {
         TextView avgRatingText = (TextView)  findViewById(R.id.toolbar_rating_text);
         String itemNameString = mItem.getMyItemName();
         String descriptionString = descriptiveText.getText().toString();
-        String[] arr = avgRatingText.getText().toString().split("[()]");
-        String ratingString = arr[1];
-        emailIntent.putExtra(Intent.EXTRA_TEXT, itemNameString + "\n\n" + descriptionString + "\nRating: " + ratingString);
+        String ratingString = avgRatingText.getText().toString();
+        String ratingSent = "";
+        if (ratingString.length() != 0) {
+            String[] arr = ratingString.split("[()]");
+            ratingSent = arr[1];
+        } else {
+            ratingSent = " No rating";
+        }
+
+        emailIntent.putExtra(Intent.EXTRA_TEXT, itemNameString + "\n\n" + descriptionString + "\nRating: " + ratingSent);
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
