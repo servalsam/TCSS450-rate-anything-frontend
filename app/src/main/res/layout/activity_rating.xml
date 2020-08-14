@@ -13,7 +13,7 @@
         android:id="@+id/toolbar_rating_activity_new"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/dodgerBlue"
+        android:background="#2A86DF"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/AppTheme.PopupOverlay">
