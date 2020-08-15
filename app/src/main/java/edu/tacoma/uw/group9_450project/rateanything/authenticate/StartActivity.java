@@ -56,6 +56,7 @@ public class StartActivity extends AppCompatActivity implements
     private static final String LAST = "last";
     private static final String LOGIN_ERROR = "Email / Username does not match password";
     private static final String REGISTRATION_ERROR = "Email / Username has been taken";
+    private static final String MEMBER_ID = "member_id";
 
     /**
      * Required method. It instantiates member variables as well as launching the helper
@@ -261,6 +262,13 @@ public class StartActivity extends AppCompatActivity implements
                 if (jsonObject.getBoolean("success")) {
                     Intent i = new Intent();
                     if (mToLogin) {
+                        // Put memberId and username into shared preferences for later use.
+                        String memberId = jsonObject.getString(MEMBER_ID);
+                        String username = jsonObject.getString(USERNAME);
+                        mSharedPreferences.edit().putString(MEMBER_ID, memberId).apply();
+                        mSharedPreferences.edit().putString(USERNAME, username).apply();
+
+                        // Move on to Category List Activity with successful login.
                         i.setClass(getApplicationContext(), CategoryListActivity.class);
                         startActivity(i);
                         finish();

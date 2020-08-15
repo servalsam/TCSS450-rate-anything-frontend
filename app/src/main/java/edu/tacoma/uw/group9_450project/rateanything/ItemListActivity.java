@@ -44,6 +44,7 @@
  import java.util.Map;
 
  import edu.tacoma.uw.group9_450project.rateanything.model.Item;
+ import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
  import edu.tacoma.uw.group9_450project.rateanything.utils.HttpJSONTask;
 
  /**
@@ -67,6 +68,8 @@
      private static final String ITEM_LIST = "Item List Activity";
      private static final int WHITE = 0xFFFFFFFF;
      private static final String TITLE = "About";
+     private static final String MEMBER_ID = "member_id";
+     private static final String USERNAME = "username";
 
      /** Private Fields */
      private String m_item_name = "";
@@ -316,7 +319,15 @@
                  //add sync code here
                  break;
              case R.id.action_item_activity_logout:
-                 //add code for sign out here
+                 SharedPreferences sharedPreferences =
+                         getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+                 sharedPreferences.edit().
+                         putBoolean(getString(R.string.LOGGEDIN), false).apply();
+                 sharedPreferences.edit().remove(MEMBER_ID).apply();
+                 sharedPreferences.edit().remove(USERNAME).apply();
+                 Intent i = new Intent(this, SplashPageActivity.class);
+                 startActivity(i);
+                 finish();
                  break;
          }
          return super.onOptionsItemSelected(item);

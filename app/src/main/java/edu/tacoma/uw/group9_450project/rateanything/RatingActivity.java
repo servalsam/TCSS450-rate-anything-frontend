@@ -4,6 +4,7 @@ package edu.tacoma.uw.group9_450project.rateanything;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -54,6 +55,7 @@ public class RatingActivity extends AppCompatActivity {
     private JSONObject mRatingListJSON;
     private ProgressBar mRatingListProgressBar;
     private Toolbar mToolbar;
+    private SharedPreferences mSharedPreferences;
 
     /** Constants */
     private static final String ITEM_ID = "item_id";
@@ -61,6 +63,10 @@ public class RatingActivity extends AppCompatActivity {
     private static final String RATING_LIST = "Rating List Activity";
     private static final int WHITE = 0xFFFFFFFF;
     private static final String TITLE = "About";
+    private static final String MEMBER_ID = "member_id";
+    private static final String USERNAME = "username";
+    private static final String DEFAULT_USERNAME = "Anonymous";
+    private static final String DEFAULT_MEMBER_ID = "No id";
 
     /**
      * Override method onCreate. Code base supplied by Android Studio Template and
@@ -71,6 +77,9 @@ public class RatingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
+
+        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                Context.MODE_PRIVATE);
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -105,7 +114,10 @@ public class RatingActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Remove this?", Snackbar.LENGTH_LONG)
+                String username = mSharedPreferences.getString(USERNAME, DEFAULT_USERNAME);
+                String memberID = mSharedPreferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
+
+                Snackbar.make(view, "Username = " + username + ", memberID = " + memberID, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

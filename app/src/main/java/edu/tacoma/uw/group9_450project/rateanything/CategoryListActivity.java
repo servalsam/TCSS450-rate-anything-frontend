@@ -67,6 +67,8 @@ public class CategoryListActivity extends AppCompatActivity {
     private static final String CATEGORY_ID = "category_id";
     private static final String CATEGORY_NAME ="category_name";
     private static final String TITLE = "About";
+    private static final String MEMBER_ID = "member_id";
+    private static final String USERNAME = "username";
 
     /** Private Fields */
     private String m_category_name = "";
@@ -311,7 +313,9 @@ public class CategoryListActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences =
                         getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
                 sharedPreferences.edit().
-                        putBoolean(getString(R.string.LOGGEDIN), false).commit();
+                        putBoolean(getString(R.string.LOGGEDIN), false).apply();
+                sharedPreferences.edit().remove(MEMBER_ID).apply();
+                sharedPreferences.edit().remove(USERNAME).apply();
                 Intent i = new Intent(this,SplashPageActivity.class);
                 startActivity(i);
                 finish();
