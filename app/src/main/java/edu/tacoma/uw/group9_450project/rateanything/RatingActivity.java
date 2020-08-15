@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -56,6 +57,9 @@ public class RatingActivity extends AppCompatActivity {
     private JSONObject mRatingListJSON;
     private ProgressBar mRatingListProgressBar;
     private Toolbar mToolbar;
+    private SharedPreferences mSharedPreferences;
+    private String mMemberID;
+    private String mUsername;
 
     /** Constants */
     private static final String ITEM_ID = "item_id";
@@ -63,6 +67,10 @@ public class RatingActivity extends AppCompatActivity {
     private static final String RATING_LIST = "Rating List Activity";
     private static final int WHITE = 0xFFFFFFFF;
     private static final String TITLE = "About";
+    private static final String MEMBER_ID = "member_id";
+    private static final String DEFAULT_MEMBER_ID = "No id";
+    private static final String USERNAME = "username";
+    private static final String DEFAULT_USERNAME = "Anonymous";
 
     /**
      * Override method onCreate. Code base supplied by Android Studio Template and
@@ -73,6 +81,11 @@ public class RatingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
+
+        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                Context.MODE_PRIVATE);
+        mMemberID = mSharedPreferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
+        mUsername = mSharedPreferences.getString(USERNAME, DEFAULT_USERNAME);
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -268,7 +281,11 @@ public class RatingActivity extends AppCompatActivity {
                 aboutBox(this);
                 break;
             case R.id.action_add_rating:
-                //add item code here
+                // Temporary code for testing Shared Preferences
+                String message = USERNAME + ": " + mUsername + ", " + MEMBER_ID + ": " + mMemberID;
+                View view = findViewById(android.R.id.content).getRootView();
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 break;
             case R.id.action_sync_rating_activity:
                 //add sync code here

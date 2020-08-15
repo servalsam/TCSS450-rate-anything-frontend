@@ -105,19 +105,23 @@ public class  RegisterFragment extends Fragment {
                 String first = mFirstNameText.getText().toString();
                 String last = mLastNameText.getText().toString();
 
-                // Check email and password
+                // Check email, password and username
                 if (!isValidEmail(email)) {
-                    Toast.makeText(v.getContext(),"Enter valid email address", Toast.LENGTH_LONG)
+                    Toast.makeText(v.getContext(), "Enter valid email address", Toast.LENGTH_LONG)
                             .show();
                     mEmailText.requestFocus();
                 } else if (!isValidPassword(pwd) && !isValidPassword(pwd2)) {
                     Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters" +
-                                    "and containing at least one symbol and at least one number)" ,
+                                    "and containing at least one symbol and at least one number)",
                             Toast.LENGTH_LONG)
                             .show();
                     mPasswordText.requestFocus();
                     mPasswordConfirmText.requestFocus();
-                } else if (pwd.compareTo(pwd2) != 0) {
+                } else if (TextUtils.isEmpty(name) || name.length() < 5 || name.length() > 36) {
+                    Toast.makeText(v.getContext(), "User name not valid (Name must be " +
+                            "between 5 and 36 characters.", Toast.LENGTH_LONG).show();
+                    mUsernameText.requestFocus();
+                }else if (pwd.compareTo(pwd2) != 0) {
                     Toast.makeText(v.getContext(), "Passwords don't match",
                             Toast.LENGTH_SHORT).show();
                     mPasswordText.requestFocus();

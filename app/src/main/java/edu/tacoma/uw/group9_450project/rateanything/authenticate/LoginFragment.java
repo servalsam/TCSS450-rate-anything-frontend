@@ -102,39 +102,6 @@ public class LoginFragment extends Fragment {
                 } else {
                     mloginFragmentListener.login(name, pwd);
                 }
-
-//                if ((TextUtils.isEmpty(email) || !email.contains("@")) && TextUtils.isEmpty(name)) {
-//                    Toast.makeText(v.getContext(),"Enter valid email address", Toast.LENGTH_SHORT)
-//                            .show();
-//                    mEmailText.requestFocus();
-//                } else if (TextUtils.isEmpty(pwd) || pwd.length() < 5) {
-//                    Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters",
-//                            Toast.LENGTH_SHORT)
-//                            .show();
-//                    mPasswordText.requestFocus();
-//                } else if (TextUtils.isEmpty(email) && name.length() < 5) {
-//                    Toast.makeText(v.getContext(), "Username must be at least 5 characters",
-//                            Toast.LENGTH_SHORT)
-//                            .show();
-//                    mUsernameText.requestFocus();
-//                } else if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(name)) {
-//                    Toast.makeText(v.getContext(), "Fill either the email or username, NOT both",
-//                            Toast.LENGTH_SHORT)
-//                            .show();
-//                    mUsernameText.requestFocus();
-//                    mEmailText.requestFocus();
-//                }
-
-
-//                if ((!TextUtils.isEmpty(email) && email.contains("@")
-//                        || (!TextUtils.isEmpty(name) && name.length() > 4))
-//                        && !TextUtils.isEmpty(pwd) && pwd.length() > 4) {
-//                    if (TextUtils.isEmpty(email)) {
-//                        mloginFragmentListener.login(name, pwd);
-//                    } else {
-//                        mloginFragmentListener.login(email, pwd);
-//                    }
-//                }
             }
         });
         return view;
