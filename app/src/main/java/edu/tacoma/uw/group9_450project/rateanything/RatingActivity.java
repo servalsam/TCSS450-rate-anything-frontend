@@ -4,9 +4,10 @@ package edu.tacoma.uw.group9_450project.rateanything;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -55,7 +56,6 @@ public class RatingActivity extends AppCompatActivity {
     private JSONObject mRatingListJSON;
     private ProgressBar mRatingListProgressBar;
     private Toolbar mToolbar;
-    private SharedPreferences mSharedPreferences;
 
     /** Constants */
     private static final String ITEM_ID = "item_id";
@@ -63,10 +63,6 @@ public class RatingActivity extends AppCompatActivity {
     private static final String RATING_LIST = "Rating List Activity";
     private static final int WHITE = 0xFFFFFFFF;
     private static final String TITLE = "About";
-    private static final String MEMBER_ID = "member_id";
-    private static final String USERNAME = "username";
-    private static final String DEFAULT_USERNAME = "Anonymous";
-    private static final String DEFAULT_MEMBER_ID = "No id";
 
     /**
      * Override method onCreate. Code base supplied by Android Studio Template and
@@ -77,9 +73,6 @@ public class RatingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
-
-        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
-                Context.MODE_PRIVATE);
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -96,8 +89,6 @@ public class RatingActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mItem.getMyItemName());
         mToolbar.setTitleTextColor(WHITE);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_rating_activity_new);
-
         // showing the long description of the item
         TextView longDesc =
                 (TextView) findViewById(R.id.item_long_desc_activity_rating);
@@ -111,16 +102,15 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button btnShare = (Button) findViewById(R.id.rating_activity_share_button);
+        btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = mSharedPreferences.getString(USERNAME, DEFAULT_USERNAME);
-                String memberID = mSharedPreferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
-
-                Snackbar.make(view, "Username = " + username + ", memberID = " + memberID, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                shareItem();
             }
         });
+
+
     }
 
     /**
@@ -186,6 +176,42 @@ public class RatingActivity extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+    protected void shareItem() {
+        Log.i("Send email", "");
+        String[] TO = {""};
+        String[] CC = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this item on RateAnything!");
+        TextView descriptiveText = (TextView) findViewById(R.id.item_long_desc_activity_rating);
+        TextView avgRatingText = (TextView)  findViewById(R.id.toolbar_rating_text);
+        String itemNameString = mItem.getMyItemName();
+        String descriptionString = descriptiveText.getText().toString();
+        String ratingString = avgRatingText.getText().toString();
+        String ratingSent = "";
+        if (ratingString.length() != 0) {
+            String[] arr = ratingString.split("[()]");
+            ratingSent = arr[1];
+        } else {
+            ratingSent = " No rating";
+        }
+
+        emailIntent.putExtra(Intent.EXTRA_TEXT, itemNameString + "\n\n" + descriptionString + "\nRating: " + ratingSent);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("Finished sending email", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(RatingActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
      /**

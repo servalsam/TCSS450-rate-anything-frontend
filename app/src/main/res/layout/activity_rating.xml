@@ -13,7 +13,7 @@
         android:id="@+id/toolbar_rating_activity_new"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/dodgerBlue"
+        android:background="#2A86DF"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -45,19 +45,29 @@
         android:background="@drawable/regular_screen"
         android:layout_gravity="center_horizontal">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rating_accent_box"/>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/rating_activity_cardview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="80dp"
             app:cardCornerRadius="8dp"
             app:contentPadding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <TextView
+                    android:fontFamily="@font/nunito_bold_font"
                     android:id="@+id/item_long_desc_activity_rating"
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
@@ -67,20 +77,59 @@
                     android:textSize="16sp"
                     android:textColor="@color/marinerBlue" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center|right">
                 <Button
                     android:id="@+id/rating_activity_add_rating_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#058D09"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:elevation="4dp"
+                    android:background="@drawable/rate_this_bg"
                     android:text="@string/activity_add_rating"
                     android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:fontFamily="@font/nunito_bold_font"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"/>
+                    android:textSize="18dp"
+                    android:layout_gravity="center"/>
+
+                <Button
+                    android:id="@+id/rating_activity_share_button"
+                    android:elevation="4dp"
+                    android:drawableLeft="@drawable/ic_email_icon"
+                    android:drawablePadding="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:fontFamily="@font/nunito_bold_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/share_button_bg"
+                    android:text="Share"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_gravity="center">
+
+                </Button>
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+
+
         <!--
     <TextView
         android:id="@+id/item_long_desc_activity_rating"
@@ -116,11 +165,11 @@
 
     </androidx.cardview.widget.CardView>
 -->
+        <!-- android:layout_below="@id/rating_activity_cardview" -->
         <FrameLayout
             android:id="@+id/rating_activity_frameLayout_new"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rating_activity_cardview"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ProgressBar
@@ -135,6 +184,7 @@
 
     </RelativeLayout>
 
+    <!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_rating_activity_new"
         android:tint="#FFD600"
@@ -147,7 +197,7 @@
         app:srcCompat="@android:drawable/ic_input_add" />
 
 
-
+-->
 
 <!--
 <FrameLayout
