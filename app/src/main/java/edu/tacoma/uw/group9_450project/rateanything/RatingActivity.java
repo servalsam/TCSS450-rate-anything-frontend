@@ -68,7 +68,7 @@ public class RatingActivity extends AppCompatActivity {
     private static final int WHITE = 0xFFFFFFFF;
     private static final String TITLE = "About";
     private static final String MEMBER_ID = "member_id";
-    private static final String DEFAULT_MEMBER_ID = "No id";
+    private static final String DEFAULT_MEMBER_ID = "1";
     private static final String USERNAME = "username";
     private static final String DEFAULT_USERNAME = "Anonymous";
 
