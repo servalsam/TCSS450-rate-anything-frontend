@@ -191,6 +191,7 @@ public class RatingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mPostAsAnonymous = postPreference.isChecked();
                 mNewRating = ratingBar.getRating();
+                String ratingString = "";
                 mNewRatingComment = inputComment.getText().toString();
 
                 if (!mNewRatingComment.equals("") || mNewRating < 0.49) {
@@ -199,7 +200,7 @@ public class RatingActivity extends AppCompatActivity {
                         mAddRatingJSON.put(MEMBER_ID, mMemberID);
                         mAddRatingJSON.put(USERNAME, mUsername);
                         mAddRatingJSON.put(RATING_COMMENT, mNewRatingComment);
-                        mAddRatingJSON.put(RATING, mNewRating);
+                        mAddRatingJSON.put(RATING, String.format(ratingString.valueOf(mNewRating), "%.1f"));
                         mAddRatingJSON.put(ANONYMOUS, mPostAsAnonymous);
                     } catch (JSONException e) {
                         Toast.makeText(view.getContext(), "Error with JSON creation on add rating" +
