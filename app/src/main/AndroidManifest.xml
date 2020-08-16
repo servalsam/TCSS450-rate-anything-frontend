@@ -3,6 +3,7 @@
     package="edu.tacoma.uw.group9_450project.rateanything">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,11 +14,6 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".RatingActivity"
-            android:theme="@style/MenuTheme">
-        </activity>
-
-        <activity
-            android:name=".ItemDetailActivity"
             android:theme="@style/MenuTheme">
         </activity>
 
@@ -42,16 +38,6 @@
         <activity
             android:name=".CategoryListActivity"
             android:label="@string/category_title"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.tacoma.uw.group9_450project.rateanything.authenticate.StartActivity" />
-        </activity>
-
-        <activity
-            android:name=".CategoryDetailActivity"
-            android:label="@string/title_item_detail"
-            android:parentActivityName=".CategoryListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

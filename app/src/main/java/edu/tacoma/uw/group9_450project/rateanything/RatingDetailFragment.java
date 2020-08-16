@@ -39,7 +39,7 @@ public class RatingDetailFragment extends Fragment {
         assert bundle != null;
         myRatings = (ArrayList<ItemRating>) bundle.getSerializable(RATING_LIST);
         Log.i("RatingDetFrag", myRatings.get(0).getMyRating());
-        Log.i("RatingDetFrag", myRatings.get(0).getMyRatingDesciption());
+        Log.i("RatingDetFrag", myRatings.get(0).getMyRatingDescription());
     }
 
     @Override
@@ -78,8 +78,11 @@ public class RatingDetailFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
+            if (!myRatingsList.get(position).getMyOwnerFlag()) {
+                holder.myRatingOwnerName.setText((myRatingsList.get(position).getMyRatingOwnerUsername()));
+            }
             holder.myRatingValue.setText((myRatingsList.get(position).getMyRating()));
-            holder.myCommentView.setText((myRatingsList.get(position).getMyRatingDesciption()));
+            holder.myCommentView.setText((myRatingsList.get(position).getMyRatingDescription()));
         }
 
         @Override
@@ -88,10 +91,12 @@ public class RatingDetailFragment extends Fragment {
         }
 
         public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+            final TextView myRatingOwnerName;
             final TextView myRatingValue;
             final TextView myCommentView;
             public RecyclerViewHolder (@NonNull View ratingView) {
                 super(ratingView);
+                myRatingOwnerName = (TextView) ratingView.findViewById(R.id.rating_author);
                 myRatingValue = (TextView) ratingView.findViewById(R.id.rating_value);
                 myCommentView = (TextView) ratingView.findViewById(R.id.rating_comment);
             }

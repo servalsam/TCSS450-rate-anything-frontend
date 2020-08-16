@@ -44,6 +44,7 @@
  import java.util.Map;
 
  import edu.tacoma.uw.group9_450project.rateanything.model.Item;
+ import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
  import edu.tacoma.uw.group9_450project.rateanything.utils.HttpJSONTask;
 
  /**
@@ -67,11 +68,19 @@
      private static final String ITEM_LIST = "Item List Activity";
      private static final int WHITE = 0xFFFFFFFF;
      private static final String TITLE = "About";
+     private static final String MEMBER_ID = "member_id";
+     private static final String USERNAME = "username";
+     private static final String DEFAULT_MEMBER_ID = "1";
+     private static final String DEFAULT_USERNAME = "Anonymous";
+
 
      /** Private Fields */
      private String m_item_name = "";
      private String m_item_desc_long = "";
      private String m_item_desc_short = "";
+     private SharedPreferences mSharedPreferences;
+     private String mMemberID;
+     private String mUsername;
 
      /**
       * Override method onCreate method. Fills the type of category id from a data passed from the
@@ -83,6 +92,11 @@
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                Context.MODE_PRIVATE);
+        mMemberID = mSharedPreferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
+        mUsername = mSharedPreferences.getString(USERNAME, DEFAULT_USERNAME);
 
         // Getting data from the bundle
         Bundle bundle = getIntent().getExtras();
@@ -126,11 +140,13 @@
                         m_item_desc_long = inputDescLong.getText().toString();
                         if (!m_item_name.equals("") && !m_item_desc_short.equals("") && !m_item_desc_long.equals("")) {
                             Map<String, String> postData = new HashMap<>();
-                            postData.put("category_id", CATEGORY_ID);
+                            postData.put("category_id", mCategory);
                             postData.put("item_name", m_item_name);
-                            postData.put("category_description_long", m_item_desc_long);
-                            postData.put("category_description_short", m_item_desc_short);
+                            postData.put("item_description_long", m_item_desc_long);
+                            postData.put("item_description_short", m_item_desc_short);
                             postData.put("rating", "5.0");
+                            postData.put("member_id", mMemberID);
+                            Log.v("Data sent:", postData.entrySet().toString());
                             HttpJSONTask task = new HttpJSONTask(getString(R.string.add_item), postData);
                             task.execute(getString(R.string.add_item));
                             new ItemListActivity.ItemAsyncTask().execute(getString(R.string.get_items));
@@ -316,7 +332,15 @@
                  //add sync code here
                  break;
              case R.id.action_item_activity_logout:
-                 //add code for sign out here
+                 SharedPreferences sharedPreferences =
+                         getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+                 sharedPreferences.edit().
+                         putBoolean(getString(R.string.LOGGEDIN), false).apply();
+                 sharedPreferences.edit().remove(MEMBER_ID).apply();
+                 sharedPreferences.edit().remove(USERNAME).apply();
+                 Intent i = new Intent(this, SplashPageActivity.class);
+                 startActivity(i);
+                 finish();
                  break;
          }
          return super.onOptionsItemSelected(item);

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -43,10 +44,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.tacoma.uw.group9_450project.rateanything.model.Item;
 import edu.tacoma.uw.group9_450project.rateanything.model.ItemRating;
+import edu.tacoma.uw.group9_450project.rateanything.utils.HttpJSONTask;
 
 public class RatingActivity extends AppCompatActivity {
 
@@ -56,6 +60,14 @@ public class RatingActivity extends AppCompatActivity {
     private JSONObject mRatingListJSON;
     private ProgressBar mRatingListProgressBar;
     private Toolbar mToolbar;
+    private SharedPreferences mSharedPreferences;
+    private String mMemberID;
+    private String mUsername;
+    private Float mNewRating;
+    private String mNewRatingComment;
+    private Boolean mPostAsAnonymous;
+    private JSONObject mAddRatingJSON;
+
 
     /** Constants */
     private static final String ITEM_ID = "item_id";
@@ -63,6 +75,13 @@ public class RatingActivity extends AppCompatActivity {
     private static final String RATING_LIST = "Rating List Activity";
     private static final int WHITE = 0xFFFFFFFF;
     private static final String TITLE = "About";
+    private static final String MEMBER_ID = "member_id";
+    private static final String DEFAULT_MEMBER_ID = "1";
+    private static final String USERNAME = "username";
+    private static final String DEFAULT_USERNAME = "Anonymous";
+    private static final String RATING = "rating";
+    private static final String RATING_COMMENT = "rating_description";
+    private static final String ANONYMOUS = "is_anonymous";
 
     /**
      * Override method onCreate. Code base supplied by Android Studio Template and
@@ -74,13 +93,24 @@ public class RatingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
 
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                Context.MODE_PRIVATE);
+//        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+//                Context.MODE_PRIVATE);
+        mMemberID = preferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
+        mUsername = preferences.getString(USERNAME, DEFAULT_USERNAME);
+
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
         mItem = (Item) bundle.getSerializable(ITEM_ID);
         Log.i("RatingAct Item", mItem.getMyItemName());
 
         mRatingListJSON = new JSONObject();
+        mAddRatingJSON = new JSONObject();
         fillRatingJSON();
+
+        mNewRating = 0f;
+        mNewRatingComment = "";
 
         mRatingListProgressBar = (ProgressBar) findViewById(R.id.rating_activity_progress_bar_new);
 
@@ -109,7 +139,6 @@ public class RatingActivity extends AppCompatActivity {
                 shareItem();
             }
         });
-
 
     }
 
@@ -143,14 +172,14 @@ public class RatingActivity extends AppCompatActivity {
     }
 
     /**
-     * Method called when the "Rate This!" is pressed
+     * Method called when the "Rate This!" is pressed. It will add a rating to the item.
      */
     public void addRating() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View customLayout = getLayoutInflater().inflate(R.layout.add_rating_layout, null);
         builder.setView(customLayout);
         final CheckBox postPreference = (CheckBox) customLayout.findViewById(R.id.posting_choice_rating_layout);
-        final RatingBar rating = (RatingBar) customLayout.findViewById(R.id.rating_value_rating_layout);
+        final RatingBar ratingBar = (RatingBar) customLayout.findViewById(R.id.rating_value_rating_layout);
         final EditText inputComment = (EditText) customLayout.findViewById(R.id.input_rating_comments);
 
         Button btnAdd = (Button) customLayout.findViewById(R.id.input_rating_add_button);
@@ -160,10 +189,32 @@ public class RatingActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Add the code to run the AsyncTask
+                mPostAsAnonymous = postPreference.isChecked();
+                mNewRating = ratingBar.getRating();
+                String ratingString = "";
+                mNewRatingComment = inputComment.getText().toString();
+
+                if (!mNewRatingComment.equals("") || mNewRating < 0.49) {
+                    try {
+                        mAddRatingJSON.put(ITEM_ID, mItem.getMyItemID());
+                        mAddRatingJSON.put(MEMBER_ID, mMemberID);
+                        mAddRatingJSON.put(USERNAME, mUsername);
+                        mAddRatingJSON.put(RATING_COMMENT, mNewRatingComment);
+                        mAddRatingJSON.put(RATING, String.format(ratingString.valueOf(mNewRating), "%.1f"));
+                        mAddRatingJSON.put(ANONYMOUS, mPostAsAnonymous);
+                    } catch (JSONException e) {
+                        Toast.makeText(view.getContext(), "Error with JSON creation on add rating" +
+                                e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                 new AddRatingAsyncTask().execute(getString(R.string.add_rating));
+                } else {
+                    dialog.dismiss();
+                    Toast.makeText(view.getContext(), "Fields cannot be empty.",
+                            Toast.LENGTH_LONG).show();
+                }
                 dialog.dismiss();
             }
-
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +228,10 @@ public class RatingActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+    /**
+     * Method to share an item through email.
+     */
     protected void shareItem() {
         Log.i("Send email", "");
         String[] TO = {""};
@@ -213,36 +268,6 @@ public class RatingActivity extends AppCompatActivity {
     }
 
 
-
-     /**
-
-     bm1.setOnClickListener(new View.OnClickListener() {
-     @Override
-     public void onClick(View view) {
-     m_item_name = inputCategory.getText().toString();
-     m_item_desc_short = inputDescShort.getText().toString();
-     m_item_desc_long = inputDescLong.getText().toString();
-     if (!m_item_name.equals("") && !m_item_desc_short.equals("") && !m_item_desc_long.equals("")) {
-     Map<String, String> postData = new HashMap<>();
-     postData.put("category_id", CATEGORY_ID);
-     postData.put("item_name", m_item_name);
-     postData.put("category_description_long", m_item_desc_long);
-     postData.put("category_description_short", m_item_desc_short);
-     postData.put("rating", "5.0");
-     HttpJSONTask task = new HttpJSONTask(getString(R.string.add_item), postData);
-     task.execute(getString(R.string.add_item));
-     new ItemListActivity.ItemAsyncTask().execute(getString(R.string.get_items));
-     } else {
-     dialog.dismiss();
-     Toast toast = new Toast(view.getContext());
-     toast.setText("Fields cannot be empty.");
-     toast.setDuration(Toast.LENGTH_LONG);
-     toast.show();
-
-
-
-
-
     /**
      * Generated method override by Android Studio template. Used to inflate the menu.
      * @param menu a Menu
@@ -268,7 +293,11 @@ public class RatingActivity extends AppCompatActivity {
                 aboutBox(this);
                 break;
             case R.id.action_add_rating:
-                //add item code here
+                // Temporary code for testing Shared Preferences
+                String message = USERNAME + ": " + mUsername + ", " + MEMBER_ID + ": " + mMemberID;
+                View view = findViewById(android.R.id.content).getRootView();
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 break;
             case R.id.action_sync_rating_activity:
                 //add sync code here
@@ -347,6 +376,7 @@ public class RatingActivity extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     response = "Unable to download item list, Reason: " + e.getMessage();
+
                 } finally {
                     if (urlConnection != null)
                         urlConnection.disconnect();
@@ -365,7 +395,7 @@ public class RatingActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             if (s.startsWith("Unable to")) {
-                Toast.makeText(getApplicationContext(), "Unable to download" + s,
+                Toast.makeText(getApplicationContext(), "Unable to connect " + s,
                         Toast.LENGTH_LONG).show();
                 return;
             }
@@ -373,27 +403,31 @@ public class RatingActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(s);
 
                 if (jsonObject.getBoolean("success")) {
-                    mRatingList = ItemRating.parseRatingJson(
-                            jsonObject.getString("categories")); // Name of table
-                    if(!mRatingList.isEmpty()) {
-                        // Find and display the average rating for all the provided ratings
-                        float avg = ItemRating.findAvgRatingFromList(mRatingList);
-                        TextView ratingTxt = mToolbar.findViewById(R.id.toolbar_rating_text);
-                        ImageView ratingImg = mToolbar.findViewById(R.id.toolbar_rating_image);
-                        ratingTxt.setText("(" + avg + ")");
-                        ratingImg.setImageResource(ItemRating.getRatingImage(avg));
 
-                        // code to launch the fragment passing ratings as part of the bundle
-                        Bundle args = new Bundle();
-                        ArrayList<ItemRating> arrayListOfRatings = new ArrayList<>(mRatingList.size());
-                        arrayListOfRatings.addAll(mRatingList);
-                        args.putSerializable(RATING_LIST, arrayListOfRatings);
-                        RatingDetailFragment ratings = new RatingDetailFragment();
-                        ratings.setArguments(args);
-                        getSupportFragmentManager().beginTransaction()
-                                .add(R.id.rating_activity_frameLayout_new, ratings).commit();
+                        // Adding the list of ratings.
+                        mRatingList = ItemRating.parseRatingJson(
+                                jsonObject.getString("categories")); // Name of table
+                        if(!mRatingList.isEmpty()) {
 
-                        Log.i("RatingAct List Fill?", mRatingList.toString());
+                            // Find and display the average rating for all the provided ratings
+                            float avg = ItemRating.findAvgRatingFromList(mRatingList);
+                            TextView ratingTxt = mToolbar.findViewById(R.id.toolbar_rating_text);
+                            ImageView ratingImg = mToolbar.findViewById(R.id.toolbar_rating_image);
+                            ratingTxt.setText("(" + avg + ")");
+                            ratingImg.setImageResource(ItemRating.getRatingImage(avg));
+
+                            // code to launch the fragment passing ratings as part of the bundle
+                            Bundle args = new Bundle();
+                            ArrayList<ItemRating> arrayListOfRatings = new ArrayList<>(mRatingList.size());
+                            arrayListOfRatings.addAll(mRatingList);
+                            args.putSerializable(RATING_LIST, arrayListOfRatings);
+                            RatingDetailFragment ratings = new RatingDetailFragment();
+                            ratings.setArguments(args);
+                            getSupportFragmentManager().beginTransaction()
+                                    .add(R.id.rating_activity_frameLayout_new, ratings).commit();
+
+                            Log.i("RatingAct List Fill?", mRatingList.toString());
+
                     }
                 }
             } catch (JSONException e){
@@ -405,4 +439,109 @@ public class RatingActivity extends AppCompatActivity {
     }
 
 
+
+     /**
+     * Private class to for asynchronous add a rating to an item.
+     * Code supplied by UWT 450 Instructor. Modified by Rich W.
+     */
+    private class AddRatingAsyncTask extends AsyncTask<String, Void, String> {
+
+         /**
+          * Method override to start the progressbar.
+          */
+         @Override
+        protected void onPreExecute() {
+            mRatingListProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        /**
+         * Method override to connect to the webservice to add a rating to the database.
+         * @param urls a string
+         * @return a string that contains the information from a POST query.
+         */
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            for (String url : urls) {
+                try {
+                    URL urlObject = new URL(url);
+                    urlConnection = ((HttpURLConnection) urlObject.openConnection());
+                    urlConnection.setRequestMethod("POST");
+                    urlConnection.setRequestProperty("Content-Type", "application/json");
+                    urlConnection.setDoOutput(true);
+                    OutputStreamWriter wr =
+                            new OutputStreamWriter(urlConnection.getOutputStream());
+
+                    // For Debugging
+                    Log.i("RatingAct POST check", mAddRatingJSON.toString());
+                    wr.write(mAddRatingJSON.toString());
+                    wr.flush();
+                    wr.close();
+
+                    InputStream content = urlConnection.getInputStream();
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+                } catch (Exception e) {
+                    response = "Unable to add rating to item, Reason: " + e.getMessage();
+
+                } finally {
+                    if (urlConnection != null)
+                        urlConnection.disconnect();
+                }
+            }
+            Log.i("RatingAct Rating return", response.toString());
+            return response;
+        }
+
+        /**
+         * Method that checks for success of a returned JSON object from the webservice.
+         * With a success, another JSON is created to change the average rating within
+         * the item.
+         * Code base supplied by TCSS 450 Instructor. Modified by Rich W.
+         * @param s a String representing a JSON object.
+         */
+        @Override
+        protected void onPostExecute(String s) {
+            if (s.startsWith("Unable to")) {
+                Toast.makeText(getApplicationContext(), "Unable to connect " + s,
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+
+                if (jsonObject.getBoolean("success")) {
+
+                    // making a new hashmap for use to update the rating on the item.
+                    Map<String, String> addRatingMap = new HashMap<>();
+
+                    //calc. new avg
+                    float oldAvg = ItemRating.findAvgRatingFromList(mRatingList);
+                    int numOfRatings = mRatingList.size();
+                    float newRating = (oldAvg * numOfRatings + mNewRating) / (numOfRatings + 1);
+
+                    // fill map
+                    addRatingMap.put(ITEM_ID, mItem.getMyItemID());
+                    addRatingMap.put(RATING, newRating + "");
+
+                    HttpJSONTask task = new HttpJSONTask(getString(R.string.set_rating), addRatingMap);
+                    task.execute(getString(R.string.set_rating));
+                    new RatingAsyncTask().execute(getString(R.string.get_ratings));
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "You've already rated this item." +
+                            " Edit your rating instead.", Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e){
+                Toast.makeText(getApplicationContext(), "JSON Error: " + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+            mRatingListProgressBar.setVisibility(View.GONE);
+        }
+    }
 }

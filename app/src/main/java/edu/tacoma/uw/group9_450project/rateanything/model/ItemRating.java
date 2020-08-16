@@ -25,24 +25,30 @@ public class ItemRating implements Serializable {
     /** Members */
     private String myItemId;
     private String myRatingOwner;
+    private String myRatingOwnerName;
     private String myRatingDescription;
     private String myRating;
+    private Boolean willNameBeHidden;
 
     /** Constants */
     private static final String ITEM_ID = "item_id";
     private static final String RATING_OWNER = "member_id";
+    private static final String OWNER_NAME = "username";
     private static final String RATING_DESC = "rating_description";
     private static final String RATING = "rating";
+    private static final String SHOW_OWNER_NAME = "is_anonymous";
 
     /**
      * Constructor for ItemRating
      */
-    public ItemRating(String theItemID, String theRatingOwner,
-                      String theRatingDescription, String theRating) {
+    public ItemRating(String theItemID, String theRatingOwner, String theOwnerName,
+                      String theRatingDescription, String theRating, Boolean hiddenNameFlag) {
         myItemId = theItemID;
         myRatingOwner = theRatingOwner;
+        myRatingOwnerName = theOwnerName;
         myRatingDescription = theRatingDescription;
         myRating = theRating; //Float.parseFloat(theRating);
+        willNameBeHidden = hiddenNameFlag;
     }
 
     /** Getters and Setters */
@@ -62,11 +68,19 @@ public class ItemRating implements Serializable {
         this.myRatingOwner = myRatingOwner;
     }
 
-    public String getMyRatingDesciption() {
+    public String getMyRatingOwnerUsername() {
+        return myRatingOwnerName;
+    }
+
+    public void setMyRatingOwnerName(String name) {
+        this.myRatingOwnerName = name;
+    }
+
+    public String getMyRatingDescription() {
         return myRatingDescription;
     }
 
-    public void setMyRatingDesciption(String myRatingDesciption) {
+    public void setMyRatingDescription(String myRatingDesciption) {
         this.myRatingDescription = myRatingDesciption;
     }
 
@@ -76,6 +90,10 @@ public class ItemRating implements Serializable {
 
     public void setMyRating(String myRating) {
         this.myRating = myRating;
+    }
+
+    public Boolean getMyOwnerFlag() {
+        return willNameBeHidden;
     }
 
     /**
@@ -100,7 +118,9 @@ public class ItemRating implements Serializable {
     }
 
     /**
-     *
+     * Static method to return the proper drawable depending upon the rating value.
+     * @param avg a float holding the value of the rating.
+     * @return The int representing the R value for the drawable to be used.
      */
     public static int getRatingImage(float avg) {
         if (avg < 1.0) {
@@ -140,10 +160,13 @@ public class ItemRating implements Serializable {
 
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
-                ItemRating rating = new ItemRating (obj.getString(ItemRating.ITEM_ID),
+                ItemRating rating = new ItemRating (
+                        obj.getString(ItemRating.ITEM_ID),
                         obj.getString(ItemRating.RATING_OWNER),
+                        obj.getString(ItemRating.OWNER_NAME),
                         obj.getString(ItemRating.RATING_DESC),
-                        obj.getString(ItemRating.RATING));
+                        obj.getString(ItemRating.RATING),
+                        obj.getBoolean(ItemRating.SHOW_OWNER_NAME));
                 itemRatings.add(rating);
             }
         }

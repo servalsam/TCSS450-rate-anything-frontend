@@ -1,5 +1,7 @@
 package edu.tacoma.uw.group9_450project.rateanything.authenticate;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import edu.tacoma.uw.group9_450project.rateanything.R;
 
@@ -27,6 +33,10 @@ public class LoginFragment extends Fragment {
     private EditText mPasswordText;
    // private EditText mUsernameText;
     private EditText mUser;
+
+    /** Constants */
+    private static final String MEMBER_ID = "member_id";
+    private static final String USERNAME = "username";
 
 
     /**
@@ -80,55 +90,21 @@ public class LoginFragment extends Fragment {
                 String name = mUser.getText().toString();
 
                 if ((TextUtils.isEmpty(name))) {
-                    Toast.makeText(v.getContext(),"Enter username or email address", Toast.LENGTH_SHORT)
+                    Toast.makeText(v.getContext(),"Enter username or email address", Toast.LENGTH_LONG)
                             .show();
                     mUser.requestFocus();
                 } else if (TextUtils.isEmpty(pwd) || pwd.length() < 5) {
-                    Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters",
-                            Toast.LENGTH_SHORT)
+                //(!RegisterFragment.isValidPassword(pwd)) { consider using this when testing done
+                    Toast.makeText(v.getContext(), "Enter valid password",
+                            Toast.LENGTH_LONG)
                             .show();
                     mPasswordText.requestFocus();
-                } else if ((!name.contains("@")) && (name.length() < 5)) {
-                    Toast.makeText(v.getContext(), "Username must be at least 5 characters",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                    mUser.requestFocus();
+                } else {
+                    mloginFragmentListener.login(name, pwd);
                 }
-
-//                if ((TextUtils.isEmpty(email) || !email.contains("@")) && TextUtils.isEmpty(name)) {
-//                    Toast.makeText(v.getContext(),"Enter valid email address", Toast.LENGTH_SHORT)
-//                            .show();
-//                    mEmailText.requestFocus();
-//                } else if (TextUtils.isEmpty(pwd) || pwd.length() < 5) {
-//                    Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters",
-//                            Toast.LENGTH_SHORT)
-//                            .show();
-//                    mPasswordText.requestFocus();
-//                } else if (TextUtils.isEmpty(email) && name.length() < 5) {
-//                    Toast.makeText(v.getContext(), "Username must be at least 5 characters",
-//                            Toast.LENGTH_SHORT)
-//                            .show();
-//                    mUsernameText.requestFocus();
-//                } else if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(name)) {
-//                    Toast.makeText(v.getContext(), "Fill either the email or username, NOT both",
-//                            Toast.LENGTH_SHORT)
-//                            .show();
-//                    mUsernameText.requestFocus();
-//                    mEmailText.requestFocus();
-//                }
-
-                mloginFragmentListener.login(name, pwd);
-//                if ((!TextUtils.isEmpty(email) && email.contains("@")
-//                        || (!TextUtils.isEmpty(name) && name.length() > 4))
-//                        && !TextUtils.isEmpty(pwd) && pwd.length() > 4) {
-//                    if (TextUtils.isEmpty(email)) {
-//                        mloginFragmentListener.login(name, pwd);
-//                    } else {
-//                        mloginFragmentListener.login(email, pwd);
-//                    }
-//                }
             }
         });
         return view;
     }
+
 }

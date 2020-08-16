@@ -45,7 +45,9 @@
         android:background="@drawable/regular_screen"
         android:layout_gravity="center_horizontal">
 
+
         <FrameLayout
+            android:id="@+id/layout_for_long_item_description_and_cardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -130,46 +132,12 @@
         </FrameLayout>
 
 
-        <!--
-    <TextView
-        android:id="@+id/item_long_desc_activity_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:textSize="16sp"
-        android:paddingLeft="20dp"
-        android:padding="8dp"
-        android:paddingStart="20dp">
-
-    </TextView>
--->
-        <!--
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="#058D09"
-        card_view:cardCornerRadius="8dp"
-        card_view:contentPadding="10dp"
-        android:layout_toEndOf="@id/item_long_desc_activity_rating"
-        android:layout_marginTop ="80dp"
-        android:layout_toRightOf="@id/item_long_desc_activity_rating">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_add_rating"
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </androidx.cardview.widget.CardView>
--->
-        <!-- android:layout_below="@id/rating_activity_cardview" -->
+        <!-- This the container that holds the fragment_rating_detail -->
         <FrameLayout
             android:id="@+id/rating_activity_frameLayout_new"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/layout_for_long_item_description_and_cardview"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <ProgressBar
@@ -182,62 +150,7 @@
 
         </FrameLayout>
 
-    </RelativeLayout>
-
-    <!--
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_rating_activity_new"
-        android:tint="#FFD600"
-        android:backgroundTint="#FFF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:background="@color/midnightBlue"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
-
--->
-
-<!--
-<FrameLayout
-    android:layout_width="48sp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|end"
-    android:layout_margin="16dp"
-    >
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_rating_activity_new"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#3EA055"
-        android:src="@android:color/transparent"
-        android:visibility="invisible"
-         />
-
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="#058D09"
-        card_view:cardCornerRadius="10dp"
-        card_view:contentPadding="10dp"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Rate  This!"
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </androidx.cardview.widget.CardView>
-
-</FrameLayout>
--->
+</RelativeLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

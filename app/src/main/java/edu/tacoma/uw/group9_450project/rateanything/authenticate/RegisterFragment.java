@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
 import edu.tacoma.uw.group9_450project.rateanything.R;
 
 /**
@@ -30,6 +32,21 @@ public class  RegisterFragment extends Fragment {
     private EditText mFirstNameText;
     private EditText mLastNameText;
     private EditText mPasswordConfirmText;
+
+    /** Constant - email validification pattern */
+    public static final Pattern EMAIL_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
+    /** Constant to validate password. */
+    private final static int PASSWORD_LENGTH = 5;
+
 
     /**
      * Interface to make the registration work.
@@ -88,21 +105,23 @@ public class  RegisterFragment extends Fragment {
                 String first = mFirstNameText.getText().toString();
                 String last = mLastNameText.getText().toString();
 
-                if (TextUtils.isEmpty(email) || !email.contains("@")) {
-                    Toast.makeText(v.getContext(), "Enter valid email address", Toast.LENGTH_SHORT)
+                // Check email, password and username
+                if (!isValidEmail(email)) {
+                    Toast.makeText(v.getContext(), "Enter valid email address", Toast.LENGTH_LONG)
                             .show();
                     mEmailText.requestFocus();
-                } else if (TextUtils.isEmpty(pwd) || (pwd.length() < 5) || (pwd.length() > 32)) {
-                    Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters",
-                            Toast.LENGTH_SHORT)
+                } else if (!isValidPassword(pwd) && !isValidPassword(pwd2)) {
+                    Toast.makeText(v.getContext(), "Enter valid password (at least 5 characters" +
+                                    "and containing at least one symbol and at least one number)",
+                            Toast.LENGTH_LONG)
                             .show();
                     mPasswordText.requestFocus();
-                } else if (TextUtils.isEmpty(pwd2) || pwd2.length() < 5) {
-                    Toast.makeText(v.getContext(), "Enter valid password confirm (at least 5 characters",
-                            Toast.LENGTH_SHORT)
-                            .show();
                     mPasswordConfirmText.requestFocus();
-                } else if (pwd.compareTo(pwd2) != 0) {
+                } else if (TextUtils.isEmpty(name) || name.length() < 5 || name.length() > 36) {
+                    Toast.makeText(v.getContext(), "User name not valid (Name must be " +
+                            "between 5 and 36 characters.", Toast.LENGTH_LONG).show();
+                    mUsernameText.requestFocus();
+                }else if (pwd.compareTo(pwd2) != 0) {
                     Toast.makeText(v.getContext(), "Passwords don't match",
                             Toast.LENGTH_SHORT).show();
                     mPasswordText.requestFocus();
@@ -117,22 +136,48 @@ public class  RegisterFragment extends Fragment {
                             Toast.LENGTH_SHORT)
                             .show();
                     mLastNameText.requestFocus();
-                }
-
-                if ((!TextUtils.isEmpty(email) && email.contains("@"))
-                        && ((!TextUtils.isEmpty(name) && name.length() > 4))
-                        && ((!TextUtils.isEmpty(pwd) && pwd.length() > 4))
-                        && ((!TextUtils.isEmpty(pwd2) && pwd2.length() > 4))
-                        && (!TextUtils.isEmpty(first))
-                        && (!TextUtils.isEmpty(last))
-                        && (pwd.compareTo(pwd2) == 0)) {
+                } else {
                     mRegistrationFragmentListener.register(first, last, email, name, pwd);
                 }
-
             }
         });
         return view;
     }
+
+
+    /**
+     * Validates if the given input is a valid email address.
+     * @param theEmail a String holding the email to validate.
+     * @return a boolean. {@code true} if input is valid email {@code false} if not.
+     */
+    public static boolean isValidEmail(String theEmail) {
+        return theEmail != null && EMAIL_PATTERN.matcher(theEmail).matches();
+    }
+
+    /**
+     * Validates if the given password is valid. Passwords must be at least 6 characters
+     * long with at least one digit and one symbol.
+     * @param pwd a String representing the password to be validated.
+     * @return a boolean {@code true} if the password meets the requirements
+     * {@code false} if it does not.
+     */
+    public static boolean isValidPassword(String pwd) {
+        boolean foundDigit = false;
+        boolean foundSymbol = false;
+
+        if ((pwd == null) || (pwd.length() < PASSWORD_LENGTH)) {
+            return false;
+        }
+        for (int i = 0; i < pwd.length(); i++) {
+            if (Character.isDigit(pwd.charAt(i)))
+                foundDigit = true;
+            if (!Character.isLetterOrDigit(pwd.charAt(i)))
+                foundSymbol = true;
+        }
+        return foundDigit && foundSymbol;
+    }
+
+
 }
 
 
