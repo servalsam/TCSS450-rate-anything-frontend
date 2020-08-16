@@ -28,10 +28,14 @@ Summer 2020
 - 16 (Low) As a user, I should have the ability to add additional categories, because my item may not exist in a current category or not defined accurately by current categories. 
 
 ## Implemented User stories: 
+- 1 (High) Add items to categories
 - 2 (High) View of categories
 - 3 (High) View items in categories
+- 4 (High) Add a rating to an item
 - 5 (Medium) View others ratings
 - 6 (Medium) Authentication: Login and Registration
+- 9 (Medium) Submit details on an item
+- 11 (Medium) Review anonymously
 - 14 (Low) Share item with another user
 - 16 (Low) Add additional categories
 
