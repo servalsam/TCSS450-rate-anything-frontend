@@ -70,11 +70,17 @@
      private static final String TITLE = "About";
      private static final String MEMBER_ID = "member_id";
      private static final String USERNAME = "username";
+     private static final String DEFAULT_MEMBER_ID = "No id";
+     private static final String DEFAULT_USERNAME = "Anonymous";
+
 
      /** Private Fields */
      private String m_item_name = "";
      private String m_item_desc_long = "";
      private String m_item_desc_short = "";
+     private SharedPreferences mSharedPreferences;
+     private String mMemberID;
+     private String mUsername;
 
      /**
       * Override method onCreate method. Fills the type of category id from a data passed from the
@@ -86,6 +92,11 @@
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                Context.MODE_PRIVATE);
+        mMemberID = mSharedPreferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
+        mUsername = mSharedPreferences.getString(USERNAME, DEFAULT_USERNAME);
 
         // Getting data from the bundle
         Bundle bundle = getIntent().getExtras();
