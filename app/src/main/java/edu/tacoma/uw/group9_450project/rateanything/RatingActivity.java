@@ -43,6 +43,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -411,9 +412,11 @@ public class RatingActivity extends AppCompatActivity {
 
                             // Find and display the average rating for all the provided ratings
                             float avg = ItemRating.findAvgRatingFromList(mRatingList);
+                            DecimalFormat formatedRating = new DecimalFormat();
+                            formatedRating.setMaximumFractionDigits(1);
                             TextView ratingTxt = mToolbar.findViewById(R.id.toolbar_rating_text);
                             ImageView ratingImg = mToolbar.findViewById(R.id.toolbar_rating_image);
-                            ratingTxt.setText("(" + avg + ")");
+                            ratingTxt.setText("(" + formatedRating.format(avg) + ")");
                             ratingImg.setImageResource(ItemRating.getRatingImage(avg));
 
                             // code to launch the fragment passing ratings as part of the bundle

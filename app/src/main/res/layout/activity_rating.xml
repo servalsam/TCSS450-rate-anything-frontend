@@ -24,7 +24,7 @@
             android:id="@+id/toolbar_rating_text"
             android:layout_gravity="right|center"
             android:layout_height="24dp"
-            android:layout_width="36dp"
+            android:layout_width="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="#fff"
             android:textSize="16dp">
