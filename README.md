@@ -32,7 +32,7 @@ Summer 2020
 - 2 (High) View of categories
 - 3 (High) View items in categories
 - 4 (High) Add a rating to an item
-- 5 (Medium) View others ratings
+- 5 (High) View others ratings
 - 6 (Medium) Authentication: Login and Registration
 - 9 (Medium) Submit details on an item
 - 11 (Medium) Review anonymously
