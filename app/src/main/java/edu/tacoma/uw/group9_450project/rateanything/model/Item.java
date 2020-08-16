@@ -23,7 +23,7 @@ public class Item implements Serializable {
     private String myItemName;
     private String myItemLongDesc;
     private String myItemShortDesc;
-    private String myItemOwner; // Not yet on the database
+    private String myItemOwner;
     private int myItemRating;
     private String myMemberID;
     private ArrayList<ItemRating> myRatings;
@@ -148,13 +148,13 @@ public class Item implements Serializable {
 
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
-                Item item = new Item (obj.getString(Item.ID),
+                Item item = new Item (
+                        obj.getString(Item.ID),
                         obj.getString(Item.CATEGORY),
                         obj.getString(Item.NAME),
                         obj.getString(Item.LONG_DESC),
                         obj.getString(Item.SHORT_DESC),
                         obj.getInt(Item.RATING),
-                        //  obj.getString(Item.OWNER), not a comlumn yet
                         obj.getString(Item.MEMBER));
                 itemList.add(item);
             }

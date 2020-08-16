@@ -56,6 +56,7 @@ public class HttpJSONTask extends AsyncTask<String, Void, Void> {
                 OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
                 writer.write(jsonObjSent.toString());
                 writer.flush();
+
             }
 
             // Get the status code.
@@ -73,3 +74,4 @@ public class HttpJSONTask extends AsyncTask<String, Void, Void> {
         return null;
     }
 }
+
