@@ -534,7 +534,7 @@ public class RatingActivity extends AppCompatActivity {
                     new RatingAsyncTask().execute(getString(R.string.get_ratings));
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "You've already rating this item." +
+                    Toast.makeText(getApplicationContext(), "You've already rated this item." +
                             " Edit your rating instead.", Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e){
@@ -544,5 +544,4 @@ public class RatingActivity extends AppCompatActivity {
             mRatingListProgressBar.setVisibility(View.GONE);
         }
     }
-
 }
