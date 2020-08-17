@@ -11,4 +11,5 @@
     <string name="add_item">https://tcss450-rate-anything.herokuapp.com/additem</string>
     <string name="add_rating">https://tcss450-rate-anything.herokuapp.com/addrating</string>
     <string name="set_rating">https://tcss450-rate-anything.herokuapp.com/setrating</string>
+    <string name="edit_rating">https://tcss450-rate-anything.herokuapp.com/editrating</string>
 </resources>

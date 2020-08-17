@@ -95,8 +95,6 @@ public class RatingActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
-//        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
-//                Context.MODE_PRIVATE);
         mMemberID = preferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
         mUsername = preferences.getString(USERNAME, DEFAULT_USERNAME);
 
@@ -421,13 +419,14 @@ public class RatingActivity extends AppCompatActivity {
                             ArrayList<ItemRating> arrayListOfRatings = new ArrayList<>(mRatingList.size());
                             arrayListOfRatings.addAll(mRatingList);
                             args.putSerializable(RATING_LIST, arrayListOfRatings);
+                            args.putString(MEMBER_ID, mMemberID);
+                            args.putSerializable(ITEM_ID, mItem);
                             RatingDetailFragment ratings = new RatingDetailFragment();
                             ratings.setArguments(args);
                             getSupportFragmentManager().beginTransaction()
                                     .add(R.id.rating_activity_frameLayout_new, ratings).commit();
 
                             Log.i("RatingAct List Fill?", mRatingList.toString());
-
                     }
                 }
             } catch (JSONException e){
