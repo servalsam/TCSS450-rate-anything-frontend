@@ -23,7 +23,7 @@ public class Item implements Serializable {
     private String myItemName;
     private String myItemLongDesc;
     private String myItemShortDesc;
-    private String myItemOwner;
+    private String myItemOwner; // Might be used in future feature implementation
     private int myItemRating;
     private String myMemberID;
     private ArrayList<ItemRating> myRatings;
@@ -61,77 +61,49 @@ public class Item implements Serializable {
         myRatings = new ArrayList<>();
     }
 
-    /**
-     * A method to fill the ratings list
-     * @param rating an ItemRating used to fill the rating list
-     */
-    public void fillRatingList(ItemRating rating) {
-        myRatings.add(rating);
-    }
-
-    /** getters and setters */
+    /** getters */
     public String getMyItemID() {
         return myItemID;
-    }
-
-    public void setMyItemID(String myItemID) {
-        this.myItemID = myItemID;
     }
 
     public String getMyCategory() {
         return myCategory;
     }
 
-    public void setMyCategory(String myCategory) {
-        this.myCategory = myCategory;
-    }
-
     public String getMyItemName() {
         return myItemName;
-    }
-
-    public void setMyItemName(String myItemName) {
-        this.myItemName = myItemName;
     }
 
     public String getMyItemLongDesc() {
         return myItemLongDesc;
     }
 
-    public void setMyItemLongDesc(String myItemLongDesc) {
-        this.myItemLongDesc = myItemLongDesc;
-    }
-
     public String getMyItemShortDesc() {
         return myItemShortDesc;
-    }
-
-    public void setMyItemShortDesc(String myItemShortDesc) {
-        this.myItemShortDesc = myItemShortDesc;
     }
 
     public String getMyItemOwner() {
         return myItemOwner;
     }
 
-    public void setMyItemOwner(String myItemOwner) {
-        this.myItemOwner = myItemOwner;
-    }
-
     public int getMyItemRating() {
         return myItemRating;
-    }
-
-    public void setMyItemRating(int myItemRating) {
-        this.myItemRating = myItemRating;
     }
 
     public String getMyMemberID() {
         return myMemberID;
     }
 
-    public void setMyMemberID(String myMemberID) {
-        this.myMemberID = myMemberID;
+    public ArrayList<ItemRating> getMyRatings() {
+        return myRatings;
+    }
+
+    /**
+     * A method to add a ratings to the list
+     * @param rating an ItemRating used to add to the rating list
+     */
+    public void addToRatingList(ItemRating rating) {
+        myRatings.add(rating);
     }
 
     /**
@@ -161,6 +133,4 @@ public class Item implements Serializable {
         }
         return itemList;
     }
-
-
 }

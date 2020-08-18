@@ -43,7 +43,7 @@ public class Category implements Serializable {
     }
 
     /**
-     * Getters and Setters for the Category Class.
+     * Getters for the Category Class.
      */
     public String getCategoryID() { return myCategoryID;}
 
@@ -52,15 +52,6 @@ public class Category implements Serializable {
     public String getMyCategoryShortDesc() { return myCategoryShortDesc;}
 
     public String getMyCategoryLongDesc() { return myCategoryLongDesc;}
-
-    public void setCourseId(String theId) {this.myCategoryID = theId;}
-
-    public void setMyCategoryName(String theName) {this.myCategoryName = theName;}
-
-    public void setMyCategoryShortDesc(String theShort) {this.myCategoryShortDesc = theShort;}
-
-    public void setMyCategoryLongDesc(String theLong) {this.myCategoryLongDesc = theLong;}
-
 
     /**
      * A method that allows the conversion of a JSON string into a list of category objects.

@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-/*
+/**
  * Description: HttpJSONTask utilizes a string URL and mapped data to build a JSON object.
  * The JSON object can be sent to any supplied URL in an asynchronous fashion.
  * Author: Sam Wainright, Rich Williams
