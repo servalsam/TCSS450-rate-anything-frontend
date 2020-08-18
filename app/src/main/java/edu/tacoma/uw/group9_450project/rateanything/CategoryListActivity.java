@@ -45,14 +45,10 @@ import edu.tacoma.uw.group9_450project.rateanything.startup.SplashPageActivity;
 import edu.tacoma.uw.group9_450project.rateanything.utils.HttpJSONTask;
 
 /**
- * An activity representing a list of Categories. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ItemListActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * An activity representing a list of Categories. This activity no longer
+ * has different presentations for handset and tablet-size devices.
  * @author Code supplied by Android Studio and UWT 450 Instructor. Updated
- * by Rich W.
+ * by Rich W. and Sam W.
  */
 public class CategoryListActivity extends AppCompatActivity {
 
@@ -62,6 +58,7 @@ public class CategoryListActivity extends AppCompatActivity {
     private List<Category> mCategoryList;
     private RecyclerView mRecyclerView;
     private ProgressBar mCategoryFillerProgressBar;
+    private CategoryListActivity mCategoryListActivity;
 
     /** Constants */
     private static final String CATEGORY_ID = "category_id";
@@ -84,12 +81,14 @@ public class CategoryListActivity extends AppCompatActivity {
 
     /**
      * Mandatory method. Code supplied by Android Studio template.
-     * @param savedInstanceState
+     * @param savedInstanceState a Bundle
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
+
+        mCategoryListActivity = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_category_list_activity);
         setSupportActionBar(toolbar);
@@ -101,51 +100,7 @@ public class CategoryListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Context context = view.getContext();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                final View customLayout = getLayoutInflater().inflate(R.layout.add_category_layout, null);
-                builder.setView(customLayout);
-                final EditText inputCategory = (EditText) customLayout.findViewById(R.id.input_category_name);
-                final EditText inputDescShort = (EditText) customLayout.findViewById(R.id.input_category_description_short);
-                final EditText inputDescLong = (EditText) customLayout.findViewById(R.id.input_category_description);
-
-                Button bm1 = (Button) customLayout.findViewById(R.id.input_category_add_button);
-                Button bm2 = (Button) customLayout.findViewById(R.id.input_category_cancel_button);
-
-                final AlertDialog dialog = builder.create();
-                bm1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        m_category_name = inputCategory.getText().toString();
-                        m_category_desc_short = inputDescShort.getText().toString();
-                        m_category_desc_long = inputDescLong.getText().toString();
-                        if (!m_category_name.equals("") && !m_category_desc_short.equals("") && !m_category_desc_long.equals("")) {
-                            Map<String, String> postData = new HashMap<>();
-                            postData.put("category_name", m_category_name);
-                            postData.put("category_description_long", m_category_desc_long);
-                            postData.put("category_description_short", m_category_desc_short);
-                            HttpJSONTask task = new HttpJSONTask(getString(R.string.add_category), postData);
-                            task.execute(getString(R.string.add_category));
-                            new CategoryTask().execute(getString(R.string.get_categories));
-                        } else {
-                            dialog.dismiss();
-                            Toast toast = new Toast(view.getContext());
-                            toast.setText("Fields cannot be empty.");
-                            toast.setDuration(Toast.LENGTH_LONG);
-                            toast.show();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                bm2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                addCategory(view);
             }
         });
 
@@ -162,6 +117,59 @@ public class CategoryListActivity extends AppCompatActivity {
         assert mRecyclerView != null;
         setupRecyclerView((RecyclerView) mRecyclerView);
     }
+
+    /**
+     * Method to add a category to the list of categories to which items can be added.
+     * @param view a view.
+     * @author Sam W.
+     */
+    public void addCategory(View view) {
+        Context context = view.getContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final View customLayout = getLayoutInflater().inflate(R.layout.add_category_layout, null);
+        builder.setView(customLayout);
+        final EditText inputCategory = (EditText) customLayout.findViewById(R.id.input_category_name);
+        final EditText inputDescShort = (EditText) customLayout.findViewById(R.id.input_category_description_short);
+        final EditText inputDescLong = (EditText) customLayout.findViewById(R.id.input_category_description);
+
+        Button bm1 = (Button) customLayout.findViewById(R.id.input_category_add_button);
+        Button bm2 = (Button) customLayout.findViewById(R.id.input_category_cancel_button);
+
+        final AlertDialog dialog = builder.create();
+        bm1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_category_name = inputCategory.getText().toString();
+                m_category_desc_short = inputDescShort.getText().toString();
+                m_category_desc_long = inputDescLong.getText().toString();
+                if (!m_category_name.equals("") && !m_category_desc_short.equals("") && !m_category_desc_long.equals("")) {
+                    Map<String, String> postData = new HashMap<>();
+                    postData.put("category_name", m_category_name);
+                    postData.put("category_description_long", m_category_desc_long);
+                    postData.put("category_description_short", m_category_desc_short);
+                    HttpJSONTask task = new HttpJSONTask(getString(R.string.add_category), postData);
+                    task.execute(getString(R.string.add_category));
+                    new CategoryTask().execute(getString(R.string.get_categories));
+                } else {
+                    dialog.dismiss();
+                    Toast toast = new Toast(view.getContext());
+                    toast.setText("Fields cannot be empty.");
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                dialog.dismiss();
+            }
+        });
+        bm2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
 
     /**
      * Override method used to launch the AsyncTask.
@@ -186,6 +194,91 @@ public class CategoryListActivity extends AppCompatActivity {
     }
 
     /**
+     * Generated method override by Android Studio template. Used to inflate the menu.
+     * @param menu a Menu
+     * @return a boolean
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_category_list, menu);
+        return true;
+    }
+
+    /**
+     * This method launches the correct response based upon the menu item selected. If sign
+     * out is selected, then the shared preferences are removed and the SplashPageActivity
+     * is launched.
+     * @param item the menu item selected.
+     * @return a boolean
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                aboutBox(this);
+                break;
+
+            case R.id.action_logout:
+                logout();
+                break;
+
+            case R.id.action_add_category:
+                View rootView = getWindow().getDecorView().getRootView();
+                addCategory(rootView);
+                break;
+
+            case R.id.action_sync_category:
+                syncWithDatabase();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void syncWithDatabase() {
+        Intent i = new Intent();
+        i.setClass(getApplicationContext(), CategoryListActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+        mCategoryListActivity.finish();
+    }
+
+    /**
+     * This method builds and displays the About for the app inside of a alert dialog box.
+     * @author Rich W.
+     * @param activity an Activity
+     */
+    public void aboutBox(Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        final View about = getLayoutInflater().inflate(R.layout.about_layout, null);
+        builder.setView(about);
+        builder.setTitle(TITLE);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog aboutDialog = builder.create();
+        aboutDialog.show();
+    }
+
+    /**
+     * Method to sign out of the app. Shared preferences are cleared.
+     */
+    public void logout() {
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+        sharedPreferences.edit().
+                putBoolean(getString(R.string.LOGGEDIN), false).apply();
+        sharedPreferences.edit().remove(MEMBER_ID).apply();
+        sharedPreferences.edit().remove(USERNAME).apply();
+        Intent i = new Intent(this, SplashPageActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    /**
      * Inner class for the RecyclerView Adapter depending on type of device. Base code supplied
      * by Android Studio template and UWT TCSS 450 Instructor. The method contains an
      * OnClickListener to start a CategoryDetailFragment.
@@ -194,6 +287,7 @@ public class CategoryListActivity extends AppCompatActivity {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
+        /** Fields of the this RecyclerView Adapter class. */
         private final CategoryListActivity mParentActivity;
         private final List<Category> mValues;
         private final boolean mTwoPane;
@@ -201,26 +295,16 @@ public class CategoryListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Category category = (Category) view.getTag();
-//                if (mTwoPane) {
-//                    Bundle arguments = new Bundle();
-//                    arguments.putSerializable(CategoryDetailFragment.ARG_ITEM_ID, category);
-//                    CategoryDetailFragment fragment = new CategoryDetailFragment();
-//                    fragment.setArguments(arguments);
-//                    mParentActivity.getSupportFragmentManager().beginTransaction()
-//                            .replace(R.id.item_detail_container, fragment)
-//                            .commit();
-//                } else {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, ItemListActivity.class);
-                    intent.putExtra(CATEGORY_ID, category.getCategoryID());
-                    intent.putExtra(CATEGORY_NAME, category.getMyCategoryName());
-                    context.startActivity(intent);
-//                }
+                Context context = view.getContext();
+                Intent intent = new Intent(context, ItemListActivity.class);
+                intent.putExtra(CATEGORY_ID, category.getCategoryID());
+                intent.putExtra(CATEGORY_NAME, category.getMyCategoryName());
+                context.startActivity(intent);
             }
         };
 
         /**
-         * Generated method from Android Studio Template
+         * Generated constructor from Android Studio Template
          * @param parent the CategoryListActivity
          * @param items a List of categories.
          * @param twoPane a boolean for layout
@@ -285,71 +369,6 @@ public class CategoryListActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Generated method override by Android Studio template. Used to inflate the menu.
-     * @param menu a Menu
-     * @return a boolean
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_category_list, menu);
-        return true;
-    }
-
-    /**
-     * This method launches the correct response based upon the menu item selected. If sign
-     * out is selected, then the shared preferences are removed and the SplashPageActivity
-     * is launched.
-     * @param item the menu item selected.
-     * @return a boolean
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_about:
-                aboutBox(this);
-                break;
-            case R.id.action_logout:
-                SharedPreferences sharedPreferences =
-                        getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
-                sharedPreferences.edit().
-                        putBoolean(getString(R.string.LOGGEDIN), false).apply();
-                sharedPreferences.edit().remove(MEMBER_ID).apply();
-                sharedPreferences.edit().remove(USERNAME).apply();
-                Intent i = new Intent(this,SplashPageActivity.class);
-                startActivity(i);
-                finish();
-                break;
-            case R.id.action_add_category:
-                //add category code
-                break;
-            case R.id.action_sync_category:
-                //add sync code
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * This method builds and displays the About for the app inside of a alert dialog box.
-     * @author Rich W.
-     * @param activity an Activity
-     */
-    public void aboutBox(Activity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        final View about = getLayoutInflater().inflate(R.layout.about_layout, null);
-        builder.setView(about);
-        builder.setTitle(TITLE);
-        builder.setCancelable(false);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        AlertDialog aboutDialog = builder.create();
-        aboutDialog.show();
-    }
 
     /**
      * Private class to setup asynchronous loading of the data.
@@ -357,6 +376,9 @@ public class CategoryListActivity extends AppCompatActivity {
      */
     private class CategoryTask extends AsyncTask<String, Void, String> {
 
+        /**
+         * Sets the progress bar visible when the asyncTask is executed.
+         */
         @Override
         protected void onPreExecute() {
             mCategoryFillerProgressBar.setVisibility(View.VISIBLE);

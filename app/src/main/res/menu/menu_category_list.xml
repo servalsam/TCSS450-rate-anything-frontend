@@ -17,13 +17,6 @@
         />
 
     <item
-        android:id="@+id/action_options"
-        android:orderInCategory="40"
-        android:title="@string/action_option"
-        app:showAsAction="ifRoom"
-        />
-
-    <item
         android:id="@+id/action_about"
         android:orderInCategory="60"
         android:title="@string/action_about"

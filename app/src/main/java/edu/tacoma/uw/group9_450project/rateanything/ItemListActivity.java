@@ -28,7 +28,6 @@
  import androidx.recyclerview.widget.RecyclerView;
 
  import com.google.android.material.floatingactionbutton.FloatingActionButton;
- import com.google.android.material.snackbar.Snackbar;
 
  import org.json.JSONException;
  import org.json.JSONObject;
@@ -57,9 +56,11 @@
      /** Class members used to store and display a list of items. */
      private List<Item> mItemList;
      private RecyclerView mRecyclerView;
-     private String mCategory;
+     private String mCategoryID;
+     private String mCategoryName;
      private JSONObject mItemListJSON;
      private ProgressBar mItemListProgressBar;
+     private ItemListActivity mItemListActivity;
 
      /** Constants */
      private static final String CATEGORY_ID = "category_id";
@@ -78,9 +79,8 @@
      private String m_item_name = "";
      private String m_item_desc_long = "";
      private String m_item_desc_short = "";
-     private SharedPreferences mSharedPreferences;
      private String mMemberID;
-     private String mUsername;
+     private String mUsername; //Will be used in future feature development.
 
      /**
       * Override method onCreate method. Fills the type of category id from a data passed from the
@@ -93,26 +93,29 @@
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        mSharedPreferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+        // Getting Member ID and Member Username from shared preferences.
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.LOGIN_PREFS),
                 Context.MODE_PRIVATE);
-        mMemberID = mSharedPreferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
-        mUsername = mSharedPreferences.getString(USERNAME, DEFAULT_USERNAME);
+
+        mMemberID = preferences.getString(MEMBER_ID, DEFAULT_MEMBER_ID);
+        mUsername = preferences.getString(USERNAME, DEFAULT_USERNAME);
 
         // Getting data from the bundle
         Bundle bundle = getIntent().getExtras();
-        mCategory = bundle.getString(CATEGORY_ID);
-        String title = bundle.getString(CATEGORY_NAME);
+        mCategoryID = bundle.getString(CATEGORY_ID);
+        mCategoryName = bundle.getString(CATEGORY_NAME);
 
         // Fill the JSON Object
         mItemListJSON = new JSONObject();
         fillJSON();
 
+        // Progress bar setup
         mItemListProgressBar = (ProgressBar) findViewById(R.id.item_fill_list_progress_bar);
 
         // Toolbar setup
         Toolbar item_toolbar = (Toolbar) findViewById(R.id.toolbar_item_list_activity);
         setSupportActionBar(item_toolbar);
-        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setTitle(mCategoryName);
         item_toolbar.setTitleTextColor(WHITE);
 
         // Floating Action Button setup
@@ -120,79 +123,105 @@
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = view.getContext();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                final View customLayout = getLayoutInflater().inflate(R.layout.add_item_layout, null);
-                builder.setView(customLayout);
-                final EditText inputCategory = (EditText) customLayout.findViewById(R.id.input_item_name);
-                final EditText inputDescShort = (EditText) customLayout.findViewById(R.id.input_item_description_short);
-                final EditText inputDescLong = (EditText) customLayout.findViewById(R.id.input_item_description);
-
-                Button bm1 = (Button) customLayout.findViewById(R.id.input_item_add_button);
-                Button bm2 = (Button) customLayout.findViewById(R.id.input_item_cancel_button);
-
-                final AlertDialog dialog = builder.create();
-                bm1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        m_item_name = inputCategory.getText().toString();
-                        m_item_desc_short = inputDescShort.getText().toString();
-                        m_item_desc_long = inputDescLong.getText().toString();
-                        if (!m_item_name.equals("") && !m_item_desc_short.equals("") && !m_item_desc_long.equals("")) {
-                            Map<String, String> postData = new HashMap<>();
-                            postData.put("category_id", mCategory);
-                            postData.put("item_name", m_item_name);
-                            postData.put("item_description_long", m_item_desc_long);
-                            postData.put("item_description_short", m_item_desc_short);
-                            postData.put("rating", "5.0");
-                            postData.put("member_id", mMemberID);
-                            Log.v("Data sent:", postData.entrySet().toString());
-                            HttpJSONTask task = new HttpJSONTask(getString(R.string.add_item), postData);
-                            task.execute(getString(R.string.add_item));
-                            new ItemListActivity.ItemAsyncTask().execute(getString(R.string.get_items));
-                        } else {
-                            dialog.dismiss();
-                            Toast toast = new Toast(view.getContext());
-                            toast.setText("Fields cannot be empty.");
-                            toast.setDuration(Toast.LENGTH_LONG);
-                            toast.show();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                bm2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
+                addItem(view);
             }
         });
 
+        // RecyclerView setup
         mRecyclerView = findViewById(R.id.item_list_item_list);
         assert mRecyclerView != null;
         setupRecyclerView((RecyclerView) mRecyclerView);
+
+        // Assign remaining needed fields
+        mItemListActivity = this;
     }
+
+     /**
+      * Method to add an Item to a category.
+      * @param view a View
+      * @author Sam W.
+      */
+    private void addItem(View view) {
+        Context context = view.getContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final View customLayout = getLayoutInflater().inflate(R.layout.add_item_layout, null);
+        builder.setView(customLayout);
+        final EditText inputCategory = (EditText) customLayout.findViewById(R.id.input_item_name);
+        final EditText inputDescShort = (EditText) customLayout.findViewById(R.id.input_item_description_short);
+        final EditText inputDescLong = (EditText) customLayout.findViewById(R.id.input_item_description);
+
+        Button bm1 = (Button) customLayout.findViewById(R.id.input_item_add_button);
+        Button bm2 = (Button) customLayout.findViewById(R.id.input_item_cancel_button);
+
+        final AlertDialog dialog = builder.create();
+        bm1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                m_item_name = inputCategory.getText().toString();
+                m_item_desc_short = inputDescShort.getText().toString();
+                m_item_desc_long = inputDescLong.getText().toString();
+                if (!m_item_name.equals("") && !m_item_desc_short.equals("") && !m_item_desc_long.equals("")) {
+                    Map<String, String> postData = new HashMap<>();
+                    postData.put("category_id", mCategoryID);
+                    postData.put("item_name", m_item_name);
+                    postData.put("item_description_long", m_item_desc_long);
+                    postData.put("item_description_short", m_item_desc_short);
+                    postData.put("rating", "5.0");
+                    postData.put("member_id", mMemberID);
+                    Log.v("Data sent:", postData.entrySet().toString());
+                    HttpJSONTask task = new HttpJSONTask(getString(R.string.add_item), postData);
+                    task.execute(getString(R.string.add_item));
+                    new ItemListActivity.ItemAsyncTask().execute(getString(R.string.get_items));
+                } else {
+                    dialog.dismiss();
+                    Toast toast = new Toast(view.getContext());
+                    toast.setText("Fields cannot be empty.");
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                dialog.dismiss();
+            }
+        });
+        bm2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
 
      /**
       * Helper method to create a JSON object for the AsyncTask
       * @author Rich W.
       */
     private void fillJSON () {
-         Log.i("ItemListAct fill JSON", mCategory);
+         Log.i("ItemListAct fill JSON", mCategoryID);
          if (mItemListJSON.length() > 0) {
              mItemListJSON = new JSONObject();
          }
          try {
-             mItemListJSON.put(CATEGORY_ID, mCategory);
+             mItemListJSON.put(CATEGORY_ID, mCategoryID);
          } catch (JSONException e) {
              Toast.makeText(this, "Error with JSON creation on item list request: "
                      + e.getMessage(), Toast.LENGTH_LONG).show();
          }
          Log.i("ItemListAct fill JSON",mItemListJSON.toString());
     }
+
+
+     /**
+      * Method to set up a RecyclerView for the items in the category.
+      * @param recyclerView a RecyclerView
+      */
+     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+         if (mItemList != null) {
+             mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter (this, mItemList));
+         }
+     }
+
 
      /**
       * Method override to launch the AsyncTask.
@@ -205,101 +234,6 @@
          }
     }
 
-     /**
-      * Method to set up a RecyclerView for the items in the category.
-      * @param recyclerView a RecyclerView
-      */
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        if (mItemList != null) {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter (this, mItemList));
-        }
-    }
-
-     /**
-      * Class for a RecyclerView Adapter.
-      * Base code supplied by UWT 450 Instructor.
-      */
-    public static class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-
-        private final ItemListActivity mParentActivity;
-        private final List<Item> mValues;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Item item = (Item) view.getTag();
-                Context context = view.getContext();
-
-                Intent intent = new Intent(context, RatingActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(ITEM_ID, item);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            }
-        };
-
-
-         /**
-          * Helper method for the Adapter.
-          * @param parent a ItemListActivity
-          * @param items a List of items.
-          */
-        SimpleItemRecyclerViewAdapter(ItemListActivity parent, List<Item> items) {
-            mValues = items;
-            mParentActivity = parent;
-        }
-
-         /**
-          * A helper method to that puts a ViewGroup into a ViewHolder.
-           * @param parent a ViewGroup
-          * @param viewType an int
-          * @return a ViewHolder
-          */
-         @Override
-         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_content, parent, false);
-            return new ViewHolder(view);
-        }
-
-         /**
-          * A method that places the desired data of the items into the viewHolder as
-          * well as making each item a clickable item.
-          * @param holder a ViewHolder
-          * @param position a position
-          */
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText((mValues.get(position).getMyItemName()));
-            holder.mContentView.setText(mValues.get(position).getMyItemShortDesc());
-            holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
-        }
-
-         /**
-          * Helper method to return the number of items in the item list
-          * @return an int (number of items)
-          */
-        @Override
-        public int getItemCount() {
-            return mValues.size();
-        }
-
-         /**
-          * The ViewHolder class. Code supplied by UWT 450 Instructor and the Android Studio
-          * Templates.
-          */
-        class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
-            final TextView mContentView;
-
-            ViewHolder (View view) {
-                super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text_item_list_content);
-                mContentView = (TextView) view.findViewById(R.id.content_item_list_content);
-            }
-        }
-    }
 
      /**
       * Generated method override by Android Studio template. Used to inflate the menu.
@@ -311,6 +245,7 @@
          getMenuInflater().inflate(R.menu.menu_item_list_activity, menu);
          return true;
      }
+
 
      /**
       * This method launches the correct response based upon the menu item selected. If sign
@@ -326,25 +261,19 @@
                  aboutBox(this);
                  break;
              case R.id.action_add_item:
-                 //add item code here
+                 View rootView = getWindow().getDecorView().getRootView();
+                 addItem(rootView);
                  break;
              case R.id.action_sync_item_list_activity:
-                 //add sync code here
+                 syncWithDataBase();
                  break;
              case R.id.action_item_activity_logout:
-                 SharedPreferences sharedPreferences =
-                         getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
-                 sharedPreferences.edit().
-                         putBoolean(getString(R.string.LOGGEDIN), false).apply();
-                 sharedPreferences.edit().remove(MEMBER_ID).apply();
-                 sharedPreferences.edit().remove(USERNAME).apply();
-                 Intent i = new Intent(this, SplashPageActivity.class);
-                 startActivity(i);
-                 finish();
+                 logout();
                  break;
          }
          return super.onOptionsItemSelected(item);
      }
+
 
      /**
       * This method builds and displays the About for the app inside of a alert dialog box.
@@ -367,12 +296,132 @@
          aboutDialog.show();
      }
 
+
+     /**
+      * Method to sign out of the app. Shared preferences are cleared.
+      */
+     public void logout() {
+         SharedPreferences sharedPreferences =
+                 getSharedPreferences(getString(R.string.LOGIN_PREFS), Context.MODE_PRIVATE);
+         sharedPreferences.edit().
+                 putBoolean(getString(R.string.LOGGEDIN), false).apply();
+         sharedPreferences.edit().remove(MEMBER_ID).apply();
+         sharedPreferences.edit().remove(USERNAME).apply();
+         Intent i = new Intent(this, SplashPageActivity.class);
+         startActivity(i);
+         finish();
+     }
+
+     /**
+      * Method to update list of items with the items found in the database.
+      */
+     public void syncWithDataBase() {
+         Intent intent = new Intent();
+         intent.setClass(getApplicationContext(), ItemListActivity.class);
+         intent.putExtra(CATEGORY_ID, mCategoryID);
+         intent.putExtra(CATEGORY_NAME, mCategoryName);
+         mItemListActivity.finish();
+         startActivity(intent);
+     }
+
+
+     /**
+      * Class for a RecyclerView Adapter.
+      * Base code supplied by UWT 450 Instructor.
+      */
+     public static class SimpleItemRecyclerViewAdapter
+             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+
+         private final ItemListActivity mParentActivity;
+         private final List<Item> mValues;
+         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Item item = (Item) view.getTag();
+                 Context context = view.getContext();
+
+                 Intent intent = new Intent(context, RatingActivity.class);
+                 Bundle bundle = new Bundle();
+                 bundle.putSerializable(ITEM_ID, item);
+                 intent.putExtras(bundle);
+                 context.startActivity(intent);
+             }
+         };
+
+         /**
+          * Helper method for the Adapter.
+          * @param parent a ItemListActivity
+          * @param items a List of items.
+          */
+         SimpleItemRecyclerViewAdapter(ItemListActivity parent, List<Item> items) {
+             mValues = items;
+             mParentActivity = parent;
+         }
+
+         /**
+          * A helper method to that puts a ViewGroup into a ViewHolder.
+          * @param parent a ViewGroup
+          * @param viewType an int
+          * @return a ViewHolder
+          */
+
+         @NonNull
+         @Override
+         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+             View view = LayoutInflater.from(parent.getContext())
+                     .inflate(R.layout.item_list_content, parent, false);
+             return new ViewHolder(view);
+         }
+
+         /**
+          * A method that places the desired data of the items into the viewHolder as
+          * well as making each item a clickable item.
+          * @param holder a ViewHolder
+          * @param position a position
+          */
+         @Override
+         public void onBindViewHolder(final ViewHolder holder, int position) {
+             holder.mIdView.setText((mValues.get(position).getMyItemName()));
+             holder.mContentView.setText(mValues.get(position).getMyItemShortDesc());
+             holder.itemView.setTag(mValues.get(position));
+             holder.itemView.setOnClickListener(mOnClickListener);
+         }
+
+         /**
+          * Helper method to return the number of items in the item list
+          * @return an int (number of items)
+          */
+         @Override
+         public int getItemCount() {
+             return mValues.size();
+         }
+
+         /**
+          * The ViewHolder class. Code supplied by UWT 450 Instructor and the Android Studio
+          * Templates.
+          */
+         class ViewHolder extends RecyclerView.ViewHolder {
+             final TextView mIdView;
+             final TextView mContentView;
+
+             ViewHolder (View view) {
+                 super(view);
+                 mIdView = (TextView) view.findViewById(R.id.id_text_item_list_content);
+                 mContentView = (TextView) view.findViewById(R.id.content_item_list_content);
+             }
+         }
+     }
+
+
      /**
       * Private class to for asynchronous loading of data.
       * Code supplied by UWT 450 Instructor. Modified by Rich W.
       */
      private class ItemAsyncTask extends AsyncTask<String, Void, String> {
 
+         /**
+          * Method override to set the progress bar visible when the asyncTask is executed.
+          */
          @Override
          protected void onPreExecute() {
              mItemListProgressBar.setVisibility(View.VISIBLE);
@@ -452,5 +501,4 @@
              mItemListProgressBar.setVisibility(View.GONE);
          }
      }
-
  }

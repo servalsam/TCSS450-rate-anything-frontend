@@ -2,7 +2,6 @@ package edu.tacoma.uw.group9_450project.rateanything;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -53,14 +52,12 @@ public class RatingDetailFragment extends Fragment {
     ArrayList<ItemRating> myRatings;
     private RecyclerView mRecyclerView;
     private String mMemberID;
-    private View myEditRatingView;
     private RatingDetailFragment myRatingDetailFragment;
     private JSONObject myEditRatingJSON;
     private float myNewRating;
     private String mItemID;
     private ProgressBar mEditRatingProgressBar;
     private Item myItem;
-
 
     /** Constants */
     private static final String RATING_LIST = "Rating List Activity";
@@ -72,10 +69,13 @@ public class RatingDetailFragment extends Fragment {
     private static final String POST_NAME_FLAG = "is_anonymous";
     private static final String EDIT_RATING = "Edit Your Rating";
 
-    public RatingDetailFragment() {
-        // Required empty public constructor
-    }
+    /** Required empty constructor. */
+    public RatingDetailFragment() {}
 
+    /**
+     * OnCreate method override
+     * @param savedInstanceState a Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,32 +89,62 @@ public class RatingDetailFragment extends Fragment {
         myEditRatingJSON = new JSONObject();
     }
 
+    /**
+     * Method override that sets the view for the fragment.
+     * @param inflater a LayoutInflater
+     * @param container a ViewGroup
+     * @param savedInstanceState a Bundle
+     * @return a View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_rating_detail,
                 container, false);
 
+        // Setup recycler view
         mRecyclerView = view.findViewById(R.id.rating_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         assert mRecyclerView != null;
         if (myRatings != null) {
-            mRecyclerView.setAdapter(new SimpleRatingRecyclerViewAdapter(myRatings, mMemberID, myRatingDetailFragment));
+            mRecyclerView.setAdapter(new
+                    SimpleRatingRecyclerViewAdapter(myRatings, mMemberID, myRatingDetailFragment));
         }
+
+        // Setup progress bar
+        mEditRatingProgressBar =
+                (ProgressBar) view.findViewById(R.id.rating_recyclerview_progress_bar);
+
         return view;
     }
 
+    /**
+     * Method called when a rating "owned" by the user is edited. It creates a dialog box,
+     * collects the input entered into the dialog, checks for valid data, uses the JSONobject
+     * class member to place required data for a rating, and finally calls the asyncTask
+     * to attempt a database edit.
+     * @param itemID a String holding the item_id
+     * @param memberID a String holing the member_id
+     * @param username a String holding the member username
+     * @param comments a String holding the current user comment
+     * @param rating a String holding the current user rating
+     * @param flag a Boolean holding the current flag choosen by user for hiding username on a rating
+     */
     public void editRating(final String itemID, final String memberID, final String username,
                            String comments, final String rating, Boolean flag) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        final View customLayout = getLayoutInflater().inflate(R.layout.add_rating_layout, null);
+        final View customLayout =
+                getLayoutInflater().inflate(R.layout.add_rating_layout, null);
         builder.setView(customLayout);
-        final CheckBox postPreference = (CheckBox) customLayout.findViewById(R.id.posting_choice_rating_layout);
-        final RatingBar ratingBar = (RatingBar) customLayout.findViewById(R.id.rating_value_rating_layout);
-        final EditText inputComment = (EditText) customLayout.findViewById(R.id.input_rating_comments);
-        TextView title = (TextView) customLayout.findViewById(R.id.add_item_dialog_title);
+        final CheckBox postPreference =
+                (CheckBox) customLayout.findViewById(R.id.posting_choice_rating_layout);
+        final RatingBar ratingBar =
+                (RatingBar) customLayout.findViewById(R.id.rating_value_rating_layout);
+        final EditText inputComment =
+                (EditText) customLayout.findViewById(R.id.input_rating_comments);
+        final TextView title =
+                (TextView) customLayout.findViewById(R.id.add_item_dialog_title);
         title.setText(EDIT_RATING);
 
         Button btnAdd = (Button) customLayout.findViewById(R.id.input_rating_add_button);
@@ -167,7 +197,9 @@ public class RatingDetailFragment extends Fragment {
         dialog.show();
     }
 
-
+    /**
+     * Inner class for the RecyclerView Adapter for a list of ratings.
+     */
     public static class SimpleRatingRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleRatingRecyclerViewAdapter.RecyclerViewHolder> {
 
@@ -175,6 +207,12 @@ public class RatingDetailFragment extends Fragment {
         private final String mUserID;
         private final RatingDetailFragment myFragment;
 
+        /**
+         * Constructor for the RecyclerView Adapter
+         * @param ratingsList a list of ItemRating objects
+         * @param userID a string holding the userID
+         * @param theFragment the fragment that holds this RecyclerView Adapter
+         */
         public SimpleRatingRecyclerViewAdapter(ArrayList<ItemRating> ratingsList,
                                                String userID, RatingDetailFragment theFragment ) {
             myRatingsList = ratingsList;
@@ -182,6 +220,13 @@ public class RatingDetailFragment extends Fragment {
             myFragment = theFragment;
         }
 
+        /**
+         * The method override that sets up the RecyclerViewHolder
+         * @param parent a ViewGroup
+         * @param viewType a int
+         * @return a RecyclerViewHolder
+         */
+        @NonNull
         @Override
         public RecyclerViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -189,8 +234,13 @@ public class RatingDetailFragment extends Fragment {
             return new RecyclerViewHolder(view);
         }
 
+        /**
+         * Method override that sets up the view for each item within the recycler view
+         * @param holder a RecyclerViewHolder
+         * @param position an int indicating the position of each item
+         */
         @Override
-        public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, int position) {
             if (!myRatingsList.get(position).getMyOwnerFlag()) {
                 holder.myRatingOwnerName.setText((myRatingsList.get(position).getMyRatingOwnerUsername()));
             }
@@ -215,11 +265,30 @@ public class RatingDetailFragment extends Fragment {
             }
         }
 
+        /**
+         * Method override to return the number of items in the RecyclerView
+         * @return the number of items.
+         */
         @Override
         public int getItemCount() {
             return myRatingsList.size();
         }
 
+        /**
+         * Method override to return the position of each item in the RecyclerView. Necessary so
+         * the items in the RecyclerView don't appear to overlap.
+         * @param position an int
+         * @return a position
+         */
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        /**
+         * Inner class of the RecyclerView Adapter. Used to declare what views will be present
+         * within each item of the RecyclerView.
+         */
         public class RecyclerViewHolder extends RecyclerView.ViewHolder {
             final TextView myRatingOwnerName;
             final TextView myRatingValue;
@@ -244,10 +313,10 @@ public class RatingDetailFragment extends Fragment {
         /**
          * Method override to start the progressbar.
          */
-//        @Override
-//        protected void onPreExecute() {
-//            mEditRatingProgressBar.setVisibility(View.VISIBLE);
-//        }
+        @Override
+        protected void onPreExecute() {
+            mEditRatingProgressBar.setVisibility(View.VISIBLE);
+        }
 
         /**
          * Method override to connect to the webservice to add a rating to the database.
@@ -342,7 +411,7 @@ public class RatingDetailFragment extends Fragment {
                 Toast.makeText(myRatingDetailFragment.getActivity(), "JSON Error: " + e.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
-//            mEditRatingProgressBar.setVisibility(View.GONE);
+            mEditRatingProgressBar.setVisibility(View.GONE);
         }
     }
 }

@@ -2,31 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_sync_rating_activity"
-        android:orderInCategory="90"
-        android:title="@string/sync_list"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/action_options_rating_activity"
-        android:orderInCategory="90"
-        android:title="@string/action_option"
-        app:showAsAction="never"
-        />
 
     <item
         android:id="@+id/action_add_rating"
-        android:orderInCategory="60"
-        android:title="@string/action_add_rating"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/action_rating_activity_logout"
         android:orderInCategory="50"
-        android:title="@string/action_logout"
+        android:title="@string/action_add_rating"
         app:showAsAction="never"
         />
 
@@ -37,5 +17,11 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/action_rating_activity_logout"
+        android:orderInCategory="60"
+        android:title="@string/action_logout"
+        app:showAsAction="never"
+        />
 
 </menu>
