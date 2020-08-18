@@ -131,7 +131,7 @@ public class  RegisterFragment extends Fragment {
                             Toast.LENGTH_SHORT)
                             .show();
                     mFirstNameText.requestFocus();
-                } else if (!TextUtils.isEmpty(last)) {
+                } else if (TextUtils.isEmpty(last)) {
                     Toast.makeText(v.getContext(), "Enter a last name",
                             Toast.LENGTH_SHORT)
                             .show();
