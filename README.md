@@ -40,6 +40,5 @@ Summer 2020
 - 16 (Low) Add additional categories
 
 
-## Known Issues / Bugs
-- 1 There is known issue of using a @ character within a username. App will currently treat the username as an email. Will address this issue in the next sprint.
-- 2 The app bar needs to be formatted correctly on the item view and item detail view.
+## Currently Known Issues / Bugs
+- None
