@@ -47,7 +47,6 @@ public class  RegisterFragment extends Fragment {
     /** Constant to validate password. */
     private final static int PASSWORD_LENGTH = 5;
 
-
     /**
      * Interface to make the registration work.
      */

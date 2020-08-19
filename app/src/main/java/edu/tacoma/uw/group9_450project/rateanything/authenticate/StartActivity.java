@@ -57,6 +57,7 @@ public class StartActivity extends AppCompatActivity implements
     private static final String LOGIN_ERROR = "Email / Username does not match password";
     private static final String REGISTRATION_ERROR = "Email / Username has been taken";
     private static final String MEMBER_ID = "member_id";
+    private static final String FROM_REGISTER = "Registered";
 
     /**
      * Required method. It instantiates member variables as well as launching the helper
@@ -275,9 +276,10 @@ public class StartActivity extends AppCompatActivity implements
                         finish();
                     } else {
                         mToLogin = true;
-                        Toast.makeText(getApplicationContext(), "Successful registration",
-                                Toast.LENGTH_LONG).show();
+                        Bundle args = new Bundle();
+                        args.putBoolean(FROM_REGISTER, true);
                         LoginFragment lf = new LoginFragment();
+                        lf.setArguments(args);
                         FragmentTransaction transaction =
                                 getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.sign_in_fragment_container, lf);

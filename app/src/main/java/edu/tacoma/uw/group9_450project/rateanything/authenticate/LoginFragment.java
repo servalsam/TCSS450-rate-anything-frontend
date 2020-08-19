@@ -1,7 +1,5 @@
 package edu.tacoma.uw.group9_450project.rateanything.authenticate;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,10 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import edu.tacoma.uw.group9_450project.rateanything.R;
 
 /**
@@ -29,33 +23,37 @@ public class LoginFragment extends Fragment {
 
     /** Member variable for the Listener interface */
     private LoginFragmentListener mloginFragmentListener;
-   // private EditText mEmailText;
     private EditText mPasswordText;
-   // private EditText mUsernameText;
     private EditText mUser;
 
     /** Constants */
-    private static final String MEMBER_ID = "member_id";
-    private static final String USERNAME = "username";
-
+    private static final String REGISTER_SUCCESSFUL = "Registration was successful." +
+            " Now login with your new account";
+    private static final String FROM_REGISTER = "Registered";
 
     /**
      * Interface to make the sign in work.
      */
     public interface LoginFragmentListener {
-        public void login(String email, String pwd);
+        void login(String email, String pwd);
     }
 
     /** Required empty constructor */
     public LoginFragment() {}
 
     /**
-     * Mandatory onCreate method.
-     * @param savedInstanceState
+     * onCreate method override.
+     * @param savedInstanceState a Bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            if (bundle.getBoolean(FROM_REGISTER)) {
+                Toast.makeText(getContext(), REGISTER_SUCCESSFUL, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /**
@@ -63,12 +61,11 @@ public class LoginFragment extends Fragment {
      * the user from progressing unless the proper fields are filled out with the
      * proper types of data. Email must contain an @ or username must be at least 5 characters.
      * Also, the password must be at least 5 characters.
-     * @author Rich W.
-     * @version August 2020
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @author Rich W. - August 2020
+     * @param inflater a LayoutInflater
+     * @param container a ViewGroup
+     * @param savedInstanceState a Bundle
+     * @return a View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,7 +74,6 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         getActivity().setTitle("Sign In");
         mloginFragmentListener = (LoginFragmentListener) getActivity();
-        //mEmailText = view.findViewById(R.id.emailAddress_id);
         mPasswordText = view.findViewById(R.id.password_id);
         mUser = view.findViewById(R.id.username_id);
         Button loginButton = view.findViewById(R.id.sign_in_btn_id);
@@ -85,7 +81,6 @@ public class LoginFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // String email = mEmailText.getText().toString();
                 String pwd = mPasswordText.getText().toString();
                 String name = mUser.getText().toString();
 
@@ -94,7 +89,7 @@ public class LoginFragment extends Fragment {
                             .show();
                     mUser.requestFocus();
                 } else if (TextUtils.isEmpty(pwd) || pwd.length() < 5) {
-                //(!RegisterFragment.isValidPassword(pwd)) { consider using this when testing done
+                //(!RegisterFragment.isValidPassword(pwd)) { consider using this after test accounts removed done
                     Toast.makeText(v.getContext(), "Enter valid password",
                             Toast.LENGTH_LONG)
                             .show();
