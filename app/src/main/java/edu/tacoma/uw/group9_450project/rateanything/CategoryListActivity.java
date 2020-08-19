@@ -66,6 +66,7 @@ public class CategoryListActivity extends AppCompatActivity {
     private static final String TITLE = "About";
     private static final String MEMBER_ID = "member_id";
     private static final String USERNAME = "username";
+    private static final String SYNC_MESSAGE = "Sync with database successful";
 
     /** Private Fields */
     private String m_category_name = "";
@@ -88,6 +89,14 @@ public class CategoryListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
+        // Getting data from the bundle (if any)
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            if (bundle.getBoolean("SYNC")) {
+                Toast.makeText(this, SYNC_MESSAGE, Toast.LENGTH_LONG).show();
+            }
+        }
         mCategoryListActivity = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_category_list_activity);
@@ -100,7 +109,7 @@ public class CategoryListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addCategory(view);
+                addCategory();
             }
         });
 
@@ -120,12 +129,10 @@ public class CategoryListActivity extends AppCompatActivity {
 
     /**
      * Method to add a category to the list of categories to which items can be added.
-     * @param view a view.
      * @author Sam W.
      */
-    public void addCategory(View view) {
-        Context context = view.getContext();
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    public void addCategory() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View customLayout = getLayoutInflater().inflate(R.layout.add_category_layout, null);
         builder.setView(customLayout);
         final EditText inputCategory = (EditText) customLayout.findViewById(R.id.input_category_name);
@@ -142,7 +149,12 @@ public class CategoryListActivity extends AppCompatActivity {
                 m_category_name = inputCategory.getText().toString();
                 m_category_desc_short = inputDescShort.getText().toString();
                 m_category_desc_long = inputDescLong.getText().toString();
-                if (!m_category_name.equals("") && !m_category_desc_short.equals("") && !m_category_desc_long.equals("")) {
+
+                if (m_category_name.equals("") || m_category_desc_short.equals("") || m_category_desc_long.equals("")) {
+                    dialog.dismiss();
+                    Toast.makeText(view.getContext(), "Fields may not be empty",
+                            Toast.LENGTH_LONG).show();
+                } else {
                     Map<String, String> postData = new HashMap<>();
                     postData.put("category_name", m_category_name);
                     postData.put("category_description_long", m_category_desc_long);
@@ -150,12 +162,6 @@ public class CategoryListActivity extends AppCompatActivity {
                     HttpJSONTask task = new HttpJSONTask(getString(R.string.add_category), postData);
                     task.execute(getString(R.string.add_category));
                     new CategoryTask().execute(getString(R.string.get_categories));
-                } else {
-                    dialog.dismiss();
-                    Toast toast = new Toast(view.getContext());
-                    toast.setText("Fields cannot be empty.");
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    toast.show();
                 }
                 dialog.dismiss();
             }
@@ -223,8 +229,7 @@ public class CategoryListActivity extends AppCompatActivity {
                 break;
 
             case R.id.action_add_category:
-                View rootView = getWindow().getDecorView().getRootView();
-                addCategory(rootView);
+                addCategory();
                 break;
 
             case R.id.action_sync_category:
@@ -236,10 +241,12 @@ public class CategoryListActivity extends AppCompatActivity {
 
     private void syncWithDatabase() {
         Intent i = new Intent();
+        i.putExtra("SYNC", true);
         i.setClass(getApplicationContext(), CategoryListActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         mCategoryListActivity.finish();
+
     }
 
     /**

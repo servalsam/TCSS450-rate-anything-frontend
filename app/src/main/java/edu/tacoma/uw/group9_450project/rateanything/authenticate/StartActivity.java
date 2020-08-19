@@ -100,6 +100,7 @@ public class StartActivity extends AppCompatActivity implements
             t.commit();
         } else {
             Intent intent = new Intent (this, CategoryListActivity.class);
+            intent.putExtra("SYNC", false);
             startActivity(intent);
             finish();
         }

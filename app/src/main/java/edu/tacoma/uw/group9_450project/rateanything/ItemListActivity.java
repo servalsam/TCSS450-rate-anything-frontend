@@ -174,10 +174,8 @@
                     new ItemListActivity.ItemAsyncTask().execute(getString(R.string.get_items));
                 } else {
                     dialog.dismiss();
-                    Toast toast = new Toast(view.getContext());
-                    toast.setText("Fields cannot be empty.");
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    toast.show();
+                    Toast.makeText(view.getContext(), "Fields may not be empty.",
+                            Toast.LENGTH_LONG).show();
                 }
                 dialog.dismiss();
             }

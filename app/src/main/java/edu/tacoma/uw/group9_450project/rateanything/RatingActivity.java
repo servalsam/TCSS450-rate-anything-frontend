@@ -197,7 +197,8 @@ public class RatingActivity extends AppCompatActivity {
                 String ratingString = "";
                 mNewRatingComment = inputComment.getText().toString();
 
-                if (!mNewRatingComment.equals("") || mNewRating < 0.49) {
+                if (!mNewRatingComment.equals("")) {
+ //               if (!mNewRatingComment.equals("") || mNewRating < 0.49) {
                     try {
                         mAddRatingJSON.put(ITEM_ID, mItem.getMyItemID());
                         mAddRatingJSON.put(MEMBER_ID, mMemberID);
@@ -209,8 +210,7 @@ public class RatingActivity extends AppCompatActivity {
                         Toast.makeText(view.getContext(), "Error with JSON creation on add rating" +
                                 e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-
-                 new RatingAsyncTask().execute(getString(R.string.add_rating));
+                    new RatingAsyncTask().execute(getString(R.string.add_rating));
                 } else {
                     dialog.dismiss();
                     Toast.makeText(view.getContext(), "Fields cannot be empty.",
